@@ -1,0 +1,9 @@
+preprocess: preprocess.yaml
+classical: classical.yaml
+reconcile: reconcile.yaml
+simulation: simulation.yaml
+cnn: cnn.yaml
+verification: verification.yaml
+verdict: verdict.yaml
+pipeline:
+  validate_outputs: true

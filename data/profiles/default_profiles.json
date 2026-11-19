@@ -1,0 +1,11 @@
+[
+  {
+    "profile_id": "synthetic_fixture",
+    "n_points": 29,
+    "duration_s": 32.0,
+    "median_dt_s": 1.0,
+    "gap_fractions": [0.125, 0.0625],
+    "noise_rel_amplitude": 0.0,
+    "missing_fraction": 0.034482758620689655
+  }
+]

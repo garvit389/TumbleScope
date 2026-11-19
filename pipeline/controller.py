@@ -1,0 +1,236 @@
+"""Phase 0 controller for the shared interfaces in CONTRACTS.md."""
+
+from dataclasses import asdict
+from importlib.metadata import distributions
+import json
+from pathlib import Path
+import subprocess
+from tempfile import NamedTemporaryFile
+from time import perf_counter
+from typing import Optional
+
+from classical_analysis.lomb_scargle import run_lomb_scargle
+from classical_analysis.pdm import run_pdm
+from core.config import PipelineConfig, config_hash, resolve_period_bounds
+from core.schemas import (
+    CNN, ESTIMATOR_METHODS, LOMB_SCARGLE, LOW_QUALITY, NOT_RUN, PDM, PERIOD_BOUNDS_NOT_SET,
+    SCHEMA_VERSION, STAGE1_INSUFFICIENT, VERIFICATION_INCOMPLETE, AnalysisResult, EstimatorResult, Observation,
+    PreparedObservation, ProgressCallback, QualityReport, ReconciliationResult, VerificationResult,
+    Verdict, check_verification_scope, report_progress,
+)
+from ml.infer import run_cnn
+from physics.verify import verify_candidates
+from preprocessing.prepare import prepare
+from preprocessing.quality import assess_stage1
+from reconciliation.reconcile import reconcile
+from verdict.decide import decide
+
+
+_ROOT = Path(__file__).resolve().parents[1]
+_OUTPUTS = _ROOT / "outputs"
+_FAST_SHORTLIST_LIMIT = 3
+
+
+def _repository_revision():
+    try:
+        result = subprocess.run(
+            ["git", "--no-optional-locks", "rev-parse", "--verify", "HEAD"],
+            cwd=_ROOT, capture_output=True, text=True, check=True, timeout=2,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return result.stdout.strip() or None
+
+
+def _write_run_config(cfg, digest):
+    sections = asdict(cfg)
+    snapshot = {
+        "config": sections,
+        "config_hash": digest,
+        "schema_version": SCHEMA_VERSION,
+        "seeds": {section: data["seed"] for section, data in sections.items() if "seed" in data},
+        "package_versions": {item.metadata["Name"]: item.version for item in distributions()},
+        "commit": _repository_revision(),
+    }
+    _OUTPUTS.mkdir(parents=True, exist_ok=True)
+    tmp = None
+    try:
+        with NamedTemporaryFile(mode="w", encoding="utf-8", suffix=".tmp",
+                                dir=_OUTPUTS, delete=False) as target:
+            tmp = Path(target.name)
+            json.dump(snapshot, target, indent=2, sort_keys=True, allow_nan=False)
+        tmp.replace(_OUTPUTS / "run_config.json")
+    finally:
+        if tmp is not None:
+            tmp.unlink(missing_ok=True)
+
+
+def _unavailable(method, error, status="skipped", runtime=0.0):
+    return EstimatorResult(method, status, [], error, {"runtime_s": runtime}, is_stub=True)
+
+
+def _validation_message(error):
+    return str(error) or type(error).__name__
+
+
+def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
+            progress: Optional[ProgressCallback] = None) -> AnalysisResult:
+    if mode != "fast":
+        raise NotImplementedError("Only Fast mode is available.")
+
+    stage_errors = {}
+    timings = {}
+    validate_outputs = cfg.pipeline.get("validate_outputs", True)
+
+    def record_error(name, error):
+        message = _validation_message(error)
+        if message.startswith("contract:"):
+            message = f"contract_violation: {message}"
+        stage_errors[name] = message
+
+    def validate_result(result, check):
+        result.validate()
+        if check is not None:
+            check(result)
+
+    def stage(name, operation, *, expected=None, check=None):
+        start = perf_counter()
+        try:
+            result = operation()
+            if expected is not None and not isinstance(result, expected):
+                raise ValueError(f"contract: {name} must return {expected.__name__}")
+            if expected is not None and validate_outputs:
+                validate_result(result, check)
+            return result
+        except Exception as error:
+            record_error(name, error)
+            return None
+        finally:
+            timings[name] = perf_counter() - start
+
+    def accept(name, result, check=None):
+        # The optional eager check can be disabled; data consumed by the controller
+        # still has to be safe to use and valid in the assembled AnalysisResult.
+        if validate_outputs or result is None:
+            return result
+        start = perf_counter()
+        try:
+            validate_result(result, check)
+            return result
+        except Exception as error:
+            record_error(name, error)
+            return None
+        finally:
+            timings[name] += perf_counter() - start
+
+    def reconcile_checks(result):
+        if len(result.shortlist) > _FAST_SHORTLIST_LIMIT:
+            raise ValueError("contract: shortlist exceeds the Fast mode limit")
+
+    def verdict_checks(result):
+        if recon is not None and recon.shortlist and (verification is None or not verification.complete):
+            if result.label != "Ambiguous" or VERIFICATION_INCOMPLETE not in result.reason_codes:
+                raise ValueError("contract: required verification is incomplete")
+        if result.label != "Supported":
+            return
+        if verification is None or not verification.complete:
+            raise ValueError("contract: Supported requires complete verification")
+        if not any(record.cluster_id == result.best_cluster_id and record.passed
+                   for record in verification.per_candidate):
+            raise ValueError("contract: supported candidate has not passed verification")
+
+    def prepare_input():
+        obs.validate()
+        return prepare(obs, cfg.preprocess)
+
+    report_progress(progress, 0.0, "Starting Phase 0 analysis")
+    digest = config_hash(cfg)
+    stage("run_config", lambda: _write_run_config(cfg, digest))
+    prepared = accept("prepare", stage("prepare", prepare_input, expected=PreparedObservation))
+    quality = None
+    if prepared is not None:
+        quality = accept("stage1", stage("stage1", lambda: assess_stage1(prepared, cfg.preprocess),
+                                        expected=QualityReport))
+        if quality is None:
+            quality = QualityReport("insufficient", {}, ["Stage 1 did not complete."],
+                                    [LOW_QUALITY], is_stub=True)
+
+    report_progress(progress, 0.2, "Preparation and quality complete")
+    estimators = {}
+    recon = verification = None
+    if quality is None or quality.status == "insufficient":
+        code = NOT_RUN if quality is None else STAGE1_INSUFFICIENT
+        estimators = {method: _unavailable(method, code) for method in ESTIMATOR_METHODS}
+    else:
+        unset = cfg.period_bounds.get("status") == "TBD"
+        bounds = None if unset else stage("period_bounds", lambda: resolve_period_bounds(cfg.period_bounds))
+        if bounds is None:
+            code = PERIOD_BOUNDS_NOT_SET if unset else NOT_RUN
+            estimators = {method: _unavailable(method, code) for method in ESTIMATOR_METHODS}
+        else:
+            injected = {"period_min_s": bounds.min_period_s, "period_max_s": bounds.max_period_s}
+            for method, runner, config in (
+                (CNN, run_cnn, cfg.cnn),
+                (LOMB_SCARGLE, run_lomb_scargle, cfg.classical),
+                (PDM, run_pdm, cfg.classical),
+            ):
+                def check_estimator(result):
+                    if result.method != method:
+                        raise ValueError("contract: estimator method mismatch")
+                    if any(not bounds.min_period_s <= entry.period_s <= bounds.max_period_s
+                           for entry in result.candidates):
+                        raise ValueError("contract: candidate outside injected period bounds")
+
+                result = stage(method, lambda: runner(prepared, {**config, **injected}),
+                               expected=EstimatorResult, check=check_estimator)
+                result = accept(method, result, check_estimator)
+                estimators[method] = result if result is not None else _unavailable(
+                    method, stage_errors[method], "failed", timings[method]
+                )
+        for method, result in estimators.items():
+            if result.status != "ok":
+                stage_errors[method] = result.error
+
+        report_progress(progress, 0.45, "Estimator placeholders complete")
+        policies = injected if bounds is not None else {}
+        reconcile_cfg = {**cfg.reconcile, **policies, "top_k": _FAST_SHORTLIST_LIMIT}
+        recon = stage("reconciliation", lambda: reconcile(
+            prepared, list(estimators.values()), reconcile_cfg
+        ), expected=ReconciliationResult, check=reconcile_checks)
+        recon = accept("reconciliation", recon, reconcile_checks)
+        if recon is not None and recon.shortlist:
+            report_progress(progress, 0.6, "Starting verification")
+
+            def verify_progress(fraction, message):
+                report_progress(progress, 0.6 + 0.25 * fraction, message)
+
+            def verify_checks(result):
+                check_verification_scope(recon, result)
+
+            verification = stage("verification", lambda: verify_candidates(
+                prepared, recon, {**cfg.verification, **policies}, mode=mode,
+                progress=verify_progress if progress is not None else None,
+            ), expected=VerificationResult, check=verify_checks)
+            verification = accept("verification", verification, verify_checks)
+
+    verdict_quality = quality
+    if verdict_quality is None:
+        verdict_quality = QualityReport("insufficient", {}, ["Preparation did not complete."],
+                                        [LOW_QUALITY], is_stub=True)
+    verdict = stage("verdict", lambda: decide(verdict_quality, estimators, recon, verification, cfg.verdict),
+                    expected=Verdict, check=verdict_checks)
+    verdict = accept("verdict", verdict, verdict_checks)
+    if verdict is None:
+        try:
+            verdict = _stub_decision(verdict_quality, estimators, recon, verification, cfg.verdict)
+        except NotImplementedError:
+            verification = None
+            verdict = _stub_decision(verdict_quality, estimators, recon, verification, cfg.verdict)
+    result = AnalysisResult(obs.obs_id, prepared, quality, estimators, recon, verification,
+                            verdict, stage_errors, timings, mode, digest)
+    result.validate()
+    report_progress(progress, 1.0, "Phase 0 analysis complete")
+    return result
+
+
+_stub_decision = decide

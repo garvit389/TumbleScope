@@ -2,9 +2,9 @@
 
 **ML-led, physics-checked analysis of space-debris rotation from reflected sunlight.**
 
-[Status](https://img.shields.io/badge/status-design%20proposal-orange) [Track](https://img.shields.io/badge/track-AI%20%26%20ML-blue) [Python](https://img.shields.io/badge/python-3.10%2B-informational)
+[Status](https://img.shields.io/badge/status-Phase%200%20skeleton-orange) [Track](https://img.shields.io/badge/track-AI%20%26%20ML-blue) [Python](https://img.shields.io/badge/python-3.11-informational)
 
-> **Project status: design proposal.** This repository describes a _proposed_ system, built for Prasunex Innovathon 2026 (Round 2, AI & ML track). The architecture, specifications and numbers below are design targets, not measured results. The [status table](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#components-and-status) shows what exists. Nothing here claims real-world accuracy until it has been measured and reported in [`docs/results`](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#planned-repository-layout).
+> **Project status: Phase 0 skeleton.** The shared contracts and synthetic demonstration establish the integration baseline. Scientific analysis and real-data evaluation are planned for Prasunex Innovathon 2026 (Round 2, AI & ML track). The design targets below do not represent measured results.
 
 ---
 
@@ -21,7 +21,7 @@
 9. [Evaluation plan](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#evaluation-plan)
 10. [Tech stack](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#tech-stack)
 11. [Planned repository layout](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#planned-repository-layout)
-12. [Getting started (planned)](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#getting-started-planned)
+12. [Getting started](#getting-started)
 13. [Roadmap](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#roadmap)
 14. [Team](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#team)
 15. [References](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#references)
@@ -121,7 +121,7 @@ An **evaluation and calibration** layer sits beside both workflows: synthetic gr
 |5|Candidate reconciliation|Cluster, harmonic/alias analysis, rank, top-K|NumPy, SciPy|Planned|
 |6|Physics verification|Forward simulation, fitting, held-out blocks, decoys|NumPy, SciPy|Planned|
 |7|Verdict and uncertainty|Supported / Ambiguous / Inconclusive with reason codes|Python, scikit-learn|Planned|
-|8|Dashboard|Interactive analysis, plots and 3D viewer|Streamlit, Plotly|Planned|
+|8|Dashboard|Interactive analysis, plots and 3D viewer|Streamlit, Plotly|Synthetic stub page. Full dashboard planned.|
 |—|Evaluation harness|Baselines, ablations, stress tests, calibration|Python, scikit-learn|Planned|
 
 > Update the **Status** column as components are built (for example `Prototype`, `Working`, `Evaluated`).
@@ -299,21 +299,20 @@ TumbleScope/
 
 This is a proposed layout and will change as the code is written.
 
-## Getting started (planned)
+## Getting started
 
-No installable package exists yet. The workflow below is the **intended** developer experience. Treat the commands as placeholders until the repository contains the code.
+From the repository root on Windows, use Python 3.11 and run:
 
-```bash
-git clone https://github.com/garvit389/TumbleScope.git
-cd TumbleScope
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt                     # planned
-
-# planned entry points
-python -m ml.generate_dataset --config configs/pilot.yaml   # synthetic curves
-python -m ml.train --config configs/cnn.yaml                # train the CNN
-streamlit run app/main.py                                   # dashboard
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m streamlit run app/main.py
 ```
+
+If the Python launcher is unavailable, use the full path to your Python 3.11 executable for the first command. The launcher and application run directly from the checkout. The Streamlit page displays the bundled synthetic lightcurve and a visibly marked stub result. See [CONTRACTS.md](CONTRACTS.md) for interfaces and [TumbleScopeSplit.md](TumbleScopeSplit.md) for ownership and handoff steps.
+
+For the Phase 0 handoff, run the full test suite and open the stub app on both machines. At this stage the live configured-bounds test can skip while the bounds are unset. Use the amended development plan supplied with the handoff for the schedule and [CONTRACTS.md §13](CONTRACTS.md#13-automated-guards-by-checkpoint) for guard activation.
 
 ## Roadmap
 
@@ -321,7 +320,7 @@ The development window is one week, run as two parallel tracks (a scientific tra
 
 |Phase|Focus|
 |---|---|
-|0|Data audit: parse real SDLCD files|
+|0|Shared contracts, fixtures, tests, and synthetic stub app|
 |1|Thin slice: upload → Lomb–Scargle → dashboard|
 |2|Preprocessing, PDM, Stage 1 gate|
 |3|Simulator and 1,000-curve pilot with labels|

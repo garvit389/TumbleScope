@@ -508,6 +508,8 @@ A peak at offset `f_a` means that a true signal at `f` can also show a spurious 
 
 **Frozen shared files** (changed only through Section 12): `core/schemas.py`, `core/errors.py`, `core/config.py`, `CONTRACTS.md`, `configs/default.yaml`, `requirements.txt`, `.gitignore`, `tests/fixtures/*`, and all root-level tests listed in Section 13.
 
+The first addition of the CP2 golden fixture under §14 and of checkpoint-specific test cases expressly scheduled by §13 is part of the approved baseline schedule. P2 owns those additions. This does not authorize removal, weakening, or rescheduling of an already-required check or changes to a frozen interface.
+
 `docs/results/`: P2 owns `verification_*`, `cnn_training_log.json`, `cnn_calibration.json`, `runtime_*.json`. P1 owns everything produced by `evaluation/run_eval.py`. The two never write the same filename. No file has two owners.
 
 ### 11.2 Git authority (who may do what in Git)
@@ -543,18 +545,18 @@ Rules:
 
 ---
 
-## 13. Automated guards (all must pass before P2 merges anything)
+## 13. Automated guards by checkpoint
 
-Root-level tests are owned by P2 and frozen. They run against whatever is merged: stubs early, real modules as they land. Tests exercise behaviour, not just existence.
+Root-level tests are owned by P2. They exercise behavior against the stubs and real modules available at each checkpoint. All checks required at CP0 must pass before the baseline is tagged. Before merging work for a later checkpoint, all checks due at that checkpoint or earlier must pass. Only the explicitly named later portions of guards #4, #5, #6, and #15 activate after CP0. A missing implementation, fixture, configuration, or test does not excuse a check at or after its activation checkpoint. Existing CP0 checks remain active as real implementations replace the stubs.
 
 | # | Test file | What it checks |
 |---|---|---|
 | 1 | `test_validation.py` | Each dataclass accepts a valid example and `validate()` rejects each listed invalid case from Section 19 (wrong dtype, length mismatch, NaN where forbidden, status combinations, `Supported` with reason codes, and so on). |
 | 2 | `test_serialization.py` | Round trip `from_dict(to_dict(x))` preserves values, shapes, dtypes, NaN positions and `None`; invalid `Literal` values are rejected; `inf` is rejected; comparison uses `assert_contract_equal` (Section 19), never `==` on arrays. |
 | 3 | `test_contracts.py` | Every function in Section 4 exists with exactly the listed signature (`inspect.signature`), including the `progress` parameter. |
-| 4 | `test_period_bounds.py` | `configs/period_bounds.yaml` exists; if `status: SET` then `0 < min < max`; no other config file defines `min_period_s`, `max_period_s`, `p_min_s` or `p_max_s`; the controller injects identical bounds into the classical, reconciliation, CNN, simulator and verification configs; a CNN checkpoint with different stored bounds is refused. Skips with a warning while `status: TBD`; **must not skip from CP1 onward**. |
-| 5 | `test_cnn_features.py` | Golden test on a fixture `PreparedObservation`: output shape `(n_windows, 3, 1024)`, dtype `float32`, finite; channel 0 clipped values, channel 1 equals the validity mask (0 on padding), channel 2 in [0, 1]; missing samples give channel 0 = 0 and channel 1 = 0; short input gives 1 right-padded window; long input gives overlapping windows with the final window aligned to the end; `max_windows` respected; no valid windows gives shape `(0, 3, 1024)`. |
-| 6 | `test_cnn_features.py` (second test) | Training and inference share one code path: the dataset generator calls `ml.features.build_cnn_windows` (checked with a call counter) and there is no second feature implementation (a source grep for `def build_cnn_windows`). |
+| 4 | `test_period_bounds.py` | **CP0:** `configs/period_bounds.yaml` exists and is the sole editable source of period bounds. No other config defines `min_period_s`, `max_period_s`, `p_min_s`, `p_max_s`, `period_min_s`, or `period_max_s`. Check the null/TBD behavior, the controller’s `period_bounds_not_set` skip outcome, and valid and invalid bounds with injected inputs. Check that the controller supplies identical injected bounds to Lomb–Scargle, PDM, reconciliation, CNN, and verification, and rejects estimator candidates outside those bounds. **CP1:** The file must be `SET` with `0 < min_period_s < max_period_s`, and the simulator-side configuration must receive the same bounds. Only the live `SET` check may skip with a warning before CP1 while status is `TBD`. The CP1 checks must not skip from CP1 onward. **CP3b:** A real `run_cnn()` invocation with a checkpoint whose stored bounds differ from the configured bounds must return `status="failed"` and `error="checkpoint_bounds_mismatch"` as specified in §8. |
+| 5 | `test_cnn_features.py` | **CP2:** Run the golden test on an approved `PreparedObservation` fixture and compare the real builder output with `tests/fixtures/golden_cnn_windows.npz`. Check all §16 tensor and window rules, including finite C-contiguous `float32` output of shape `(n_windows, 3, 1024)`, clipped and scaled brightness, the validity mask, log time-step values, zero brightness and mask for missing samples, short-input right padding, long-input overlap and final-window alignment, the `max_windows` cap, and shape `(0, 3, 1024)` when no window survives. |
+| 6 | `test_cnn_features.py` (shared builder) | **CP0:** Inspect source to verify that `ml/features.py` contains the single definition of `build_cnn_windows`. The exact signature remains covered by guard #3 at CP0. **CP2:** Use a call counter to verify that the dataset generator calls `ml.features.build_cnn_windows` through the shared training path. **CP3b:** Exercise real `run_cnn()` with a compatible checkpoint and verify that inference calls the same builder. Keep the single-definition and generator-call checks active. |
 | 7 | `test_reason_codes.py` | Every reason, fail-reason, skip-code or inconclusive-cause string used in `verdict/`, `reconciliation/`, `preprocessing/`, `classical_analysis/` and `pipeline/` is a member of its constant tuple; `REASON_CODES` and `STAGE2_FAIL_REASONS` are disjoint; the README's reason-code list equals `REASON_CODES`; the string `alias_suspected` appears nowhere in code, docs or README. |
 | 8 | `test_pipeline_behaviour.py::stage1` | Insufficient Stage 1: all three estimators `skipped` with `stage1_insufficient`, `reconciliation` and `verification` are `None`, verdict Inconclusive with `low_quality`. Limited Stage 1: all three estimators run; if the label is not Supported then `low_quality` is present; warnings reach `evidence_summary`. |
 | 9 | `test_pipeline_behaviour.py::all_estimators_fail` | With all three estimators forced to `failed` or `skipped`: returns a valid `AnalysisResult`, empty reconciliation, verification `None`, Inconclusive with `candidate_inadequate` and `inconclusive_cause="all_estimators_unavailable"`. With all three `ok` and empty: Inconclusive with `no_periodic_signal`. |
@@ -563,20 +565,25 @@ Root-level tests are owned by P2 and frozen. They run against whatever is merged
 | 12 | `test_no_reference_leak.py` | No module in `ml/`, `physics/`, `verdict/`, `reconciliation/`, `classical_analysis/`, `preprocessing/` or `pipeline/` imports `ingestion.reference` or `ReferenceLabel`; `analyze()` has no parameter that accepts a reference. |
 | 13 | `test_stub_pipeline.py` | Stub `analyze()` returns a complete, valid `AnalysisResult` (validates and round-trips). |
 | 14 | `test_progress_callback.py` | Passing a callback to `verify_candidates` and `analyze` gives calls with `fraction` in [0, 1], non-decreasing, ending at 1.0 on completion, `message` a non-empty `str`; passing `None` works; an exception raised inside the callback does not break the pipeline. |
-| 15 | `test_stage2_rules.py` | Against the real `reconcile()`: `cycles = baseline_s / period_s`; a candidate with fewer than `min_cycles` fails with `insufficient_cycles`; a candidate within `min_separation_resolutions` resolutions of a higher-scoring non-harmonic cluster fails with `merged_into_neighbour`; harmonic partners are exempt from that rule; `passed` is True iff `fail_reasons` is empty. |
+| 15 | `test_stage2_rules.py` | **CP3a:** Against the real `reconcile()`, check that `cycles = baseline_s / period_s`, a candidate below `min_cycles` fails with `insufficient_cycles`, a candidate within `min_separation_resolutions` resolutions of a higher-scoring non-harmonic cluster fails with `merged_into_neighbour`, harmonic partners are exempt from that rule, and `passed` is true if and only if `fail_reasons` is empty. The CP0 schema checks and injected all-candidates-rejected controller guard #10 remain required. |
 
 Module-specific unit tests (LS recovers a known period, PDM matches LS, simulator periodicity, CNN receptive field of 379 and about 0.25 M parameters, and so on) stay in `tests/p1/` and `tests/p2/`.
 
 ---
 
-## 14. Fixtures provided in Phase 0
+## 14. Shared fixtures by checkpoint
+
+### CP0
 
 - `tests/fixtures/synthetic_sine.csv`: clean sine with gaps.
 - `tests/fixtures/mock_prepared.npz`: a valid `PreparedObservation`, including some invalid (NaN-masked) samples.
 - `tests/fixtures/mock_cnn_result.json`: an `EstimatorResult` (method `cnn`) with three candidates, one being the 2P partner of another.
 - `tests/fixtures/mock_reconciliation.json`: a `ReconciliationResult` with harmonically linked clusters.
-- `tests/fixtures/golden_cnn_windows.npz`: expected tensor for the golden feature test.
 - `data/profiles/default_profiles.json`: hand-written fallback sampling profiles.
+
+### CP2
+
+- `tests/fixtures/golden_cnn_windows.npz`: expected tensor for the numerical test in §13 guard #5. P2 records the exact input fixture or fixtures, the feature settings used, and the archive keys alongside the test. P2 derives the expected tensor from §16 after resolving the feature settings due at CP2. The Phase 0 stub output is not a source of expected values.
 
 ---
 
@@ -586,11 +593,11 @@ Merging into `main` at each checkpoint is done by P2 only (Section 11).
 
 | Checkpoint | P1 delivers | P2 delivers |
 |---|---|---|
-| CP0 (end of Phase 0) | Setup confirmed | Repo, this file, schemas, stubs, fixtures, tests, `period_bounds.yaml` (TBD), tag `v0-skeleton` |
-| CP1 (end of Day 1) | `load_observation`, `prepare`, `assess_stage1`, reference table, sampling profiles, **period-bound values sent to P2** | Simulator, labels, pilot dataset, model skeleton, **`period_bounds.yaml` set**, feature builder skeleton |
-| CP2 (end of Day 2) | `run_lomb_scargle`, `run_pdm`, `compute_window` (with "no significant candidate" thresholds set) | Degrader, `build_cnn_windows`, first CNN run launched, fitting machinery |
-| CP3a (when P1-10 passes) | `reconcile` with Stage 2 and its thresholds | Whatever is finished |
-| CP3b (end of Day 3) | `app/plots.py`, metrics and stress tests started | Calibrated CNN, verification, verdict, controller, holdout shard and checkpoint committed |
+| CP0 (end of Phase 0) | Setup confirmed | Repo, this file, schemas, stubs, fixtures, tests, `period_bounds.yaml` (TBD), tag `v0-skeleton`; CP0 fixtures under §14 and all guards due at CP0 under §13 |
+| CP1 (end of Day 1) | `load_observation`, `prepare`, `assess_stage1`, reference table, sampling profiles, **period-bound values sent to P2** | Simulator, labels, pilot dataset, model skeleton, **`period_bounds.yaml` set**, feature builder skeleton; configured-bounds and simulator-side checks under §13 guard #4 |
+| CP2 (end of Day 2) | `run_lomb_scargle`, `run_pdm`, `compute_window` (with "no significant candidate" thresholds set) | Degrader, `build_cnn_windows`, first CNN run launched, fitting machinery; golden CNN fixture, numerical feature guard, and generator shared-builder check |
+| CP3a (when P1-10 passes) | `reconcile` with Stage 2 and its thresholds | Whatever is finished; real Stage 2 root guard against P1’s delivered reconciliation |
+| CP3b (end of Day 3) | `app/plots.py`, metrics and stress tests started | Calibrated CNN, verification, verdict, controller, holdout shard and checkpoint committed; real CNN inference shared-builder and checkpoint compatibility checks |
 | CP4 (end of Day 4) | Evaluation outputs, tuned reconciliation weights | App, frozen thresholds, demo cache, verification AUC |
 | CP5 (Day 5) | Final results, README, technical document | Fixes, runtime numbers, fresh-clone test, tag `v1.0-submission` |
 
@@ -624,9 +631,9 @@ Channel order is fixed: **0 brightness, 1 validity mask, 2 log time step.** Brig
 | A window with fewer than `cfg["min_valid_per_window"]` valid samples | Dropped. (**TBD** value: P2, CP2.) |
 | No window survives | Returns shape `(0, 3, W)`; `run_cnn` returns `status="skipped"`, `error="too_few_valid_samples"`. |
 
-**Same preprocessing in training and inference.** The synthetic generator produces an `Observation`, passes it through P1's `prepare()` and then `build_cnn_windows()`. There is no separate training-time feature path. Test 6 enforces this. Cached training shards store the config constants used and refuse to load if they differ.
+**Same preprocessing in training and inference.** The synthetic generator produces an `Observation`, passes it through P1's `prepare()` and then `build_cnn_windows()`. There is no separate training-time feature path. Guard #6 checks the single builder definition at CP0, the dataset generator’s call at CP2, and real inference’s call at CP3b. Cached training shards store the config constants used and refuse to load if they differ.
 
-**Provisional design decisions and how they are validated.** The choice of these three channels follows the README. The log time-step scaling, the clip value, the 50 percent overlap and the dropping rule are the simplest defensible choices. They are validated by synthetic validation metrics and, if time allows, the README's timing-channel ablation. If a value changes, only `configs/cnn.yaml` changes, and the golden fixture is regenerated by P2 in the same commit.
+**Provisional design decisions and how they are validated.** The choice of these three channels follows the README. The log time-step scaling, the clip value, the 50 percent overlap and the dropping rule are the simplest defensible choices. They are validated by synthetic validation metrics and, if time allows, the README's timing-channel ablation. P2 first provides the golden fixture at CP2 with the resolved CP2 feature settings. If a feature setting changes afterward, update it in `configs/cnn.yaml` and regenerate the golden fixture in the same commit.
 
 **Model output and abstention (`run_cnn`)**
 - The model outputs 129 classes: 128 log-spaced period bins between the shared period bounds, plus one *No Reliable Period* (NRP) class.

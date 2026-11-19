@@ -1,0 +1,34 @@
+{
+  "method": "cnn",
+  "status": "ok",
+  "candidates": [
+    {
+      "period_s": 8.0,
+      "support": 1.0,
+      "raw_score": 0.5,
+      "meta": {}
+    },
+    {
+      "period_s": 16.0,
+      "support": 0.6,
+      "raw_score": 0.3,
+      "meta": {}
+    },
+    {
+      "period_s": 11.0,
+      "support": 0.2,
+      "raw_score": 0.1,
+      "meta": {}
+    }
+  ],
+  "error": null,
+  "meta": {
+    "runtime_s": 0.0,
+    "p_no_reliable": 0.0,
+    "abstained": false,
+    "n_windows": 1,
+    "window_disagreement": 0.0,
+    "experimental": true
+  },
+  "is_stub": true
+}
