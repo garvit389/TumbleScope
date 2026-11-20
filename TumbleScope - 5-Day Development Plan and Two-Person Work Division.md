@@ -78,6 +78,8 @@ Details:
 - **Configuration.** `configs/default.yaml` lists which per-owner YAML files to load. Per-owner files: P1 owns `preprocess.yaml`, `classical.yaml`, `reconcile.yaml`; P2 owns `simulation.yaml`, `cnn.yaml`, `verification.yaml`, `verdict.yaml`. Config sections are plain dictionaries, so adding a new numeric key never requires editing `core/`.
 - **Stubs.** Each stub returns a valid dummy contract object with `is_stub=True` and a deterministic fake result so the dashboard can render something. Provide fixtures: `tests/fixtures/synthetic_sine.csv` (clean sine with gaps), `tests/fixtures/mock_cnn_result.json` (an EstimatorResult with three peaks including a 2P partner), `tests/fixtures/mock_prepared.npz`, `tests/fixtures/mock_reconciliation.json` (for P2's verification development), `data/profiles/default_profiles.json` (hand-written fallback sampling profiles).
 - **Tests that must pass at handoff:** `test_contracts.py` (dataclasses construct and round-trip to JSON; function signatures match the frozen list), `test_stub_pipeline.py` (stub `analyze()` returns a full `AnalysisResult`), `test_no_reference_leak.py` (inference modules never import the reference-label module).
+
+**Checkpoint-specific fixtures and guards.** The Phase 0 handoff includes all CP0 fixtures and guards required by `CONTRACTS.md` §§13–14. P2 supplies the golden CNN archive at CP2 with the numerical feature and generator checks. P1 delivers real Stage 2 at CP3a, and P2 runs its root guard. P2 verifies real inference’s shared-builder call and checkpoint compatibility at CP3b. Configured period bounds and simulator-side checks are due at CP1. Contract §13 governs activation and pass requirements.
 - **Handoff message to P1** (send when tagged `v0-skeleton`): repo URL, branch name `p1/dev`, Python version, the five install commands, the commands to run tests and the app, and the instruction to read `CONTRACTS.md` and Section 3.
 
 ### 2.2 P1 tasks (owner: P1, minimal)
@@ -490,7 +492,7 @@ A list of records with keys `profile_id`, `n_points`, `duration_s`, `median_dt_s
 
 - **Integration layer owner: P2** (`pipeline/controller.py`, `app/main.py`).
 - **Frozen shared files** (edited only by P2, only after agreement): `core/schemas.py`, `core/errors.py`, `core/config.py`, `CONTRACTS.md`, `tests/fixtures/*`, `tests/test_contracts.py`, `requirements.txt`, `.gitignore`, `configs/default.yaml`.
-- **Contract change protocol:** (1) the person who needs a change messages the other with the exact change and the reason; (2) both agree; (3) P2 edits on `main` in one small commit, bumps `SCHEMA_VERSION`, names it `contract-change-N`; (4) both merge `main` into their branch immediately and re-run tests. Adding a new optional key inside a `meta` dict never needs this protocol.
+- **Contract change protocol.** Follow `CONTRACTS.md` §12 for human agreement, P2 classification, review, versioning when required, and synchronization after the change.
 - **Automated guards:** `test_contracts.py` checks every function signature in Section 5.2 with `inspect.signature`; `test_no_reference_leak.py` fails if any inference module imports `ingestion.reference` or `ReferenceLabel`.
 
 ---
@@ -967,11 +969,11 @@ A checkpoint is a merge of **already finished and tested** work into `main`. It 
 
 | Checkpoint | Trigger | P1 contributes | P2 contributes | Integration step after both have merged |
 | --- | --- | --- | --- | --- |
-| **CP0: end of Phase 0** | Skeleton ready | Confirms setup | Repo, contracts, stubs, fixtures, tag `v0-skeleton` | Both run tests and the stub app |
-| **CP1: end of Day 1** | Day 1 tasks pass their tests | P1-01 to P1-06 (ingestion, reference table, preprocessing, Stage 1, profiles) | P2-01, P2-02 and the model skeleton from P2-04 | P2 swaps real ingestion, preprocessing and Stage 1 into the controller |
-| **CP2: end of Day 2** | Day 2 tasks pass their tests | P1-07 to P1-09 (LS, PDM, window) | P2-03, first CNN training run launched, fit machinery from P2-06 | **Integration #1:** thin slice, real file through to LS and PDM candidates in the app |
-| **CP3a: when P1-10 is done (Day 3)** | Reconciliation passes its tests | P1-10 reconciliation and Stage 2 | Whatever P2 has finished | P2 plugs real reconciliation into verification and the controller |
-| **CP3b: end of Day 3** | Day 3 tasks pass their tests | P1-11 plots, start of P1-12 metrics | P2-05, P2-06, P2-07, P2-08 | **Integration #2:** first full real-file run, upload to verdict; P2 also commits the holdout shard and checkpoint (A1) |
+| **CP0: end of Phase 0** | Skeleton ready | Confirms setup | Repo, contracts, stubs, fixtures, tag `v0-skeleton`; CP0 fixtures and active guards under CONTRACTS.md §§13–14 | Both run tests and the stub app |
+| **CP1: end of Day 1** | Day 1 tasks pass their tests | P1-01 to P1-06 (ingestion, reference table, preprocessing, Stage 1, profiles) | P2-01, P2-02 and the model skeleton from P2-04; audited bounds recorded in period_bounds.yaml and configured-bounds and simulator-side checks passing | P2 swaps real ingestion, preprocessing and Stage 1 into the controller |
+| **CP2: end of Day 2** | Day 2 tasks pass their tests | P1-07 to P1-09 (LS, PDM, window) | P2-03, first CNN training run launched, fit machinery from P2-06; golden CNN archive, numerical feature guard, and generator shared-builder check | **Integration #1:** thin slice, real file through to LS and PDM candidates in the app |
+| **CP3a: when P1-10 is done (Day 3)** | Reconciliation passes its tests | P1-10 reconciliation and Stage 2 | Whatever P2 has finished; real Stage 2 root guard against P1-10 | P2 plugs real reconciliation into verification and the controller |
+| **CP3b: end of Day 3** | Day 3 tasks pass their tests | P1-11 plots, start of P1-12 metrics | P2-05, P2-06, P2-07, P2-08; real CNN inference shared-builder and checkpoint compatibility checks | **Integration #2:** first full real-file run, upload to verdict; P2 also commits the holdout shard and checkpoint (A1) |
 | **CP4: end of Day 4, feature freeze** | Evaluation, app and thresholds ready | Evaluation outputs, tuned reconciliation weights | App, frozen thresholds, demo cache, verification AUC | **Integration #3:** plots in the app, evaluation on the real pipeline. After this, bug fixes only |
 | **CP5: Day 5, final** | Final test run and docs done | Final results, README, technical document | Fixes, runtime numbers, fresh-clone test, tag `v1.0-submission` | Final merge, no new conflicts expected |
 
