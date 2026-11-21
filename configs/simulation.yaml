@@ -1,1 +1,15 @@
-{}
+cylinder_sides: 16
+seed: 0
+# The sampler receives resolved period bounds from PipelineConfig.
+# Populate pilot settings after the audit and P2 design decisions.
+baseline_range_s: null
+cadence_s: null
+min_cycles: null
+flat_rtol: null
+repeat_tolerance: null
+samples_per_cycle: null
+max_attempts: null
+variants: null
+quotas: null
+nrp_min_residual: null
+sampling_tolerance: null

@@ -1,0 +1,37 @@
+{
+  "base_commit": "e8069a946fea0da4b2fa284e0a0232c745199c9f",
+  "source_state": "uncommitted P2 Day 1 working tree",
+  "cpu": "AMD Ryzen 7 7435HS",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "python": "3.11.9",
+  "numpy": "2.2.6",
+  "scipy": "1.15.3",
+  "box": {
+    "fixture": "tests/p2/test_simulator.py::BOX",
+    "timestamps": 1000,
+    "method": "One warmup. Seven groups of twenty full simulator calls. Inputs preallocated.",
+    "mean_ms_per_group": [
+      0.5376649991376325,
+      0.39789000002201647,
+      0.4618500010110438,
+      0.4059999977471307,
+      0.8080850006081164,
+      0.7290350011317059,
+      0.7095100008882582
+    ],
+    "median_ms": 0.5376649991376325
+  },
+  "fixture_generation": {
+    "fixture": "tests/p2/test_labels.py::design",
+    "seed": 17,
+    "config_hash": "438fd3fb6f1d3f4493f2a4d58f415a1c1e9f0dbbb4d3a8f6036295798afb3c6c",
+    "counts": {
+      "pilot_test": 8,
+      "pilot_train": 8,
+      "pilot_val": 8
+    },
+    "seconds": 0.6956026999978349,
+    "method": "One fixture run, including sampling, labeling, compressed shard writes, readback and manifest; excludes plotting.",
+    "audited": false
+  }
+}
