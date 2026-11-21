@@ -47,6 +47,10 @@ def test_configured_bounds():
         pytest.skip("Period bounds are TBD. P1 supplies them by CP1.")
     lower, upper = get_period_bounds()
     assert 0 < lower < upper
+    from ml.dataset.generate import simulation_config
+
+    simulation = simulation_config(load_config())
+    assert (simulation["period_min_s"], simulation["period_max_s"]) == (lower, upper)
 
 
 @pytest.mark.parametrize(
