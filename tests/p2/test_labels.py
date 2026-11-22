@@ -12,6 +12,18 @@ from physics.params import SimParams
 from physics.simulator import simulate_lightcurve
 
 
+@pytest.mark.parametrize("subdivision", [1, 2])
+def test_fast_shift_scores_match_direct_differences(subdivision):
+    from ml.dataset.labels import uniform_shift_scores
+    rng = np.random.default_rng(9)
+    samples = rng.normal(size=301)
+    reference = samples[:100 * subdivision:subdivision]
+    scores = uniform_shift_scores(samples, reference, subdivision)
+    expected = [np.sqrt(np.mean((samples[i:i + len(reference)*subdivision:subdivision]
+                                 - reference)**2)) for i in range(len(scores))]
+    np.testing.assert_allclose(scores, expected, atol=3e-8, rtol=1e-12)
+
+
 @pytest.fixture
 def design():
     config = load_config()
@@ -20,10 +32,11 @@ def design():
         "val": [dict(shape="box", aspect=[2, 2.5], polar_rad=[.3, .4], surface="unequal")],
         "test": [dict(shape="cylinder", aspect=[3, 3.5], polar_rad=[.8, 1], surface="cap_contrast")],
     }
-    simulation = dict(config.simulation, variants=variants, baseline_range_s=[1, 28],
+    simulation = dict(config.simulation, workers=1, condition_baseline_on_coverage=False,
+                      mixture_cycle_fraction_range=[0., 1.], variants=variants, baseline_range_s=[1, 28],
                       cadence_s=.08, flat_rtol=1e-10, repeat_tolerance=2e-5, nrp_min_residual=.08, sampling_tolerance=.08, min_cycles=2,
                       samples_per_cycle=64, max_attempts=250, seed=17,
-                      quotas={s: dict(reliable=4, noise_or_constant=2, multi_frequency=2, under_covered=0) for s in SPLITS})
+                      quotas={s: dict(reliable=4, noise_or_constant=2, multi_frequency=2, under_covered=2) for s in SPLITS})
     return replace(config, simulation=simulation,
                    period_bounds={"status": "SET", "min_period_s": 1., "max_period_s": 8.})
 
@@ -66,9 +79,19 @@ def test_bins(design):
             encode_target(bad, cfg)
 
 
+def test_sub_bound_near_zero_shift_is_not_a_period(design):
+    from ml.dataset.labels import observation_label
+    cfg = dict(simulation_config(design), period_min_s=3., period_max_s=400.,
+               nrp_min_residual=.02)
+    t = np.linspace(0., 1400., 4001)
+    y = np.cos(2*np.pi*t/140.) + np.cos(2*np.pi*t/199.3)
+    assert observation_label(t, y, cfg) == ("nrp", None)
+
+
 def test_generation_and_round_trip(tmp_path, design):
     first = generate_pilot(design, tmp_path/"first", revision="fixture")
-    second = generate_pilot(design, tmp_path/"second", revision="fixture")
+    parallel = replace(design, simulation=dict(design.simulation, workers=2))
+    second = generate_pilot(parallel, tmp_path/"second", revision="fixture")
     groups = {}
     for split in SPLITS:
         fname = f"pilot_{split}.npz"
@@ -76,7 +99,7 @@ def test_generation_and_round_trip(tmp_path, design):
             for key in a.files:
                 np.testing.assert_array_equal(a[key], b[key])
             seen = []
-            assert a["soft_target"].shape == (8, 129)
+            assert a["soft_target"].shape == (10, 129)
             assert np.all(np.diff(a["offsets"]) > 1)
             for i, raw in enumerate(a["metadata"]):
                 row = json.loads(raw)
@@ -159,6 +182,10 @@ def test_generator_rejects_a_repeating_mixture(design, monkeypatch):
     monkeypatch.setattr("ml.dataset.generate.sample_params", lambda *args: next(parents))
     assert draw_curve(cfg, "train", "multi_frequency", 1) == "combined waveform repeats"
 
+    parents = iter([(first, 0), (replace(first, phase_cycle_s=6.), 0)])
+    monkeypatch.setattr("ml.dataset.generate.observation_label", lambda *args: ("nrp", None))
+    assert draw_curve(cfg, "train", "multi_frequency", 1) == "clean mixture has a compatible repeat"
+
 
 def test_exact_coverage_boundary_and_noise_sources(design):
     cfg = simulation_config(design)
@@ -170,7 +197,7 @@ def test_exact_coverage_boundary_and_noise_sources(design):
     assert observation_label(times,y,cfg)[0] == "resolved"
     cfg["min_cycles"] = np.nextafter(cfg["min_cycles"], np.inf)
     assert observation_label(times,y,cfg)[0] == "insufficient coverage"
-    assert draw_curve(cfg,"val","under_covered",4) == "insufficient coverage"
+    assert draw_curve(cfg,"val","under_covered",4) == "under-covered quota has sufficient cycles"
     cfg["min_cycles"] = 2
     draws = [draw_curve(cfg, "train", "noise_or_constant", seed) for seed in range(12)]
     assert {row[-1]["source"] for row in draws} == {"constant", "noise"}
@@ -410,13 +437,48 @@ def test_harmonic_information_returns_with_finer_sampling(design):
                 assert x[1]==pytest.approx(2.) and y[1]==pytest.approx(4.)
 
 
-def test_undercovered_quota_excluded(design,tmp_path):
+def test_impossible_undercovered_quota_exhausts_without_publication(design,tmp_path):
     quotas = {s:{k:int(k=="under_covered") for k in SOURCES} for s in SPLITS}
     config = replace(design,simulation=dict(design.simulation, quotas=quotas,
-                     baseline_range_s=[2.,2.],max_attempts=2))
-    with pytest.raises(ValueError,match="exhausted quota train/under_covered.*insufficient coverage"):
+                     baseline_range_s=[100.,100.],max_attempts=2))
+    with pytest.raises(ValueError,match="exhausted quota train/under_covered"):
         generate_pilot(config,tmp_path/"unpublished")
     assert not (tmp_path/"unpublished").exists()
+
+
+def test_undercovered_boundary_uses_clean_apparent_repeat(design, monkeypatch):
+    params = SimParams("box", (2, 3, 4), (1.,)*6, 0, 0, 0, 8,
+                       (1, 0, 0), (1, 0, 0))
+    monkeypatch.setattr("ml.dataset.generate.sample_params", lambda *args: (params, 0))
+    cfg = dict(simulation_config(design), baseline_range_s=[7., 7.])
+    first = draw_curve(cfg, "train", "under_covered", 7)
+    second = draw_curve(cfg, "train", "under_covered", 7)
+    assert not isinstance(first, str)
+    for left, right in zip(first[:4], second[:4]):
+        np.testing.assert_array_equal(left, right)
+    assert first[-1] == second[-1]
+    assert first[2] == 128 and first[3][128] == 1
+    assert first[-1]["parent_repeat_s"] == 4
+    assert first[-1]["apparent_period_s"] is None
+    assert first[-1]["source"] == "under_covered"
+    assert draw_curve(dict(cfg, baseline_range_s=[8., 8.]), "train", "under_covered", 7) == (
+        "under-covered quota has sufficient cycles"
+    )
+
+
+def test_target_uses_clean_repeat_and_rejects_sampled_harmonic(design, monkeypatch):
+    params = SimParams("box", (2, 3, 4), (1.,)*6, 0, 0, 0, 8,
+                       (1, 0, 0), (1, 0, 0))
+    monkeypatch.setattr("ml.dataset.generate.sample_params", lambda *args: (params, 0))
+    cfg = dict(simulation_config(design), baseline_range_s=[32., 32.])
+    row = draw_curve(cfg, "train", "reliable", 7)
+    assert not isinstance(row, str)
+    assert row[-1]["apparent_period_s"] == row[-1]["parent_repeat_s"] == 4.
+    index, target = encode_target(4., cfg)
+    assert row[2] == index
+    np.testing.assert_array_equal(row[3], target)
+    monkeypatch.setattr("ml.dataset.generate.observation_label", lambda *args: ("resolved", 8.))
+    assert draw_curve(cfg, "train", "reliable", 7) == "sampled repeat disagrees with clean repeat"
 
 
 def test_base_revision_and_annotation_independent_of_source(publication_design,tmp_path,monkeypatch):

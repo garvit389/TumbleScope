@@ -1,15 +1,70 @@
 cylinder_sides: 16
-seed: 0
-# The sampler receives resolved period bounds from PipelineConfig.
-# Populate pilot settings after the audit and P2 design decisions.
-baseline_range_s: null
-cadence_s: null
-min_cycles: null
-flat_rtol: null
-repeat_tolerance: null
-samples_per_cycle: null
-max_attempts: null
-variants: null
-quotas: null
-nrp_min_residual: null
-sampling_tolerance: null
+seed: 17
+baseline_range_s:
+- 220.838
+- 1851.1739999999995
+cadence_s: 0.364
+min_cycles: 3.0
+flat_rtol: 1.0e-10
+repeat_tolerance: 2.0e-05
+samples_per_cycle: 128
+max_attempts: 500
+nrp_min_residual: 0.02
+sampling_tolerance: 0.08
+variants:
+  train:
+  - shape: box
+    aspect:
+    - 1.2
+    - 1.5
+    polar_rad:
+    - 0.0
+    - 0.0
+    surface: uniform
+    sun:
+    - 1.0
+    - 0.0
+    - 0.0
+    observer:
+    - 1.0
+    - 0.0
+    - 0.0
+  val:
+  - shape: box
+    aspect:
+    - 2.0
+    - 2.5
+    polar_rad:
+    - 0.3
+    - 0.4
+    surface: unequal
+  test:
+  - shape: cylinder
+    aspect:
+    - 3.0
+    - 3.5
+    polar_rad:
+    - 0.8
+    - 1.0
+    surface: cap_contrast
+quotas:
+  train:
+    reliable: 490
+    noise_or_constant: 70
+    multi_frequency: 70
+    under_covered: 70
+  val:
+    reliable: 105
+    noise_or_constant: 15
+    multi_frequency: 15
+    under_covered: 15
+  test:
+    reliable: 105
+    noise_or_constant: 15
+    multi_frequency: 15
+    under_covered: 15
+condition_baseline_on_coverage: true
+mixture_cycle_fraction_range:
+- 0.5
+- 1.0
+workers: 6

@@ -159,9 +159,9 @@ The measurement timestamps already represent seconds elapsed from the first samp
 
 The collected observations have varying durations and sampling intervals. Several files contain irregular sampling gaps, which may affect period estimation.
 
-The proposed **6–500 s** search range includes 27 of 29 reference periods. It excludes 2.912 s and 5.868 s, both of which are sampled sparsely relative to their period. Three in-range references (7.1768, 7.2218, and 10.7043 s) also have fewer than two samples per cycle at their median cadence.
+The earlier proposed **6–500 s** search range includes 27 of 29 reference periods. It excludes 2.912 s and 5.868 s, both of which are sampled sparsely relative to their period. Three in-range references (7.1768, 7.2218, and 10.7043 s) also have fewer than two samples per cycle at their median cadence. The CP1 decision in Section 6 supersedes this proposal.
 
-At 6 s, none of the 47 files reaches two samples per cycle at its median cadence. At 500 s, only 14 files have a baseline long enough to span three cycles. Even the 445.881 s reference spans only 2.61 cycles, including time across a gap. These are exploratory sampling checks. Irregular timestamps, gaps, exposure time, and competing periods can all affect recovery. Keep the search range provisional until tests inject signals into real sampling patterns and measure how often their periods are recovered.
+At 6 s, none of the 47 files reaches two samples per cycle at its median cadence. At 500 s, only 14 files have a baseline long enough to span three cycles. Even the 445.881 s reference spans only 2.61 cycles, including time across a gap. These are exploratory sampling checks. Irregular timestamps, gaps, exposure time, and competing periods can all affect recovery. Recovery performance still requires injections into real sampling patterns; setting search bounds does not establish recoverability.
 
 ## 5. Data Quality and Sampling Gaps
 
@@ -179,3 +179,54 @@ All **47 files** decoded successfully. All **10,719 measurement rows** had six f
 | `01038B_2_3_R_20190322_DATA.txt` | 4 |
 
 The largest gap is **6,344.79 s** in the 2019-09-10 file for `12003B`.
+
+## 6. CP1 recovery handoff (22 November 2026)
+
+The 47 originals were obtained from the official SDLCD DR3 site's per-observation
+`static/data/` links discovered in its public application and catalogue. No bulk
+endpoint was assumed. `data/sdlcd_raw/download_manifest.json` preserves each
+source URL, catalogue record, object identity, reported period field, byte count,
+SHA-256 digest and retrieval time. Raw observations remain Git-ignored.
+The site requests citation and acknowledgment for academic use; acknowledge
+SDLCD and cite its [linked publication](https://www.sciencedirect.com/science/article/pii/S0273117720300727).
+The user authorized local research acquisition under that notice. Redistribution
+terms remain unconfirmed, so the planned 3–5 redistributable sample files have
+not been added to `data/samples/`.
+
+The verified extrema of all 29 valid reported apparent periods define CP1 search
+coverage: **2.912–445.881 seconds**, inclusive. This avoids dropping either short
+reference and adds no unsupported range beyond this pilot. These are population
+coverage bounds, not a claim that every observation resolves every in-range
+period. `configs/period_bounds.yaml` is the sole editable source, following
+`CONTRACTS.md` Section 10. Reserved codes are excluded before this calculation.
+
+The evaluation-only reference table contains **29 observations from 25 objects**:
+18 validation and 11 test observations. SHA-256 of seed 0 plus object ID assigns
+whole objects deterministically. These labels are not attached to observations,
+sampling profiles or inference inputs. All 47 observations yield sampling
+profiles under the schema in `CONTRACTS.md` Section 9; no brightness arrays or
+reference periods are included.
+
+Stage 1 thresholds in `configs/preprocess.yaml` are CP1 operating choices,
+checked against clean, noisy, short and gapped controls: minimum 21 valid points,
+maximum gap/baseline 0.25, maximum missing fraction 0.2 and minimum robust
+amplitude/noise proxy 3. Duplicate samples and outliers are retained and flagged;
+gaps exceed three positive median intervals, and bright outliers exceed six MAD.
+The difference-based noise proxy can include signal variation; these thresholds
+are not a measured real-data period-recovery calibration.
+
+The clean synthetic pilot uses the observed minimum and 90th-percentile duration
+(220.838 and 1851.174 seconds). Adequately covered sources are conditioned on at
+least three cycles of the largest configured period; under-covered sources use
+the unconditioned duration range and must fail the configured cycle count for
+their clean parent repeat. Cadence is one eighth of the shortest configured
+period (0.364 seconds), deliberately denser than the real observations. Mixture
+parents use the upper half of the configured cycle range to keep dense repeat
+validation tractable. These are explicit pilot design choices, not claims that
+the raw observations have these sampling properties. The generator records the
+full configuration, quotas, rejection counts, seed, source hashes and label
+policy. Real-profile degradation and the shared feature pipeline remain CP2.
+
+Local acceptance evidence is recorded in `docs/results/runtime_cp1_recovery.json`.
+It is checked by `python -m scripts.validate_cp1 --pilot data/synthetic/cp1_pilot`,
+which reads existing artifacts without downloading or regenerating them.

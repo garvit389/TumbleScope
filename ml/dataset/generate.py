@@ -2,6 +2,8 @@
 
 import argparse
 from collections import Counter
+from concurrent.futures import ProcessPoolExecutor
+from contextlib import nullcontext
 from dataclasses import asdict
 from importlib.metadata import version
 import hashlib
@@ -10,11 +12,14 @@ import platform
 from pathlib import Path
 import subprocess
 from tempfile import TemporaryDirectory
+from time import perf_counter
 
 import numpy as np
 
 from core.config import PipelineConfig, config_hash, load_config, resolve_period_bounds
-from ml.dataset.labels import encode_target, observation_label, template_repeat
+from ml.dataset.labels import (
+    encode_target, flat_signal, mixture_has_repeat, observation_label, template_repeat,
+)
 from ml.dataset.sample_params import SPLITS, SOURCES, sample_params, validate_design
 from physics.simulator import simulate_lightcurve
 
@@ -30,7 +35,12 @@ def draw_curve(cfg, split, source, seed):
     if source not in SOURCES:
         raise ValueError(f"unknown pilot source: {source}")
     rng = np.random.default_rng(seed)
-    span = rng.uniform(*cfg["baseline_range_s"])
+    lower_span, upper_span = cfg["baseline_range_s"]
+    if cfg.get("condition_baseline_on_coverage", False) and source != "under_covered":
+        lower_span = max(lower_span, max(3., cfg["min_cycles"]) * cfg["period_max_s"])
+        if lower_span > upper_span:
+            return "insufficient coverage"
+    span = rng.uniform(lower_span, upper_span)
     times = np.linspace(0., span, int(np.ceil(span / cfg["cadence_s"])) + 1)
     n = cfg["samples_per_cycle"]
     tol, flat = cfg["repeat_tolerance"], cfg["flat_rtol"]
@@ -41,13 +51,20 @@ def draw_curve(cfg, split, source, seed):
         y = rng.normal(size=times.size) if kind == "noise" else np.ones(times.size)
     else:
         kind = source
-        params, index = sample_params(cfg, split, rng)
+        parameter_cfg = cfg
+        if source == "multi_frequency":
+            parameter_cfg = dict(cfg, phase_cycle_fraction_range=cfg.get("mixture_cycle_fraction_range", [0., 1.]))
+        params, index = sample_params(parameter_cfg, split, rng)
         parents.append({"split": split, "variant": index, "params": asdict(params)})
         truth_t = np.arange(3*n) / n * params.phase_cycle_s
         truth = simulate_lightcurve(params, truth_t)
         y = simulate_lightcurve(params, times)
+        parent_repeat = template_repeat(
+            truth, params.phase_cycle_s, n, tol, flat,
+            wave=lambda t: simulate_lightcurve(params, t),
+        )
         if source == "multi_frequency":
-            second, index = sample_params(cfg, split, rng)
+            second, index = sample_params(parameter_cfg, split, rng)
             parents.append({"split": split, "variant": index, "params": asdict(second)})
             other = simulate_lightcurve(second, np.arange(3*n)/n * second.phase_cycle_s)
             scales = (float(np.ptp(truth)), float(np.ptp(other)))
@@ -56,19 +73,40 @@ def draw_curve(cfg, split, source, seed):
                     return "unrepresentable mixture weight"
                 parent["flux_weight"] = 1.0 / amplitude
             y = y/scales[0] + simulate_lightcurve(second, times)/scales[1]
-    disposition, apparent = observation_label(times, y, cfg)
+    if source == "under_covered":
+        if parent_repeat is None or not cfg["period_min_s"] <= parent_repeat <= cfg["period_max_s"]:
+            return "under-covered parent has no in-range clean repeat"
+        if span / parent_repeat >= cfg["min_cycles"]:
+            return "under-covered quota has sufficient cycles"
+        if len(times) < 4 or flat_signal(y, flat):
+            return "under-covered observation has insufficient sampling or modulation"
+        apparent = None
+        disposition = "nrp"
+    else:
+        disposition, apparent = observation_label(times, y, cfg)
     if disposition not in ("resolved", "nrp"):
         return disposition
-    if source == "under_covered":
-        return "under-covered quota has no approved NRP policy"
     if source == "multi_frequency" and apparent is not None:
         return "combined waveform repeats"
+    if source == "multi_frequency":
+        def clean_mixture(t):
+            return (simulate_lightcurve(params, t) / scales[0]
+                    + simulate_lightcurve(second, t) / scales[1])
+
+        clean_step = min(params.phase_cycle_s, second.phase_cycle_s) / n
+        if mixture_has_repeat(clean_mixture, times, cfg["period_min_s"],
+                              cfg["period_max_s"], clean_step,
+                              cfg["nrp_min_residual"], flat):
+            return "clean mixture has a compatible repeat"
     if (source == "reliable") != (disposition == "resolved"):
         return "observation incompatible with quota"
+    if source == "reliable":
+        if parent_repeat is None or not cfg["period_min_s"] <= parent_repeat <= cfg["period_max_s"]:
+            return "clean repeat outside configured bounds or unresolved"
+        if abs(apparent - parent_repeat) > (times[1] - times[0]) / 2:
+            return "sampled repeat disagrees with clean repeat"
+        apparent = parent_repeat
     label, soft = encode_target(apparent, cfg)
-    if parents:
-        parent_repeat = template_repeat(truth, params.phase_cycle_s, n, tol, flat,
-                                        wave=lambda t: simulate_lightcurve(params, t))
     meta = {"source": kind, "parents": parents, "seed": seed, "split": split,
             "apparent_period_s": apparent, "parent_repeat_s": parent_repeat}
     json.dumps(meta, allow_nan=False)
@@ -145,7 +183,21 @@ def generate_pilot(config: PipelineConfig, destination, *, revision=None):
     return _publish(config, destination, revision, plots=False)
 
 
+def _accepted_record(job):
+    cfg, split, source, job_seed = job
+    rng = np.random.default_rng(job_seed)
+    rejections = Counter()
+    for _ in range(cfg["max_attempts"]):
+        seed = int(rng.integers(2**63 - 1))
+        record = draw_curve(cfg, split, source, seed)
+        if not isinstance(record, str):
+            return record, rejections
+        rejections[(split, source, record)] += 1
+    raise ValueError(f"exhausted quota {split}/{source}: {dict(rejections)}")
+
+
 def _publish(config, destination, revision, *, plots):
+    started = perf_counter()
     cfg = simulation_config(config)
     validate_design(cfg)
     destination = Path(destination)
@@ -161,23 +213,21 @@ def _publish(config, destination, revision, *, plots):
     rng = np.random.default_rng(cfg["seed"])
     rejections = Counter()
     destination.parent.mkdir(parents=True, exist_ok=True)
-    with TemporaryDirectory(dir=destination.parent) as temp:
+    workers = cfg.get("workers", 1)
+    if type(workers) is not int or workers < 1:
+        raise ValueError("workers must be a positive integer")
+    executor = ProcessPoolExecutor(max_workers=workers) if workers > 1 else nullcontext(None)
+    with executor as pool, TemporaryDirectory(dir=destination.parent) as temp:
         staging = Path(temp) / "pilot"
         staging.mkdir()
         for split in SPLITS:
+            jobs = [(cfg, split, source, int(rng.integers(2**63 - 1)))
+                    for source in SOURCES for _ in range(cfg["quotas"][split][source])]
+            generated = pool.map(_accepted_record, jobs) if pool is not None else map(_accepted_record, jobs)
             rows = []
-            for source in SOURCES:
-                for _ in range(cfg["quotas"][split][source]):
-                    for _attempt in range(cfg["max_attempts"]):
-                        seed = int(rng.integers(2**63 - 1))
-                        record = draw_curve(cfg, split, source, seed)
-                        if isinstance(record, str):
-                            rejections[(split, source, record)] += 1
-                            continue
-                        rows.append(record)
-                        break
-                    else:
-                        raise ValueError(f"exhausted quota {split}/{source}: {dict(rejections)}")
+            for record, rejected in generated:
+                rows.append(record)
+                rejections.update(rejected)
             rng.shuffle(rows)
             times, flux, labels, soft, metadata = zip(*rows)
             counts[split] = dict(Counter(m["source"] for m in metadata))
@@ -205,7 +255,9 @@ def _publish(config, destination, revision, *, plots):
         manifest = {"config": asdict(config), "config_hash": config_hash(config),
                     "commit": base, "revision_annotation": revision, "dirty": dirty,
                     "source_identity": identity, "python": platform.python_version(),
-                    "label_policy": "observed-uniform-lag-v1", "counts": counts,
+                    "label_policy": "clean-repeat-with-observation-check-v2", "counts": counts,
+                    "sampling_profile_usage": "none: clean CP1 pilot; degradation is CP2",
+                    "generation_and_plot_seconds": perf_counter() - started,
                     "artifacts": {name: _digest(staging/name) for name in names}, "seed": cfg["seed"],
                     "package_versions": {p: version(p) for p in ("numpy", "scipy", "matplotlib", "PyYAML")},
                     "rejections": [{"split": s, "source": k, "reason": r, "count": v}

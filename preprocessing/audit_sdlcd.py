@@ -8,6 +8,9 @@ folder = Path("data/sdlcd_raw")
 output = Path("docs/sdlcd_audit.csv")
 rows = []
 
+if not any(folder.glob("*_DATA.txt")):
+    raise SystemExit("No SDLCD source files found; existing audit preserved.")
+
 reserved_periods = {5000, 6000, 7000, 9999}
 
 for file in sorted(folder.glob("*_DATA.txt")):
@@ -63,7 +66,7 @@ for file in sorted(folder.glob("*_DATA.txt")):
         "points": len(times),
         "header_points": header_points,
         "duration_s": round(float(times[-1] - times[0]), 3),
-        "median_cadence_s": round(float(np.median(intervals)), 4),
+        "median_cadence_s": round(float(np.median(intervals[intervals > 0])), 4),
         "reference_period_s": reported_period,
     })
 
