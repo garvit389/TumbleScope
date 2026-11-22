@@ -1,0 +1,266 @@
+{
+  "checkpoint": "CP2",
+  "command_argv": [
+    "python",
+    "-m",
+    "evaluation.cp2_evidence",
+    "--sdlcd-dir",
+    "data\\sdlcd_raw",
+    "--output-dir",
+    "docs\\results"
+  ],
+  "config_used": {
+    "cadence_frequency_factor": 0.5,
+    "frequency_oversampling": 5.068619572695469,
+    "ls_false_alarm_alpha": 0.025,
+    "ls_max_candidates": 5,
+    "ls_nterms": 1,
+    "ls_periodogram_max_points": 1000,
+    "n_peaks": 5,
+    "pdm_false_alarm_alpha": 0.05,
+    "pdm_max_candidates": 5,
+    "pdm_min_bin_occupancy": 3,
+    "pdm_periodogram_max_points": 1000,
+    "pdm_phase_bins": 10,
+    "period_max_s": 445.881,
+    "period_min_s": 2.912,
+    "window_cadence_harmonics": 3,
+    "window_max_grid_points": 16385,
+    "window_min_peak_height": 0.05
+  },
+  "dataset": {
+    "cadence_uniform_s": [
+      1.4,
+      2.6
+    ],
+    "id": "cp2-pdm-benchmark-v1",
+    "injected_period_s": 47.0,
+    "observations": 2000,
+    "seed": 842
+  },
+  "environment": {
+    "logical_cpus": 16,
+    "packages": {
+      "astropy": "7.1.0",
+      "numpy": "2.2.6",
+      "pytest": "8.4.1",
+      "scipy": "1.15.3"
+    },
+    "platform": "Windows-10-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "python": "3.11.9"
+  },
+  "experiment": "pdm_benchmark",
+  "experiment_duration_s": 3.218705300008878,
+  "git": {
+    "branch": "p1/dev",
+    "head": "a8dcb9fb3bd08d6559be0d9338b510dca564e566",
+    "source_sha256": {
+      "classical_analysis/lomb_scargle.py": "7c163d33caf0fc43d9404d2f165d6affafee77e921fc9a03525670ddee6d3dfc",
+      "classical_analysis/pdm.py": "8609ade6addc3fe49750b620e0bd406e6ffa32ceabb9b72d1d0e365f24f7f987",
+      "classical_analysis/window.py": "e47326b9215ce45973dd0585eb703b88df95fd0e1dd3786480939ed41153d53c",
+      "configs/classical.yaml": "89f17849116822b6512218fca0f40a6d834625b490041c784ec3b0d9a3d5bb24",
+      "configs/period_bounds.yaml": "b8346fd59156270dcec2f9f0fbb63e6e95f1a3498875df9fa4191562ec39b605",
+      "configs/preprocess.yaml": "5cb6ed6326c080c98fe4bd1079d317354d82e2bd043ce72251a631b8ab49d176",
+      "evaluation/cp2_evidence.py": "41b11e1867209e822d50d5e4ffec403260e07c782c100febe2ef3b06ba9dd44e",
+      "ingestion/sdlcd.py": "0b6152e2d775f9dabfd9c49d2ea6aa25f55468bbbb6cd55787081267d20f6c8b",
+      "pipeline/controller.py": "c824f1375fe123f8d9633be532fa4eb31d870d98ee301ff9b0ef2398d2dd5ad7",
+      "preprocessing/prepare.py": "d4a8c8a6f6e460f0ab817716c6e9a9d50e3029b488ce27ac44f9c922be50b24c",
+      "preprocessing/quality.py": "caef9fa0881eb681894c90f46a59168a42df086ecb5867731a9a13d4e899b027"
+    }
+  },
+  "injected_classical_config": {
+    "cadence_frequency_factor": 0.5,
+    "frequency_oversampling": 5,
+    "ls_false_alarm_alpha": 0.025,
+    "ls_max_candidates": 5,
+    "ls_nterms": 1,
+    "ls_periodogram_max_points": 1000,
+    "n_peaks": 5,
+    "pdm_false_alarm_alpha": 0.05,
+    "pdm_max_candidates": 5,
+    "pdm_min_bin_occupancy": 3,
+    "pdm_periodogram_max_points": 1000,
+    "pdm_phase_bins": 10,
+    "period_max_s": 445.881,
+    "period_min_s": 2.912,
+    "window_cadence_harmonics": 3,
+    "window_max_grid_points": 16385,
+    "window_min_peak_height": 0.05
+  },
+  "median_runtime_s": 0.5696590999723412,
+  "owner": "P1",
+  "pipeline_config": {
+    "classical": {
+      "cadence_frequency_factor": 0.5,
+      "frequency_oversampling": 5,
+      "ls_false_alarm_alpha": 0.025,
+      "ls_max_candidates": 5,
+      "ls_nterms": 1,
+      "ls_periodogram_max_points": 1000,
+      "n_peaks": 5,
+      "pdm_false_alarm_alpha": 0.05,
+      "pdm_max_candidates": 5,
+      "pdm_min_bin_occupancy": 3,
+      "pdm_periodogram_max_points": 1000,
+      "pdm_phase_bins": 10,
+      "window_cadence_harmonics": 3,
+      "window_max_grid_points": 16385,
+      "window_min_peak_height": 0.05
+    },
+    "cnn": {
+      "channels": [
+        32,
+        32,
+        64,
+        64,
+        128,
+        128
+      ],
+      "dilations": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "kernel_size": 7,
+      "window_length": 1024
+    },
+    "period_bounds": {
+      "max_period_s": 445.881,
+      "min_period_s": 2.912,
+      "status": "SET"
+    },
+    "pipeline": {
+      "validate_outputs": true
+    },
+    "preprocess": {
+      "bright_outlier_mad": 6.0,
+      "gap_cadence_multiple": 3.0,
+      "max_gap_fraction": 0.25,
+      "max_missing_fraction": 0.2,
+      "min_amplitude_to_noise": 3.0,
+      "min_valid_points": 21
+    },
+    "reconcile": {},
+    "simulation": {
+      "baseline_range_s": [
+        220.838,
+        1851.1739999999995
+      ],
+      "cadence_s": 0.364,
+      "condition_baseline_on_coverage": true,
+      "cylinder_sides": 16,
+      "flat_rtol": 1e-10,
+      "max_attempts": 500,
+      "min_cycles": 3.0,
+      "mixture_cycle_fraction_range": [
+        0.5,
+        1.0
+      ],
+      "nrp_min_residual": 0.02,
+      "quotas": {
+        "test": {
+          "multi_frequency": 15,
+          "noise_or_constant": 15,
+          "reliable": 105,
+          "under_covered": 15
+        },
+        "train": {
+          "multi_frequency": 70,
+          "noise_or_constant": 70,
+          "reliable": 490,
+          "under_covered": 70
+        },
+        "val": {
+          "multi_frequency": 15,
+          "noise_or_constant": 15,
+          "reliable": 105,
+          "under_covered": 15
+        }
+      },
+      "repeat_tolerance": 2e-05,
+      "samples_per_cycle": 128,
+      "sampling_tolerance": 0.08,
+      "seed": 17,
+      "variants": {
+        "test": [
+          {
+            "aspect": [
+              3.0,
+              3.5
+            ],
+            "polar_rad": [
+              0.8,
+              1.0
+            ],
+            "shape": "cylinder",
+            "surface": "cap_contrast"
+          }
+        ],
+        "train": [
+          {
+            "aspect": [
+              1.2,
+              1.5
+            ],
+            "observer": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "polar_rad": [
+              0.0,
+              0.0
+            ],
+            "shape": "box",
+            "sun": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "surface": "uniform"
+          }
+        ],
+        "val": [
+          {
+            "aspect": [
+              2.0,
+              2.5
+            ],
+            "polar_rad": [
+              0.3,
+              0.4
+            ],
+            "shape": "box",
+            "surface": "unequal"
+          }
+        ]
+      },
+      "workers": 6
+    },
+    "verdict": {},
+    "verification": {}
+  },
+  "runtime_s": [
+    0.5621431000181474,
+    0.5696590999723412,
+    0.8246091000037268,
+    0.5433772999967914,
+    0.6575096999877132
+  ],
+  "schema_version": 1,
+  "started_at_utc": "2026-11-22T12:29:44.367602+00:00",
+  "timing_method": "Five consecutive estimator runtime_s measurements, no discarded warm-up",
+  "top_period_s": [
+    47.025974317269,
+    47.025974317269,
+    47.025974317269,
+    47.025974317269,
+    47.025974317269
+  ],
+  "trial_periods": 5000,
+  "type": "measured"
+}
