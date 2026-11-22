@@ -2,3 +2,14 @@ window_length: 1024
 channels: [32, 32, 64, 64, 128, 128]
 dilations: [1, 2, 4, 8, 16, 32]
 kernel_size: 7
+window_stride: 512
+y_clip: 6.0
+dt_floor_s: 0.1
+L_min: -1.0
+L_max: 4.0
+max_windows: 9
+min_valid_per_window: 21
+seed: 17
+epochs: 12
+batch_size: 64
+learning_rate: 0.001

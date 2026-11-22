@@ -68,3 +68,4 @@ mixture_cycle_fraction_range:
 - 0.5
 - 1.0
 workers: 6
+day2_quota_multiplier: 5

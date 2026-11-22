@@ -32,6 +32,11 @@ def simulation_config(config):
 
 def draw_curve(cfg, split, source, seed):
     """Return an accepted record or the reason this seeded draw was rejected."""
+    return _draw_curve(cfg, split, source, seed)
+
+
+def _draw_curve(cfg, split, source, seed, observed_times=None, source_rng=None, subtype=None):
+    """Validate dense clean truth and optionally evaluate it at a second set of times."""
     if source not in SOURCES:
         raise ValueError(f"unknown pilot source: {source}")
     rng = np.random.default_rng(seed)
@@ -47,8 +52,17 @@ def draw_curve(cfg, split, source, seed):
     parents = []
     parent_repeat = None
     if source == "noise_or_constant":
-        kind = "noise" if rng.integers(2) else "constant"
-        y = rng.normal(size=times.size) if kind == "noise" else np.ones(times.size)
+        kind = subtype or ("noise" if rng.integers(2) else "constant")
+        grid = times
+        if observed_times is not None:
+            grid, inverse = np.unique(np.r_[times, observed_times], return_inverse=True)
+        generator = source_rng if source_rng is not None else rng
+        values = generator.normal(size=grid.size) if kind == "noise" else np.ones(grid.size)
+        if observed_times is None:
+            y = values
+        else:
+            y = values[inverse[:times.size]]
+            sampled = values[inverse[times.size:]]
     else:
         kind = source
         parameter_cfg = cfg
@@ -73,6 +87,13 @@ def draw_curve(cfg, split, source, seed):
                     return "unrepresentable mixture weight"
                 parent["flux_weight"] = 1.0 / amplitude
             y = y/scales[0] + simulate_lightcurve(second, times)/scales[1]
+    if observed_times is not None:
+        if observed_times[0] < times[0] or observed_times[-1] > times[-1]:
+            return "insufficient clean source support"
+        if parents:
+            sampled = simulate_lightcurve(params, observed_times)
+            if source == "multi_frequency":
+                sampled = sampled/scales[0] + simulate_lightcurve(second, observed_times)/scales[1]
     if source == "under_covered":
         if parent_repeat is None or not cfg["period_min_s"] <= parent_repeat <= cfg["period_max_s"]:
             return "under-covered parent has no in-range clean repeat"
@@ -110,6 +131,8 @@ def draw_curve(cfg, split, source, seed):
     meta = {"source": kind, "parents": parents, "seed": seed, "split": split,
             "apparent_period_s": apparent, "parent_repeat_s": parent_repeat}
     json.dumps(meta, allow_nan=False)
+    if observed_times is not None:
+        return observed_times, sampled, label, soft, meta
     return times, y, label, soft, meta
 
 

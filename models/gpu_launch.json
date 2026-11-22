@@ -1,0 +1,18 @@
+{
+  "backward_finite": true,
+  "batch_size": 64,
+  "cuda": "13.0",
+  "cudnn": 92800,
+  "curve_groups_sha256": "b9a73cba25608843634e7a4d5d4967f3a297a1d9814272a21eb134c5379407d4",
+  "dataset_id": "239f752160c2b12809b12662a9ef0cf9964c51c2145d8b4a6be9b61fae37051c",
+  "device": "cuda:0",
+  "forward_finite": true,
+  "gpu": "Tesla T4",
+  "loss": 4.878115177154541,
+  "numpy": "2.4.6",
+  "optimizer_updated": true,
+  "python": "3.13.16",
+  "pytorch": "2.14.1+cu130",
+  "split": "train",
+  "train_curves": 3500
+}
