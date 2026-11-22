@@ -1,0 +1,487 @@
+{
+  "date": "2026-11-22",
+  "overall_status": "BLOCKED",
+  "technical_cp1_gates": "PASS",
+  "blocking_requirement": "Redistributable SDLCD samples: local research authorization does not cover redistribution.",
+  "branch": "p2/dev",
+  "git_writes_performed": false,
+  "ownership": "User explicitly authorized P1-owned CP1 edits on p2/dev; no contract change required.",
+  "requirements": [
+    {
+      "requirement": "P1-01 real audit",
+      "status": "PASS",
+      "evidence": "47 genuine files; 10,719 rows; 29 valid periods representing 25 objects; source hashes verified."
+    },
+    {
+      "requirement": "P1-01 redistributable samples",
+      "status": "BLOCKED",
+      "evidence": "3-5 sample files await clear redistribution permission; local research only authorized."
+    },
+    {
+      "requirement": "P1-02 ingestion",
+      "status": "PASS",
+      "evidence": "All downloaded files and arbitrary CSV inputs load; malformed inputs raise IngestionError."
+    },
+    {
+      "requirement": "P1-03 reference table",
+      "status": "PASS",
+      "evidence": "29 labels, 18 validation and 11 test; object-level disjoint split; reserved codes excluded."
+    },
+    {
+      "requirement": "P1-04 preprocessing",
+      "status": "PASS",
+      "evidence": "Actual rows, canonical sorting, masks, brightness direction, relative flux, retained flags and round trips."
+    },
+    {
+      "requirement": "P1-05 Stage 1",
+      "status": "PASS",
+      "evidence": "12 suitable and 35 limited real observations; clean/noisy/gapped/20-point controls pass."
+    },
+    {
+      "requirement": "P1-06 profiles",
+      "status": "PASS",
+      "evidence": "47 records; every record recomputed and matched to source; no reference periods or brightness arrays."
+    },
+    {
+      "requirement": "P2-01 simulator",
+      "status": "PASS",
+      "evidence": "Unmodified simulator; physical behavior and determinism tests pass; 1000-point box median 0.54427 ms."
+    },
+    {
+      "requirement": "P2-02 labels and pilot",
+      "status": "PASS",
+      "evidence": "1000 curves in 131.5609512 s; 700/150/150 splits; 700 period labels and 300 NRP; all required source quotas; serial/parallel deterministic regression."
+    },
+    {
+      "requirement": "P2-04 model skeleton",
+      "status": "PASS",
+      "evidence": "Unmodified model; 250753 parameters; receptive field 379; 129 outputs; gradients and one-batch overfit pass. seed=17 steps=24 initial=4.885478 final=0.982670 entropy=0.375302"
+    },
+    {
+      "requirement": "Period bounds and guards",
+      "status": "PASS",
+      "evidence": "SET 2.912 to 445.881 s from verified valid reported-period extrema; simulator injection and invalid/TBD guards pass."
+    },
+    {
+      "requirement": "Controller and app integration",
+      "status": "PASS",
+      "evidence": "All 47 observations processed through actual CP1 stages and round-tripped; all remain Inconclusive with later-stage stubs. Real-module app smoke passes."
+    },
+    {
+      "requirement": "Frozen interfaces and reference isolation",
+      "status": "PASS",
+      "evidence": "Signature, schema, serialization, reason-code, inference isolation and incomplete-verification guards pass."
+    }
+  ],
+  "modified_and_untracked_files": [
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\configs\\period_bounds.yaml",
+      "git_status": " M",
+      "reason": "Set audited extrema as the sole bounds source.",
+      "sha256": "b8346fd59156270dcec2f9f0fbb63e6e95f1a3498875df9fa4191562ec39b605"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\configs\\preprocess.yaml",
+      "git_status": " M",
+      "reason": "Supply configurable CP1 quality and flag thresholds.",
+      "sha256": "5cb6ed6326c080c98fe4bd1079d317354d82e2bd043ce72251a631b8ab49d176"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\configs\\simulation.yaml",
+      "git_status": " M",
+      "reason": "Configure audited ranges, complete quotas, split variants and deterministic parallel pilot.",
+      "sha256": "823d0f5b8331d2e86c27754f2e3ad188e5d22461414be5765640555e880ea32b"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\docs\\data_audit.md",
+      "git_status": " M",
+      "reason": "Record verified acquisition, bounds rationale, profiles, evaluation split and redistribution limitation.",
+      "sha256": "f66cf212c740ab21434d8ca218392ef2661ae5ae5fae17a7bf2a15fdfb372a8f"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ingestion\\__init__.py",
+      "git_status": " M",
+      "reason": "Replace fixture-only loader with validated adapters and ingestion errors.",
+      "sha256": "1e393b471bd35cf0c1b83ce37ba70f0cc178f977e2dff36384350f01224353e5"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ingestion\\reference.py",
+      "git_status": " M",
+      "reason": "Filter reserved codes, validate labels and assign deterministic object splits.",
+      "sha256": "46fe34bdad29d42b94a01bc99157e4ee12541decd33f9543fe1aa3d3b2f7aa01"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ml\\dataset\\generate.py",
+      "git_status": " M",
+      "reason": "Use clean repeat targets, accept valid undercoverage, verify mixtures, deterministic worker jobs and provenance.",
+      "sha256": "f2b39a5404339d21513de0f4ad5abdcd302335a80f81cbe1adf257a5130178aa"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ml\\dataset\\labels.py",
+      "git_status": " M",
+      "reason": "Optimize lag screening and exclude near-zero out-of-range shifts from the NRP rejection score.",
+      "sha256": "495e36dbe51f99f52f65638dc4a8b4ba7ed190fbb9351b7862be639954e4b9e1"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ml\\dataset\\sample_params.py",
+      "git_status": " M",
+      "reason": "Support configured mixture cycle ranges and illumination directions within split variants.",
+      "sha256": "053a6e63ef1eb44d872e2edc61620e1c46e34ea111826852af043bc291c2e4eb"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\preprocessing\\audit_sdlcd.py",
+      "git_status": " M",
+      "reason": "Preserve audit when raw inputs are absent and exclude duplicate intervals from cadence.",
+      "sha256": "202a9601f81dbd828fa3c4c5664e6a5bdd1461d2b8fbde2431410f53cb12649f"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\preprocessing\\prepare.py",
+      "git_status": " M",
+      "reason": "Process actual measurements, preserve originals, normalize, sort and flag without fixture substitution.",
+      "sha256": "d4a8c8a6f6e460f0ab817716c6e9a9d50e3029b488ce27ac44f9c922be50b24c"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\preprocessing\\quality.py",
+      "git_status": " M",
+      "reason": "Compute actual Stage 1 metrics and decisions using canonical reason constants.",
+      "sha256": "caef9fa0881eb681894c90f46a59168a42df086ecb5867731a9a13d4e899b027"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\tests\\p2\\test_labels.py",
+      "git_status": " M",
+      "reason": "Cover undercoverage, clean targets, repeat rejection, fast scores and serial/parallel reproducibility.",
+      "sha256": "431c4d410b49b2f8878ea0c03c67a4071d133a68afd7d67d05d0cd753d98cb2a"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\tests\\p2\\test_phase0_app.py",
+      "git_status": " M",
+      "reason": "Add app smoke test using real CP1 modules.",
+      "sha256": "199cb8f94c03a845f910369a924f48584c6ca40cbb5212c5015b3d8c4093f537"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\tests\\test_period_bounds.py",
+      "git_status": " M",
+      "reason": "Activate mandatory configured-bounds CP1 guard without a TBD skip.",
+      "sha256": "85c9f53aaf74815e0c8e68f665d02712bd0585cebaa80063a8509837387412c8"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\profiles\\sdlcd_profiles.json",
+      "git_status": "??",
+      "reason": "47 profiles derived from genuine downloaded observations.",
+      "sha256": "429cdf7d3ac9d163d8af59649d079da434d535f897483d29950b078f788f9825"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\reference\\reference_table.csv",
+      "git_status": "??",
+      "reason": "29 evaluation-only labels from 25 objects with disjoint object splits.",
+      "sha256": "b258d7ce1321b8e4baa266d1abf351ae16bf64868c2067c29c9b469c0f1aaf14"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\docs\\results\\runtime_cp1_recovery.json",
+      "git_status": "??",
+      "reason": "Measured real-data and pilot acceptance evidence.",
+      "sha256": "5f99059819b03875d525510aaf76cd38afada7b3eefbd8fd811af036f801aabe"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ingestion\\generic.py",
+      "git_status": "??",
+      "reason": "Parse CSV/whitespace measurements and timestamps; reject ambiguous and malformed rows.",
+      "sha256": "c32b700c2aa0f8aa12f547196a494367e16735e7e42ef97a8248b94b7afa09dc"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\ingestion\\sdlcd.py",
+      "git_status": "??",
+      "reason": "Parse the audited six-column layout without reference-label leakage.",
+      "sha256": "0b6152e2d775f9dabfd9c49d2ea6aa25f55468bbbb6cd55787081267d20f6c8b"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\preprocessing\\sampling_profile.py",
+      "git_status": "??",
+      "reason": "Build contract-shaped profiles from actual prepared observations.",
+      "sha256": "7380961d2bb2ee72bae3f3c238cb6cbda22347dfa47faa031730e70c7f8ae3f8"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\scripts\\download_sdlcd.py",
+      "git_status": "??",
+      "reason": "Reproduce authorized official-source acquisition with hashes and metadata; not rerun during final recovery.",
+      "sha256": "25494a11bf6fab00115ff42b0b0aad639ace961c203a7f2ae1cadf9d9b444376"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\scripts\\validate_cp1.py",
+      "git_status": "??",
+      "reason": "Validate local real-data handoff and pilot artifacts without downloads or regeneration.",
+      "sha256": "748a7a010b1bb281aadc10c9a3eb96f6bcdf89cab3cf28db0c0f9c6101d9d613"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\tests\\p1\\test_cp1_recovery.py",
+      "git_status": "??",
+      "reason": "Regress ingestion, sorting, masks, brightness direction, quality, profiles, references, audit preservation and controller handoff.",
+      "sha256": "0b8fea7dd059b5fb7625f690d00649f3ffa6d8d964951120c34a3c0925ed4462"
+    },
+    {
+      "path": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\docs\\results\\runtime_cp1_acceptance.json",
+      "git_status": "??",
+      "reason": "Final requirement matrix, tests, full file inventory and audit-finding resolutions."
+    }
+  ],
+  "prior_audit_findings": [
+    {
+      "finding": "Only bundled CSV accepted",
+      "status": "Resolved",
+      "evidence": "Generic and SDLCD adapters; arbitrary-input controller regressions."
+    },
+    {
+      "finding": "Preparation returned bundled fixture",
+      "status": "Resolved",
+      "evidence": "Actual measurements retained; distinct inputs yield distinct prepared arrays."
+    },
+    {
+      "finding": "Stage 1 always suitable",
+      "status": "Resolved",
+      "evidence": "Config-based decisions and control tests; real results 12 suitable/35 limited."
+    },
+    {
+      "finding": "Reference loader empty",
+      "status": "Resolved",
+      "evidence": "29 validated evaluation-only labels and deterministic object splits."
+    },
+    {
+      "finding": "Real raw files unavailable",
+      "status": "Resolved",
+      "evidence": "47 official originals and source manifest locally verified; no further acquisition needed."
+    },
+    {
+      "finding": "Sampling profiles unavailable",
+      "status": "Resolved",
+      "evidence": "47 actual profiles validated against the current prepared observations."
+    },
+    {
+      "finding": "Period bounds TBD / CP1 check skipped",
+      "status": "Resolved",
+      "evidence": "Evidence-based SET bounds; mandatory configured-bounds guard active."
+    },
+    {
+      "finding": "Under-covered quota rejected",
+      "status": "Resolved",
+      "evidence": "Clean-parent coverage policy generates 100 under-covered NRP observations across all splits."
+    },
+    {
+      "finding": "Observation-grid label contradicted clean signal",
+      "status": "Resolved",
+      "evidence": "Clean repeat is the target; sampled disagreement is rejected; symmetric boxes record half-cycle targets."
+    },
+    {
+      "finding": "Official pilot absent",
+      "status": "Resolved",
+      "evidence": "1000 curves generated, timed and validated; all shards and provenance checked."
+    },
+    {
+      "finding": "Audit could overwrite evidence when raw folder empty",
+      "status": "Resolved",
+      "evidence": "Early guard preserves existing CSV; regression passes."
+    },
+    {
+      "finding": "Duplicate interval biased cadence",
+      "status": "Resolved",
+      "evidence": "Only positive intervals used; existing actual-raw cadence tests pass."
+    },
+    {
+      "finding": "Stub app did not prove real-data integration",
+      "status": "Resolved",
+      "evidence": "All 47 real files processed through controller; app tested with real CP1 stages."
+    },
+    {
+      "finding": "Redistributable sample files absent",
+      "status": "Blocked",
+      "evidence": "Site notice does not explicitly establish redistribution permission."
+    },
+    {
+      "finding": "Passing simulator and CNN should be preserved",
+      "status": "Preserved",
+      "evidence": "Their implementation files were not modified; full acceptance tests pass."
+    }
+  ],
+  "focused_tests": [
+    {
+      "scope": "P1 plus label regressions before final fixes",
+      "result": "69 passed in 47.02 s"
+    },
+    {
+      "scope": "Labels plus real-module app after near-zero NRP fix",
+      "result": "50 passed in 52.71 s"
+    }
+  ],
+  "full_suite_history": [
+    {
+      "result": "203 passed, 1 failed in 84.70 s",
+      "reason": "Reason-code AST guard rejected status literal inside inline argument."
+    },
+    {
+      "result": "204 passed in 64.48 s",
+      "reason": "Explicit canonical reason-code branch; guard unchanged."
+    },
+    {
+      "result": "206 passed, 0 failed, 0 skipped in 77.35 s",
+      "reason": "Final extra-field CSV/whitespace regressions; latest source state."
+    }
+  ],
+  "final_suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "206",
+    "time": "77.304",
+    "timestamp": "2026-11-22T12:37:01.866832+05:30",
+    "hostname": "Garvit"
+  },
+  "full_test_log": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\outputs\\cp1_pytest_verified.log",
+  "simulator_box_ms": 0.54427,
+  "cnn_one_batch": "seed=17 steps=24 initial=4.885478 final=0.982670 entropy=0.375302",
+  "pilot": {
+    "directory": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\synthetic\\cp1_pilot",
+    "counts": {
+      "train": {
+        "reliable": 490,
+        "multi_frequency": 70,
+        "noise": 38,
+        "under_covered": 70,
+        "constant": 32
+      },
+      "val": {
+        "reliable": 105,
+        "under_covered": 15,
+        "noise": 5,
+        "multi_frequency": 15,
+        "constant": 10
+      },
+      "test": {
+        "reliable": 105,
+        "under_covered": 15,
+        "noise": 7,
+        "multi_frequency": 15,
+        "constant": 8
+      }
+    },
+    "seed": 17,
+    "wall_seconds": 131.5609512,
+    "config_hash": "311a3c52af3b59b796b9986172751f9391d9d4574f440886ce039ff4903687c0",
+    "source_identity": {
+      "sha256": "182863bb4f5f143a3c6f2127e3f0b57ed8c11f2233bd5b8c4b465c5905ff6e32",
+      "files": {
+        "core/config.py": "57fb7e8fb2639605dccbd9a139107fd2810c4b9cd2bb59bb0d181fd97bc43f8b",
+        "core/schemas.py": "68b02cd7764a154b9751279c630d05d18325ea128decf69ecc642eac49383406",
+        "ml/dataset/generate.py": "f2b39a5404339d21513de0f4ad5abdcd302335a80f81cbe1adf257a5130178aa",
+        "ml/dataset/labels.py": "495e36dbe51f99f52f65638dc4a8b4ba7ed190fbb9351b7862be639954e4b9e1",
+        "ml/dataset/sample_params.py": "053a6e63ef1eb44d872e2edc61620e1c46e34ea111826852af043bc291c2e4eb",
+        "physics/geometry.py": "71f46fdfe3fb73161b7f77e1b02ca31f01bebe5335bd25240a6578d00d72b636",
+        "physics/params.py": "ecd1d451a834693b68d9f2fbf1e60a9162ac8abd76b670fa32e57c5b8d287a0b",
+        "physics/simulator.py": "faee91547052f304c1b2108c54477dffcd5ebeb51fd79b0b7117c57be376bb90"
+      }
+    },
+    "sampling_profile_usage": "none: clean CP1 pilot; degradation is CP2",
+    "files": [
+      "pilot_train.npz",
+      "pilot_val.npz",
+      "pilot_test.npz",
+      "label_histogram.png",
+      "inspection.png",
+      "run_config.json"
+    ],
+    "visual_inspection": {
+      "split": "train",
+      "indices": [
+        0,
+        8,
+        12,
+        16,
+        25,
+        1,
+        18,
+        34,
+        31,
+        46,
+        2,
+        26,
+        69,
+        45,
+        79,
+        3,
+        28,
+        81,
+        67,
+        86
+      ],
+      "count": 20,
+      "observations": "Four curves from each displayed category: repeated modulation, mixed modulation, noise, flat constants and fewer-than-three-cycle parents. Short-period reliable curves additionally inspected over four cycles.",
+      "detail_plot": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\outputs\\cp1_inspection_detail.png"
+    }
+  },
+  "real_data_evidence": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\docs\\results\\runtime_cp1_recovery.json",
+  "ignored_raw_file_inventory": [
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\00029A_2_3_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\00041B_2_3_R_20191118_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\00080B_1_2_R_20190724_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\00080B_2_3_R_20190806_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\00080B_2_3_R_20190818_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\00080B_2_3_R_20190827_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\01019D_2_3_4_R_20190910_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\01038B_2_3_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\02003C_2_3_R_20190808_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\02029D_2_3_R_20191210_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\02048A_2_R_20190624_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\03007B_3_4_R_20190716_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\03012B_3_4_R_20190831_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\04041B_2_3_R_20190709_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\04043D_2_3_R_20190321_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\06018B_2_3_R_20190808_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\06034B_C_02_3_20170813_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\08003B_2_3_R_20191118_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\08062D_2_3_R_20191001_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\09017B_1_2_3_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\09054C_2_R_20190809_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\10008B_2_R_20190920_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\11021B_2_R_20190703_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12003B_1_2_3_4_5_R_20190910_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12003B_4_6_R_20190809_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12007B_3_4_R_20190715_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12011B_1_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12012D_11_12_R_20190811_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12016C_2_3_R_20191015_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12062B_1_R_20190626_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\12065B_2_3_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\13036B_2_4_R_20190709_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\13073C_2_3_R_20190910_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\14043D_2_3_R_20190930_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\15010C_1_2_3_R_20190531_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\15060B_2_3_R_20190716_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\15066A_2_3_R_20190910_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\15075H_3_R_20191203_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\16015A_2_3_R_20190705_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\16021B_2_R_20190704_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\17025B_1_2_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\18022B_2_3_R_20190809_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\19009C_1_R_2_I_20190809_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\66053J_2_3_R_20190322_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\67040F_1_2_R_20190723_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\67066G_2_3_R_20190904_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\70069A_2_3_R_20191022_DATA.txt",
+    "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\sdlcd_raw\\download_manifest.json"
+  ],
+  "preserved_output_snapshot_sha256": "2d4caaa9a06563743490cc7c17969b2ab97ca490c1f96545e70673a7aa0ef681",
+  "limitations": [
+    "Redistribution permission is unconfirmed; no raw observations were added to Git.",
+    "evaluation-criteria.txt is absent; acceptance uses CONTRACTS.md, the committed development plan and supplied recovery instructions.",
+    "Later estimators, reconciliation, verification and inference remain explicit stubs at CP1; this is not system readiness or measured real-period recovery.",
+    "Generic known-flux observations with nonpositive valid flux are explicitly rejected by preparation to preserve the positive relative-flux contract.",
+    "Real-profile degradation and shared feature generation remain CP2; no later-phase training/calibration claimed.",
+    "Tests reported 15 dependency deprecation warnings; no failures or skips."
+  ],
+  "independent_commands": [
+    ".\\.venv\\Scripts\\python.exe -m scripts.validate_cp1 --pilot data/synthetic/cp1_pilot",
+    ".\\.venv\\Scripts\\python.exe -m pytest -q",
+    "git status --short --untracked-files=all",
+    "git diff --check",
+    "git diff --stat"
+  ]
+}

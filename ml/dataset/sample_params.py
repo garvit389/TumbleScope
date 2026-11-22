@@ -17,6 +17,9 @@ def interval(value, name):
 
 
 def validate_design(cfg):
+    fraction = interval(cfg.get("mixture_cycle_fraction_range", [0., 1.]), "mixture cycle fraction")
+    if not 0 <= fraction[0] < fraction[1] <= 1:
+        raise ValueError("mixture cycle fractions must be ordered within [0,1]")
     for name in ("cadence_s", "min_cycles", "baseline_range_s", "variants", "quotas",
                  "flat_rtol", "repeat_tolerance", "nrp_min_residual", "sampling_tolerance", "max_attempts", "samples_per_cycle"):
         if cfg.get(name) is None:
@@ -89,8 +92,13 @@ def sample_params(cfg, split, rng):
         rho = rng.uniform(0., 1., len(rho))
     elif spec["surface"] == "cap_contrast":
         rho[-2:] = rng.uniform(0., 1.)
-    cycle = np.exp(rng.uniform(np.log(cfg["period_min_s"]), np.log(cfg["period_max_s"])))
+    lower, upper = cfg["period_min_s"], cfg["period_max_s"]
+    fractions = cfg.get("phase_cycle_fraction_range", [0., 1.])
+    interval_lower = lower + fractions[0] * (upper - lower)
+    interval_upper = lower + fractions[1] * (upper - lower)
+    cycle = np.exp(rng.uniform(np.log(interval_lower), np.log(interval_upper)))
     params = SimParams(shape, dimensions, tuple(rho), rng.uniform(*spec["polar_rad"]),
                        rng.uniform(0, 2*np.pi), rng.uniform(0, 2*np.pi), cycle,
-                       tuple(rng.normal(size=3)), tuple(rng.normal(size=3)), sides)
+                       tuple(spec.get("sun", rng.normal(size=3))),
+                       tuple(spec.get("observer", rng.normal(size=3))), sides)
     return params, index

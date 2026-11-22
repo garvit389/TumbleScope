@@ -1,28 +1,29 @@
-"""Phase 0 entry point for the bundled synthetic observation."""
-
+"""Observation adapters. See CONTRACTS.md for the public interface."""
 from pathlib import Path
 from typing import Optional
 
-import numpy as np
-
 from core.errors import IngestionError
 from core.schemas import Observation
-
-
-_DEMO = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "synthetic_sine.csv"
+from ingestion.generic import read_generic
+from ingestion.sdlcd import read_sdlcd
 
 
 def load_observation(path: str, fmt: Optional[str] = None) -> Observation:
     try:
-        source = Path(path).resolve()
-        if source != _DEMO or fmt not in (None, "csv"):
-            raise IngestionError("Phase 0 ingestion accepts only the bundled synthetic CSV.")
-        rows = np.loadtxt(source, delimiter=",", skiprows=1, dtype=np.float64, ndmin=2)
-        if rows.shape[1] != 2:
-            raise ValueError("expected two columns")
-        result = Observation(source.stem, rows[:, 0], rows[:, 1], None, "unknown",
-                             {"source_file": source.name})
+        source = Path(path)
+        text = source.read_text(encoding="utf-8-sig")
+        if not text.strip():
+            raise ValueError("file is empty")
+        kind = fmt.lower() if fmt is not None else None
+        if kind is None:
+            kind = "sdlcd" if any("Per[s]" in line for line in text.splitlines() if line.startswith("#")) else "csv"
+        if kind == "sdlcd":
+            result = read_sdlcd(source, text)
+        elif kind in ("csv", "txt", "generic"):
+            result = read_generic(source, text)
+        else:
+            raise ValueError(f"unsupported format {fmt!r}")
         result.validate()
-    except (OSError, TypeError, ValueError) as exc:
-        raise IngestionError(f"Could not read the synthetic fixture: {exc}") from exc
-    return result
+        return result
+    except (OSError, UnicodeError, TypeError, ValueError, OverflowError) as exc:
+        raise IngestionError(f"Could not read {path}: {exc}") from exc

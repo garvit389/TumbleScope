@@ -17,7 +17,7 @@ def flat_signal(values, flat_rtol):
 
 
 def template_repeat(values, phase_cycle_s, samples_per_cycle, tolerance, flat_rtol, *, wave=None):
-    """Diagnostic for an imposed cyclic waveform. Its fundamental divides the cycle."""
+    """Find the smallest compatible repeat of a clean imposed cyclic waveform."""
     n = samples_per_cycle
     values = np.asarray(values, dtype=float)
     if type(n) is not int or n < 4 or values.shape != (3*n,):
@@ -49,6 +49,21 @@ def template_repeat(values, phase_cycle_s, samples_per_cycle, tolerance, flat_rt
             if np.sqrt(np.mean((residual/scale)**2)) <= error:
                 return None
     return None
+
+
+def uniform_shift_scores(samples, reference, subdivision):
+    """RMS differences for grid shifts with a fixed, regularly sampled overlap."""
+    # Zero insertion preserves the original comparison times on a finer lag grid.
+    sparse_reference = np.zeros((len(reference) - 1) * subdivision + 1)
+    sparse_reference[::subdivision] = reference
+    products = correlate(samples, sparse_reference, mode="valid", method="fft")
+    energies = np.empty_like(products)
+    for offset in range(subdivision):
+        lane = samples[offset::subdivision]
+        cumulative = np.r_[0., np.cumsum(lane ** 2)]
+        energies[offset::subdivision] = cumulative[len(reference):] - cumulative[:-len(reference)]
+    squared = (energies + np.sum(reference ** 2) - 2 * products) / len(reference)
+    return np.sqrt(np.maximum(squared, 0.))
 
 
 def observation_label(times, values, cfg):
@@ -112,15 +127,22 @@ def observation_label(times, values, cfg):
 
     def candidates(subdivision):
         step = dt/subdivision
-        lags = np.unique(np.r_[np.arange(2*dt, high, step), low, high])
-        scores = np.array([residual(p) for p in lags])
+        grid = np.arange((len(t) - 1) * subdivision + 1) * step
+        scores = uniform_shift_scores(spline(grid), y[:len(ref)], subdivision)
+        lags = np.arange(len(scores)) * step
+        selected = (lags >= 2*dt) & (lags < high)
+        # The two bounds need exact evaluation when they are off the grid.
+        lags, unique = np.unique(np.r_[lags[selected], low, high], return_index=True)
+        scores = np.r_[scores[selected], residual(low), residual(high)][unique]
         indices = list(find_peaks(-scores)[0])
         if scores[0] <= scores[1]:
             indices.append(0)
         if scores[-1] <= scores[-2]:
             indices.append(len(scores)-1)
         matches = []
-        best = scores.min()
+        # Sub-bound repeats are screened to prevent harmonic promotion, but
+        # near-zero shifts do not measure the absence of an in-range period.
+        best = scores[lags >= low].min()
         for i in indices:
             lower, upper = lags[max(i-1,0)], lags[min(i+1,len(lags)-1)]
             fit = minimize_scalar(residual, bounds=(lower,upper), method="bounded",
@@ -128,7 +150,8 @@ def observation_label(times, values, cfg):
             if not fit.success or not np.isfinite(fit.fun):
                 raise ArithmeticError
             score, period = min((scores[i],lags[i]), (fit.fun,fit.x))
-            best = min(best,score)
+            if period >= low:
+                best = min(best, score)
             if compatible(period, score):
                 matches.append(period)
         return np.sort(matches), best
@@ -162,7 +185,7 @@ def observation_label(times, values, cfg):
 
 
 def mixture_has_repeat(wave, times, low, high, step, tolerance, flat_rtol):
-    """Analytic-wave diagnostic for legacy controls. Never used to label stored rows."""
+    """Check a densely sampled clean mixture before accepting an NRP target."""
     upper = min(high, (times[-1] - times[0]) / 3)
     if upper < low:
         raise ValueError("no adequately covered mixture lag")

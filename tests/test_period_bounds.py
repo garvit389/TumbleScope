@@ -43,8 +43,7 @@ def test_unset_api_rejects_bounds(monkeypatch, tmp_path):
 
 
 def test_configured_bounds():
-    if load_config().period_bounds["status"] == "TBD":
-        pytest.skip("Period bounds are TBD. P1 supplies them by CP1.")
+    assert load_config().period_bounds["status"] == "SET", "CP1 requires audited period bounds"
     lower, upper = get_period_bounds()
     assert 0 < lower < upper
     from ml.dataset.generate import simulation_config

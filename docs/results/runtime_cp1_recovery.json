@@ -1,0 +1,474 @@
+{
+  "real_files": 47,
+  "real_points": 10719,
+  "raw_hashes_verified": true,
+  "controller_quality_counts": {
+    "suitable": 12,
+    "limited": 35
+  },
+  "controller_verdict_counts": {
+    "Inconclusive": 47
+  },
+  "real_observations": [
+    {
+      "obs_id": "00029A_2_3_R_20190322_DATA",
+      "points": 273,
+      "stage1": "suitable",
+      "baseline_s": 1459.3
+    },
+    {
+      "obs_id": "00041B_2_3_R_20191118_DATA",
+      "points": 248,
+      "stage1": "limited",
+      "baseline_s": 1095.55
+    },
+    {
+      "obs_id": "00080B_1_2_R_20190724_DATA",
+      "points": 186,
+      "stage1": "limited",
+      "baseline_s": 787.622
+    },
+    {
+      "obs_id": "00080B_2_3_R_20190806_DATA",
+      "points": 260,
+      "stage1": "limited",
+      "baseline_s": 1106.18
+    },
+    {
+      "obs_id": "00080B_2_3_R_20190818_DATA",
+      "points": 264,
+      "stage1": "limited",
+      "baseline_s": 1078.53
+    },
+    {
+      "obs_id": "00080B_2_3_R_20190827_DATA",
+      "points": 242,
+      "stage1": "limited",
+      "baseline_s": 999.302
+    },
+    {
+      "obs_id": "01019D_2_3_4_R_20190910_DATA",
+      "points": 230,
+      "stage1": "limited",
+      "baseline_s": 1659.14
+    },
+    {
+      "obs_id": "01038B_2_3_R_20190322_DATA",
+      "points": 200,
+      "stage1": "limited",
+      "baseline_s": 1235.52
+    },
+    {
+      "obs_id": "02003C_2_3_R_20190808_DATA",
+      "points": 268,
+      "stage1": "limited",
+      "baseline_s": 1154.65
+    },
+    {
+      "obs_id": "02029D_2_3_R_20191210_DATA",
+      "points": 289,
+      "stage1": "limited",
+      "baseline_s": 1660.09
+    },
+    {
+      "obs_id": "02048A_2_R_20190624_DATA",
+      "points": 76,
+      "stage1": "limited",
+      "baseline_s": 626.486
+    },
+    {
+      "obs_id": "03007B_3_4_R_20190716_DATA",
+      "points": 223,
+      "stage1": "suitable",
+      "baseline_s": 1294.27
+    },
+    {
+      "obs_id": "03012B_3_4_R_20190831_DATA",
+      "points": 227,
+      "stage1": "limited",
+      "baseline_s": 982.886
+    },
+    {
+      "obs_id": "04041B_2_3_R_20190709_DATA",
+      "points": 138,
+      "stage1": "limited",
+      "baseline_s": 1369.44
+    },
+    {
+      "obs_id": "04043D_2_3_R_20190321_DATA",
+      "points": 322,
+      "stage1": "limited",
+      "baseline_s": 1716.77
+    },
+    {
+      "obs_id": "06018B_2_3_R_20190808_DATA",
+      "points": 226,
+      "stage1": "suitable",
+      "baseline_s": 1211.07
+    },
+    {
+      "obs_id": "06034B_C_02_3_20170813_DATA",
+      "points": 213,
+      "stage1": "suitable",
+      "baseline_s": 651.024
+    },
+    {
+      "obs_id": "08003B_2_3_R_20191118_DATA",
+      "points": 280,
+      "stage1": "limited",
+      "baseline_s": 1199.23
+    },
+    {
+      "obs_id": "08062D_2_3_R_20191001_DATA",
+      "points": 263,
+      "stage1": "suitable",
+      "baseline_s": 1195.08
+    },
+    {
+      "obs_id": "09017B_1_2_3_R_20190322_DATA",
+      "points": 354,
+      "stage1": "limited",
+      "baseline_s": 2546.21
+    },
+    {
+      "obs_id": "09054C_2_R_20190809_DATA",
+      "points": 77,
+      "stage1": "limited",
+      "baseline_s": 297.821
+    },
+    {
+      "obs_id": "10008B_2_R_20190920_DATA",
+      "points": 91,
+      "stage1": "suitable",
+      "baseline_s": 369.792
+    },
+    {
+      "obs_id": "11021B_2_R_20190703_DATA",
+      "points": 123,
+      "stage1": "limited",
+      "baseline_s": 508.205
+    },
+    {
+      "obs_id": "12003B_1_2_3_4_5_R_20190910_DATA",
+      "points": 563,
+      "stage1": "limited",
+      "baseline_s": 13078.2
+    },
+    {
+      "obs_id": "12003B_4_6_R_20190809_DATA",
+      "points": 304,
+      "stage1": "suitable",
+      "baseline_s": 1646.27
+    },
+    {
+      "obs_id": "12007B_3_4_R_20190715_DATA",
+      "points": 245,
+      "stage1": "limited",
+      "baseline_s": 1103.33
+    },
+    {
+      "obs_id": "12011B_1_R_20190322_DATA",
+      "points": 97,
+      "stage1": "limited",
+      "baseline_s": 580.694
+    },
+    {
+      "obs_id": "12012D_11_12_R_20190811_DATA",
+      "points": 280,
+      "stage1": "limited",
+      "baseline_s": 1138.15
+    },
+    {
+      "obs_id": "12016C_2_3_R_20191015_DATA",
+      "points": 236,
+      "stage1": "limited",
+      "baseline_s": 1180.92
+    },
+    {
+      "obs_id": "12062B_1_R_20190626_DATA",
+      "points": 92,
+      "stage1": "limited",
+      "baseline_s": 784.426
+    },
+    {
+      "obs_id": "12065B_2_3_R_20190322_DATA",
+      "points": 249,
+      "stage1": "limited",
+      "baseline_s": 1664.93
+    },
+    {
+      "obs_id": "13036B_2_4_R_20190709_DATA",
+      "points": 141,
+      "stage1": "limited",
+      "baseline_s": 1568.16
+    },
+    {
+      "obs_id": "13073C_2_3_R_20190910_DATA",
+      "points": 229,
+      "stage1": "limited",
+      "baseline_s": 974.506
+    },
+    {
+      "obs_id": "14043D_2_3_R_20190930_DATA",
+      "points": 269,
+      "stage1": "suitable",
+      "baseline_s": 1164.07
+    },
+    {
+      "obs_id": "15010C_1_2_3_R_20190531_DATA",
+      "points": 288,
+      "stage1": "suitable",
+      "baseline_s": 1648.51
+    },
+    {
+      "obs_id": "15060B_2_3_R_20190716_DATA",
+      "points": 114,
+      "stage1": "limited",
+      "baseline_s": 459.994
+    },
+    {
+      "obs_id": "15066A_2_3_R_20190910_DATA",
+      "points": 278,
+      "stage1": "limited",
+      "baseline_s": 1246.92
+    },
+    {
+      "obs_id": "15075H_3_R_20191203_DATA",
+      "points": 81,
+      "stage1": "suitable",
+      "baseline_s": 1425.95
+    },
+    {
+      "obs_id": "16015A_2_3_R_20190705_DATA",
+      "points": 207,
+      "stage1": "limited",
+      "baseline_s": 2501.28
+    },
+    {
+      "obs_id": "16021B_2_R_20190704_DATA",
+      "points": 59,
+      "stage1": "suitable",
+      "baseline_s": 220.838
+    },
+    {
+      "obs_id": "17025B_1_2_R_20190322_DATA",
+      "points": 392,
+      "stage1": "limited",
+      "baseline_s": 2139.26
+    },
+    {
+      "obs_id": "18022B_2_3_R_20190809_DATA",
+      "points": 120,
+      "stage1": "limited",
+      "baseline_s": 1298.16
+    },
+    {
+      "obs_id": "19009C_1_R_2_I_20190809_DATA",
+      "points": 227,
+      "stage1": "suitable",
+      "baseline_s": 984.701
+    },
+    {
+      "obs_id": "66053J_2_3_R_20190322_DATA",
+      "points": 268,
+      "stage1": "limited",
+      "baseline_s": 1684.8
+    },
+    {
+      "obs_id": "67040F_1_2_R_20190723_DATA",
+      "points": 369,
+      "stage1": "limited",
+      "baseline_s": 2052.78
+    },
+    {
+      "obs_id": "67066G_2_3_R_20190904_DATA",
+      "points": 300,
+      "stage1": "limited",
+      "baseline_s": 1519.08
+    },
+    {
+      "obs_id": "70069A_2_3_R_20191022_DATA",
+      "points": 238,
+      "stage1": "limited",
+      "baseline_s": 1497.23
+    }
+  ],
+  "profiles": 47,
+  "reference_labels": 29,
+  "reference_objects": 25,
+  "reference_splits": {
+    "test": 11,
+    "val": 18
+  },
+  "period_bounds": {
+    "status": "SET",
+    "min_period_s": 2.912,
+    "max_period_s": 445.881
+  },
+  "pilot_directory": "C:\\Users\\garvi\\Documents\\Prasunex_Tumblescope_Ebarbs\\data\\synthetic\\cp1_pilot",
+  "pilot_curves": 1000,
+  "pilot_splits": {
+    "train": 700,
+    "val": 150,
+    "test": 150
+  },
+  "pilot_source_quotas": {
+    "train": {
+      "reliable": 490,
+      "multi_frequency": 70,
+      "noise_or_constant": 70,
+      "under_covered": 70
+    },
+    "val": {
+      "reliable": 105,
+      "under_covered": 15,
+      "noise_or_constant": 15,
+      "multi_frequency": 15
+    },
+    "test": {
+      "reliable": 105,
+      "under_covered": 15,
+      "noise_or_constant": 15,
+      "multi_frequency": 15
+    }
+  },
+  "label_histogram": [
+    1,
+    7,
+    8,
+    5,
+    7,
+    5,
+    6,
+    3,
+    6,
+    7,
+    8,
+    5,
+    8,
+    7,
+    2,
+    3,
+    4,
+    2,
+    4,
+    2,
+    6,
+    4,
+    3,
+    4,
+    9,
+    9,
+    4,
+    4,
+    7,
+    7,
+    7,
+    8,
+    3,
+    5,
+    3,
+    6,
+    4,
+    5,
+    3,
+    3,
+    5,
+    3,
+    8,
+    3,
+    5,
+    10,
+    5,
+    8,
+    5,
+    5,
+    6,
+    1,
+    6,
+    9,
+    7,
+    3,
+    7,
+    6,
+    5,
+    7,
+    7,
+    6,
+    3,
+    8,
+    7,
+    7,
+    8,
+    11,
+    7,
+    7,
+    5,
+    9,
+    8,
+    7,
+    9,
+    2,
+    2,
+    5,
+    13,
+    6,
+    8,
+    4,
+    12,
+    9,
+    6,
+    4,
+    3,
+    10,
+    2,
+    4,
+    5,
+    6,
+    2,
+    10,
+    5,
+    6,
+    5,
+    10,
+    8,
+    8,
+    7,
+    3,
+    10,
+    4,
+    5,
+    9,
+    9,
+    6,
+    6,
+    7,
+    7,
+    2,
+    1,
+    0,
+    4,
+    1,
+    2,
+    0,
+    4,
+    0,
+    3,
+    3,
+    4,
+    5,
+    4,
+    3,
+    3,
+    6,
+    300
+  ],
+  "train_symmetric_half_cycle_labels": 490,
+  "pilot_wall_seconds": 131.5609512,
+  "pilot_under_three_minutes": true,
+  "pilot_manifest_and_all_shards_verified": true,
+  "sampling_profile_usage": "none: clean CP1 pilot; degradation is CP2",
+  "config_hash": "311a3c52af3b59b796b9986172751f9391d9d4574f440886ce039ff4903687c0",
+  "generator_source_sha256": "182863bb4f5f143a3c6f2127e3f0b57ed8c11f2233bd5b8c4b465c5905ff6e32",
+  "redistributable_samples": "BLOCKED: redistribution terms unconfirmed; local research authorized"
+}

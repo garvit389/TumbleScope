@@ -1,1 +1,7 @@
-{}
+# CP1 control-tested settings. Real-data validation remains required.
+gap_cadence_multiple: 3.0
+bright_outlier_mad: 6.0
+min_valid_points: 21
+max_gap_fraction: 0.25
+max_missing_fraction: 0.2
+min_amplitude_to_noise: 3.0
