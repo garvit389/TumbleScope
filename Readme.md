@@ -2,9 +2,9 @@
 
 **ML-led, physics-checked analysis of space-debris rotation from reflected sunlight.**
 
-[Status](https://img.shields.io/badge/status-Phase%200%20skeleton-orange) [Track](https://img.shields.io/badge/track-AI%20%26%20ML-blue) [Python](https://img.shields.io/badge/python-3.11-informational)
+[Track](https://img.shields.io/badge/track-AI%20%26%20ML-blue) [Python](https://img.shields.io/badge/python-3.11-informational)
 
-> **Project status: Phase 0 skeleton.** The shared contracts and synthetic demonstration establish the integration baseline. Scientific analysis and real-data evaluation are planned for Prasunex Innovathon 2026 (Round 2, AI & ML track). The design targets below do not represent measured results.
+> **Project status: P1 classical backend verified.** Ingestion, Stage 1 and both period estimators run on real SDLCD files. Shared CP2 acceptance remains open until the P2-owned Streamlit app can upload real SDLCD files and display Stage 1 quality and both candidate lists. The current app is a synthetic demo. [Backend verification](docs/results/p1_cp2_sdlcd_outputs.json)
 
 ---
 
@@ -33,7 +33,7 @@
 
 Defunct satellites and rocket bodies keep orbiting Earth, often spinning or tumbling without control. From the ground they are only points of light. As an object rotates, the sunlight it reflects toward a telescope changes, and the resulting brightness-versus-time record, a **lightcurve**, carries a signature of its rotation.
 
-TumbleScope takes a lightcurve and estimates its **apparent (synodic) rotational period**. It does not stop at a single number. It:
+TumbleScope takes a lightcurve and estimates its **apparent (synodic) rotational period**. The planned end-to-end workflow has four steps.
 
 1. **Proposes** candidate periods with a 1D CNN.
 2. **Cross-checks** them with two independent classical methods, Lomb–Scargle and Phase Dispersion Minimisation (PDM).
@@ -62,9 +62,11 @@ TumbleScope is a research and educational prototype. It is not an operational sp
 |**Candidate verification**|Candidates are clustered and checked for harmonic and alias relationships. The top-K are tested against the observation with a shared physics simulator, including held-out time blocks and decoy periods.|
 |**Evidence-based assessment**|Observation quality, method agreement and verification results are combined into a verdict with uncertainty and reason codes.|
 
-**Central hypothesis.** (1) Reconciling CNN, Lomb–Scargle and PDM retains the true candidate more often than any single method. (2) Physics verification plus calibrated abstention reduces false-_Supported_ verdicts, especially on noisy, short or gapped observations. Both are tested, not assumed. See [Evaluation plan](https://claude.ai/chat/d59ce6c1-fdb8-4090-a0be-8cecb1baec25#evaluation-plan).
+**Central hypothesis.** (1) Reconciling CNN, Lomb–Scargle and PDM retains the true candidate more often than any single method. (2) Physics verification plus calibrated abstention reduces false-_Supported_ verdicts, especially on noisy, short or gapped observations. Both hypotheses will be tested in the planned evaluation. [Evaluation plan](#evaluation-plan)
 
 ## Architecture
+
+The diagram shows the target architecture. See the status table for the implemented components.
 
 ```mermaid
 flowchart TB
@@ -99,7 +101,7 @@ flowchart TB
   A8 -. "loaded at inference" .-> B4
 ```
 
-An **evaluation and calibration** layer sits beside both workflows: synthetic ground truth, held-out simulator variants and real SDLCD reference labels feed baselines, ablations and stress tests, and then calibration and threshold selection. The final model and configuration are frozen before the test run.
+The planned **evaluation and calibration** layer will use synthetic ground truth, held-out simulator variants and real SDLCD reference labels for baselines, ablations, stress tests and threshold selection. The final model and configuration will be frozen before testing.
 
 ### Key design decisions
 
@@ -114,17 +116,15 @@ An **evaluation and calibration** layer sits beside both workflows: synthetic gr
 
 |#|Component|Purpose|Main tools|Status|
 |---|---|---|---|---|
-|1|Data ingestion|Parse SDLCD / CSV / TXT into a standard `Observation`|Python, Pandas, NumPy|Planned|
-|2|Preprocessing and quality gates|Sort, validate, normalise, flag gaps and suspicious points, assess quality|NumPy, SciPy, Astropy|Planned|
+|1|Data ingestion|Parse SDLCD / CSV / TXT into a standard `Observation`|Python, Pandas, NumPy|Implemented. Verified on real SDLCD files.|
+|2|Preprocessing and quality gates|Sort, validate, normalise, flag gaps and suspicious points, assess quality|NumPy, SciPy, Astropy|Preprocessing and Stage 1 implemented. Stage 2 planned.|
 |3|CNN period estimator|Probability distribution over apparent-period bins|PyTorch|Planned|
-|4|Classical analysis|Multi-term Lomb–Scargle and PDM candidate periods|Astropy, NumPy|Planned|
+|4|Classical analysis|Lomb–Scargle and PDM candidate periods, plus spectral-window alias offsets|Astropy, NumPy, SciPy|Implemented and verified on real SDLCD files.|
 |5|Candidate reconciliation|Cluster, harmonic/alias analysis, rank, top-K|NumPy, SciPy|Planned|
 |6|Physics verification|Forward simulation, fitting, held-out blocks, decoys|NumPy, SciPy|Planned|
 |7|Verdict and uncertainty|Supported / Ambiguous / Inconclusive with reason codes|Python, scikit-learn|Planned|
-|8|Dashboard|Interactive analysis, plots and 3D viewer|Streamlit, Plotly|Synthetic stub page. Full dashboard planned.|
+|8|Dashboard|Interactive analysis, plots and 3D viewer|Streamlit, Plotly|Synthetic stub page. Real SDLCD upload and quality and candidate displays are pending.|
 |—|Evaluation harness|Baselines, ablations, stress tests, calibration|Python, scikit-learn|Planned|
-
-> Update the **Status** column as components are built (for example `Prototype`, `Working`, `Evaluated`).
 
 ## Design details
 
@@ -135,6 +135,18 @@ An **evaluation and calibration** layer sits beside both workflows: synthetic gr
 - Originals are preserved. No automatic detrending by default.
 - **Stage 1 (observation level):** valid measurement count, duration, gaps, noise, sampling and exposure. Suitable → proceed; Limited → proceed with warnings; Insufficient → _Inconclusive_.
 - **Stage 2 (candidate level):** cycles observed, frequency resolution, candidate separation, aliases.
+
+### Classical analysis
+
+- **Lomb–Scargle** fits one to three sinusoidal terms on an irregular time grid and ranks peaks by normalized power. The default is one term.
+- **PDM** folds observations by trial period and ranks low-dispersion folds using `1 - theta`. It defaults to ten phase bins with at least three measurements in each usable bin.
+- **Spectral window** uses valid timestamps to identify sampling alias offsets. It reports up to five peaks above a heuristic height of 0.05 relative to zero-frequency power. Its 16,385-point cap can miss narrow peaks when long baselines force coarser spacing.
+
+LS and PDM share the injected period bounds and a 5× oversampled grid with a cap of half the inverse median cadence. Each reports up to five candidates with a period, raw score, within-method support, and frequency width. The strongest retained candidate has support 1. Successful searches include a periodogram limited to 1,000 points and can return an empty candidate list. [Defaults](configs/classical.yaml) · [Scoring and metadata](docs/technical_doc.md#methods-ranking-and-outputs)
+
+The synthetic significance calibration selected **0.025 for LS** and **0.05 for PDM** under independent Gaussian noise. In the correlated-noise control, PDM frequently returned candidates, so its white-noise calibration has limited applicability to correlated observations. [LS calibration](docs/results/p1_cp2_ls_calibration.json) · [PDM calibration](docs/results/p1_cp2_pdm_calibration.json) · [PDM correlated-noise control](docs/results/p1_cp2_pdm_correlated_noise.json)
+
+Backend verification on three real SDLCD lightcurves produced separate LS and PDM candidate lists for `00029A` and `00080B`. Both estimators returned successful empty searches on `00041B`. All three spectral windows passed their output checks. [Real-file outputs](docs/results/p1_cp2_sdlcd_outputs.json) · [Reproduction command](docs/technical_doc.md#reproduce-the-cp2-evidence)
 
 ### CNN period estimator (proposed design)
 
@@ -168,7 +180,7 @@ _The parameter count and receptive field are design estimates to be checked agai
 
 Development targets: 1,000 curves (generator and label pilot) → 20,000 (MVP corpus) → 50,000 (stretch). These are targets, not completed counts.
 
-### Candidate reconciliation
+### Candidate reconciliation (planned)
 
 Candidates from the three estimators are clustered with tolerances tied to frequency resolution, then checked for harmonic (P vs 2P) and sampling-alias relationships. Each candidate is scored on normalised evidence:
 
@@ -187,7 +199,7 @@ $$B \propto A,\rho,\max(0,\mathbf{n}\cdot\mathbf{s}),\max(0,\mathbf{n}\cdot\math
 - Brightness convention is preserved: linear flux/ADU is fitted with a scale and offset; magnitudes use $m_{sim} = -2.5\log_{10}(F_{sim}) + C$ with a fitted zero point $C$; unknown conventions fall back to a labelled normalised-shape comparison.
 - **Not modelled:** full tumbling dynamics, detailed self-shadowing, exact 3D reconstruction.
 
-### Physics verification protocol
+### Physics verification protocol (planned)
 
 1. **Fit** supported geometries, orientations and surface properties for each shortlisted candidate.
 2. **Solve scale and offset analytically** by least squares: $y_{obs}(t) \approx a,F_{sim}(t) + b$.
@@ -199,7 +211,7 @@ $$B \propto A,\rho,\max(0,\mathbf{n}\cdot\mathbf{s}),\max(0,\mathbf{n}\cdot\math
 
 A good fit shows compatibility with a _model_. It is not proof of the object's true shape or rotation state, and synthetic AUC is not evidence of real-world accuracy.
 
-### Verdicts
+### Verdicts (planned full behavior)
 
 |Verdict|Meaning|
 |---|---|
@@ -209,7 +221,7 @@ A good fit shows compatibility with a _model_. It is not proof of the object's t
 
 Reason codes: `low_quality`, `no_periodic_signal`, `conflicting_methods`, `harmonic_ambiguity`, `alias_ambiguity`, `candidate_inadequate`, `model_mismatch`, `geometry_uncertainty`, `verification_incomplete`.
 
-Thresholds and calibration are set on object-disjoint validation data. The system reports the measured false-_Supported_ rate and risk–coverage behaviour, and does not treat raw CNN probability as confidence. If verification cannot finish, the result is _Ambiguous_ with `verification_incomplete`, never _Supported_.
+The planned evaluation will tune thresholds on object-disjoint validation data and report the measured false-_Supported_ rate and risk–coverage behaviour. The design uses calibrated evidence for confidence. If verification cannot finish, the result is _Ambiguous_ with `verification_incomplete`, never _Supported_.
 
 ## Scope and limitations
 
@@ -310,9 +322,16 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m streamlit run app/main.py
 ```
 
-If the Python launcher is unavailable, use the full path to your Python 3.11 executable for the first command. The launcher and application run directly from the checkout. The Streamlit page displays the bundled synthetic lightcurve and a visibly marked stub result. See [CONTRACTS.md](CONTRACTS.md) for interfaces and [TumbleScopeSplit.md](TumbleScopeSplit.md) for ownership and handoff steps.
+If the Python launcher is unavailable, use the full path to your Python 3.11 executable. The Streamlit page currently runs the synthetic demo. The real-file backend can be run directly from Python. [Backend smoke check](docs/technical_doc.md#acceptance-checks-and-real-sdlcd-verification)
 
-For the Phase 0 handoff, run the full test suite and open the stub app on both machines. At this stage the live configured-bounds test can skip while the bounds are unset. Use the amended development plan supplied with the handoff for the schedule and [CONTRACTS.md §13](CONTRACTS.md#13-automated-guards-by-checkpoint) for guard activation.
+With the virtual environment active, run the P1 and full test suites from the repository root.
+
+```powershell
+python -m pytest tests/p1 -q
+python -m pytest -q
+```
+
+The P1 suite includes checks that use the locally downloaded SDLCD files. [P1 test commands](docs/technical_doc.md#tests) · [Frozen contracts](CONTRACTS.md) · [Development plan](TumbleScope%20-%205-Day%20Development%20Plan%20and%20Two-Person%20Work%20Division.md)
 
 ## Roadmap
 
