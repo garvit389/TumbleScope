@@ -1,6 +1,6 @@
 """Descriptions of the verification evidence available for alternatives."""
 
-from core.schemas import required_verification_ids
+from core.schemas import harmonic_resolved_for, required_verification_ids
 
 
 def _alternatives(recon, verification):
@@ -17,8 +17,8 @@ def _alternatives(recon, verification):
             why = "Verification is unfinished."
         elif not record.passed:
             why = "The fit did not meet all provisional verification criteria."
-        elif record.harmonic_comparison and record.harmonic_comparison["prefers"] == "undecided":
-            why = "The harmonic comparison is undecided."
+        elif not harmonic_resolved_for(verification, cluster):
+            why = "The harmonic evidence does not establish this candidate over its partners."
         else:
             why = "The candidate met both provisional verification criteria."
         options.append({"cluster_id": cluster.cluster_id, "period_s": cluster.period_s, "why": why})

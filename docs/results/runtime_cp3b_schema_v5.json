@@ -1,0 +1,472 @@
+{
+  "schema_version": 5,
+  "mode": "fast",
+  "base_revision": "7d56ff269bf67bf340bff99cfd72bf5d04264790",
+  "source_sha256": {
+    "core/schemas.py": "6fe5656dacadc69a8e82265e834e0d478d5db440582ddaf09541d98caeb0c294",
+    "physics/verify.py": "b21105ac569d1b283da1671a0733241a489bd1376eace9987d8dddb7df00b791",
+    "pipeline/controller.py": "6d4327ccf0a12093836a074f0d47e9a6c8902836c57729bd984a3b5c7266b9dc",
+    "verdict/decide.py": "c4f8aacacc5dcc9fde76485f19e281fac9a6e0fa61bdf5dde85f35d4929abbf6",
+    "configs/reconcile.yaml": "9ef3479446f8e396fe18660c38b1b6882ea90b16a00ef14c2815f1244e639ef3",
+    "configs/verification.yaml": "e80f0f22a5d6169420143c244e009e02c28f0171c84d3e76df2044c5c5c907fc"
+  },
+  "real_runs": [
+    {
+      "file": "00029A_2_3_R_20190322_DATA.txt",
+      "input_sha256": "d9827a8501562307aa6aac29a83062dce1fd1bd022c5ffbac81cc88d8e7575b4",
+      "wall_s": 19.727659899974242,
+      "config_hash": "e30fe1647bc4018e2fd214a24ad90d97899a5e1299ae80298cb52804f28f1f3d",
+      "timings_s": {
+        "run_config": 0.33019630005583167,
+        "prepare": 0.008223699987865984,
+        "stage1": 0.002515600062906742,
+        "period_bounds": 1.3300101272761822e-05,
+        "cnn": 0.1518736999714747,
+        "lomb_scargle": 0.08309289999306202,
+        "pdm": 0.045727299991995096,
+        "reconciliation": 0.1689953999593854,
+        "verification": 18.892040699953213,
+        "verdict": 0.0031664998969063163
+      },
+      "stage_errors": {},
+      "verdict": "Ambiguous",
+      "reason_codes": [
+        "model_mismatch"
+      ],
+      "shortlist": [
+        7,
+        4,
+        2
+      ],
+      "verification_complete": true,
+      "fit_records": [
+        {
+          "cluster_id": 7,
+          "period_s": 32.66095267259826,
+          "status": "ok",
+          "fit_error": 37.92061969021657,
+          "heldout_error": 41.036381958235076,
+          "decoy_periods_s": [
+            44.745505161459626,
+            19.92318113028494
+          ],
+          "decoy_delta_e": [
+            0.39977646663746214,
+            0.3331909298068112
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": -37.33761866478577,
+            "offset_b": 55.88401864986116,
+            "shape": "cylinder",
+            "geometry_errors": {
+              "box": 41.33776727186179,
+              "cylinder": 40.62081810638892
+            }
+          },
+          "notes": [
+            "Representative coefficients from first chronological fold"
+          ]
+        },
+        {
+          "cluster_id": 4,
+          "period_s": 65.56902150606562,
+          "status": "ok",
+          "fit_error": 31.937559831070985,
+          "heldout_error": 40.54463930399462,
+          "decoy_periods_s": [
+            89.8295594633099,
+            39.99710311870003
+          ],
+          "decoy_delta_e": [
+            0.18766760092412227,
+            1.0050772961322423
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": 7486.773549330863,
+            "offset_b": -2.7255311028140623,
+            "shape": "cylinder",
+            "geometry_errors": {
+              "box": 41.3143136585147,
+              "cylinder": 40.54463930399462
+            }
+          },
+          "notes": [
+            "Representative coefficients from first chronological fold"
+          ]
+        },
+        {
+          "cluster_id": 2,
+          "period_s": 131.87353956621314,
+          "status": "ok",
+          "fit_error": 28.874100279939437,
+          "heldout_error": 30.696414662639544,
+          "decoy_periods_s": [
+            80.44285913539001
+          ],
+          "decoy_delta_e": [
+            10.411535850258641
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": 763.0790986270482,
+            "offset_b": -1.5452888129411118,
+            "shape": "box",
+            "geometry_errors": {
+              "box": 30.696414662639544,
+              "cylinder": 33.32238169608177
+            }
+          },
+          "notes": [
+            "Excluded decoy 180.666749206 s (harmonic frequency)",
+            "Representative coefficients from first chronological fold"
+          ]
+        },
+        {
+          "cluster_id": 8,
+          "period_s": 16.471241626551418,
+          "status": "ok",
+          "fit_error": 36.2452474313882,
+          "heldout_error": 37.408354578907186,
+          "decoy_periods_s": [
+            22.565601028375443,
+            10.047457392196364
+          ],
+          "decoy_delta_e": [
+            3.446432909487882,
+            4.435924660343524
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": 289.0536424130421,
+            "offset_b": -1.3732572928467612,
+            "shape": "box",
+            "geometry_errors": {
+              "box": 37.098505917848065,
+              "cylinder": 37.45189174796737
+            }
+          },
+          "notes": [
+            "Representative coefficients from first chronological fold"
+          ]
+        }
+      ],
+      "harmonic_comparisons": [
+        {
+          "pair_id": "4:2",
+          "short_cluster_id": 4,
+          "long_cluster_id": 2,
+          "short_period_s": 65.56902150606562,
+          "long_period_s": 131.87353956621314,
+          "ratio": 2.0,
+          "status": "ok",
+          "prefers": "2P",
+          "short_heldout_error": 40.54463930399462,
+          "long_heldout_error": 30.696414662639544,
+          "delta_e": -9.848224641355078,
+          "margin": 0.05,
+          "reason": null,
+          "notes": [
+            "P: even shorter-period cycles: n=138, normalized RMS=44.3154206",
+            "P: odd shorter-period cycles: n=135, normalized RMS=36.4170295",
+            "2P: even shorter-period cycles: n=138, normalized RMS=31.2253574",
+            "2P: odd shorter-period cycles: n=135, normalized RMS=30.3231316",
+            "AIC/BIC not compared: equal free parameter counts"
+          ]
+        },
+        {
+          "pair_id": "7:4",
+          "short_cluster_id": 7,
+          "long_cluster_id": 4,
+          "short_period_s": 32.66095267259826,
+          "long_period_s": 65.56902150606562,
+          "ratio": 2.0,
+          "status": "ok",
+          "prefers": "2P",
+          "short_heldout_error": 41.036381958235076,
+          "long_heldout_error": 40.54463930399462,
+          "delta_e": -0.49174265424045416,
+          "margin": 0.05,
+          "reason": null,
+          "notes": [
+            "P: even shorter-period cycles: n=141, normalized RMS=54.9721274",
+            "P: odd shorter-period cycles: n=132, normalized RMS=16.792129",
+            "2P: even shorter-period cycles: n=141, normalized RMS=55.3219577",
+            "2P: odd shorter-period cycles: n=132, normalized RMS=11.843686",
+            "AIC/BIC not compared: equal free parameter counts"
+          ]
+        },
+        {
+          "pair_id": "8:7",
+          "short_cluster_id": 8,
+          "long_cluster_id": 7,
+          "short_period_s": 16.471241626551418,
+          "long_period_s": 32.66095267259826,
+          "ratio": 2.0,
+          "status": "ok",
+          "prefers": "P",
+          "short_heldout_error": 37.408354578907186,
+          "long_heldout_error": 41.036381958235076,
+          "delta_e": 3.6280273793278894,
+          "margin": 0.05,
+          "reason": null,
+          "notes": [
+            "P: even shorter-period cycles: n=141, normalized RMS=48.6374193",
+            "P: odd shorter-period cycles: n=132, normalized RMS=21.3953932",
+            "2P: even shorter-period cycles: n=141, normalized RMS=55.3746311",
+            "2P: odd shorter-period cycles: n=132, normalized RMS=15.3144483",
+            "AIC/BIC not compared: equal free parameter counts"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "00080B_1_2_R_20190724_DATA.txt",
+      "input_sha256": "592d73f3f08b8da59fbd9f3724e164f427e4c157c9bba615ef8c71dfa1a60d12",
+      "wall_s": 14.312884000013582,
+      "config_hash": "e30fe1647bc4018e2fd214a24ad90d97899a5e1299ae80298cb52804f28f1f3d",
+      "timings_s": {
+        "run_config": 0.32103580003604293,
+        "prepare": 0.0039694999577477574,
+        "stage1": 0.0020123999565839767,
+        "period_bounds": 1.100008375942707e-05,
+        "cnn": 0.0555939000332728,
+        "lomb_scargle": 0.05990600003860891,
+        "pdm": 0.018379999906755984,
+        "reconciliation": 0.06998390005901456,
+        "verification": 13.742757700034417,
+        "verdict": 0.0015975999413058162
+      },
+      "stage_errors": {},
+      "verdict": "Ambiguous",
+      "reason_codes": [
+        "low_quality",
+        "harmonic_ambiguity",
+        "candidate_inadequate"
+      ],
+      "shortlist": [
+        5,
+        9,
+        3
+      ],
+      "verification_complete": true,
+      "fit_records": [
+        {
+          "cluster_id": 5,
+          "period_s": 11.754255263592007,
+          "status": "ok",
+          "fit_error": 0.7743366836044615,
+          "heldout_error": 1.1107596133983193,
+          "decoy_periods_s": [
+            16.103329711121052,
+            7.1700957107911245
+          ],
+          "decoy_delta_e": [
+            -0.14032857138559007,
+            -0.1262060201680677
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": -24.775676253799045,
+            "offset_b": 14.133539122363112,
+            "shape": "cylinder",
+            "geometry_errors": {
+              "box": 1.2337612459221294,
+              "cylinder": 1.1107596133983193
+            }
+          },
+          "notes": [
+            "Representative coefficients from first chronological fold"
+          ]
+        },
+        {
+          "cluster_id": 9,
+          "period_s": 6.025542310483919,
+          "status": "ok",
+          "fit_error": 0.9175759162691167,
+          "heldout_error": 1.0639750460937896,
+          "decoy_periods_s": [
+            8.25499296536297,
+            3.6755808093951905
+          ],
+          "decoy_delta_e": [
+            -0.11345873492154623,
+            -0.09925780407066742
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": 1.0211073101135113,
+            "offset_b": -0.09251034236387473,
+            "shape": "cylinder",
+            "geometry_errors": {
+              "box": 1.0651600811340811,
+              "cylinder": 1.0486810680908862
+            }
+          },
+          "notes": [
+            "Representative coefficients from first chronological fold"
+          ]
+        },
+        {
+          "cluster_id": 3,
+          "period_s": 23.765089518257348,
+          "status": "ok",
+          "fit_error": 0.2582065562193068,
+          "heldout_error": 0.3022402644474564,
+          "decoy_periods_s": [
+            32.55817264001257,
+            14.496704606136982
+          ],
+          "decoy_delta_e": [
+            0.6017588459983647,
+            0.7492328516745796
+          ],
+          "passed": true,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": -1.172582842052804,
+            "offset_b": 1.250746330984596,
+            "shape": "box",
+            "geometry_errors": {
+              "box": 0.3022402644474564,
+              "cylinder": 0.6233819238948844
+            }
+          },
+          "notes": [
+            "Representative coefficients from first chronological fold"
+          ]
+        },
+        {
+          "cluster_id": 10,
+          "period_s": 2.9697961143524387,
+          "status": "ok",
+          "fit_error": 0.9191331937806749,
+          "heldout_error": 1.0192005263258896,
+          "decoy_periods_s": [
+            4.068620676662841
+          ],
+          "decoy_delta_e": [
+            -0.05521869880720065
+          ],
+          "passed": false,
+          "best_params": {
+            "fit_space": "flux_rel",
+            "scale_a": 0.3429985978729507,
+            "offset_b": 0.37673527951578384,
+            "shape": "box",
+            "geometry_errors": {
+              "box": 0.9961933929806429,
+              "cylinder": 1.0192005263258896
+            }
+          },
+          "notes": [
+            "Excluded decoy 1.81157562975 s (outside period bounds)",
+            "Representative coefficients from first chronological fold"
+          ]
+        }
+      ],
+      "harmonic_comparisons": [
+        {
+          "pair_id": "5:3",
+          "short_cluster_id": 5,
+          "long_cluster_id": 3,
+          "short_period_s": 11.754255263592007,
+          "long_period_s": 23.765089518257348,
+          "ratio": 2.0,
+          "status": "ok",
+          "prefers": "2P",
+          "short_heldout_error": 1.1107596133983193,
+          "long_heldout_error": 0.3022402644474564,
+          "delta_e": -0.8085193489508629,
+          "margin": 0.05,
+          "reason": null,
+          "notes": [
+            "P: even shorter-period cycles: n=94, normalized RMS=1.14152795",
+            "P: odd shorter-period cycles: n=92, normalized RMS=1.0881517",
+            "2P: even shorter-period cycles: n=94, normalized RMS=0.274602185",
+            "2P: odd shorter-period cycles: n=92, normalized RMS=0.33036072",
+            "AIC/BIC not compared: equal free parameter counts"
+          ]
+        },
+        {
+          "pair_id": "9:5",
+          "short_cluster_id": 9,
+          "long_cluster_id": 5,
+          "short_period_s": 6.025542310483919,
+          "long_period_s": 11.754255263592007,
+          "ratio": 2.0,
+          "status": "ok",
+          "prefers": "undecided",
+          "short_heldout_error": 1.0639750460937896,
+          "long_heldout_error": 1.1107596133983193,
+          "delta_e": 0.046784567304529734,
+          "margin": 0.05,
+          "reason": null,
+          "notes": [
+            "P: even shorter-period cycles: n=94, normalized RMS=1.14322816",
+            "P: odd shorter-period cycles: n=92, normalized RMS=0.977208422",
+            "2P: even shorter-period cycles: n=94, normalized RMS=1.1192354",
+            "2P: odd shorter-period cycles: n=92, normalized RMS=1.11156103",
+            "AIC/BIC not compared: equal free parameter counts"
+          ]
+        },
+        {
+          "pair_id": "10:9",
+          "short_cluster_id": 10,
+          "long_cluster_id": 9,
+          "short_period_s": 2.9697961143524387,
+          "long_period_s": 6.025542310483919,
+          "ratio": 2.0,
+          "status": "ok",
+          "prefers": "undecided",
+          "short_heldout_error": 1.0192005263258896,
+          "long_heldout_error": 1.0639750460937896,
+          "delta_e": 0.04477451976789992,
+          "margin": 0.05,
+          "reason": null,
+          "notes": [
+            "P: even shorter-period cycles: n=96, normalized RMS=0.999851432",
+            "P: odd shorter-period cycles: n=90, normalized RMS=1.0433311",
+            "2P: even shorter-period cycles: n=96, normalized RMS=1.13795184",
+            "2P: odd shorter-period cycles: n=90, normalized RMS=0.979771377",
+            "AIC/BIC not compared: equal free parameter counts"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "00041B_2_3_R_20191118_DATA.txt",
+      "input_sha256": "5c399a89617fc43d0a066bb7e3d45f000dcd1f7ee4eecadedff6a87a933f60ec",
+      "wall_s": 0.48092779994476587,
+      "config_hash": "e30fe1647bc4018e2fd214a24ad90d97899a5e1299ae80298cb52804f28f1f3d",
+      "timings_s": {
+        "run_config": 0.2897209000075236,
+        "prepare": 0.0068292999640107155,
+        "stage1": 0.0016147999558597803,
+        "period_bounds": 1.009996049106121e-05,
+        "cnn": 0.04929410002660006,
+        "lomb_scargle": 0.06925639999099076,
+        "pdm": 0.023761100019328296,
+        "reconciliation": 0.0020232999231666327,
+        "verdict": 0.00022240006364881992
+      },
+      "stage_errors": {},
+      "verdict": "Inconclusive",
+      "reason_codes": [
+        "low_quality",
+        "no_periodic_signal"
+      ],
+      "shortlist": [],
+      "verification_complete": null,
+      "fit_records": [],
+      "harmonic_comparisons": []
+    }
+  ]
+}

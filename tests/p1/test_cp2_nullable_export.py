@@ -8,6 +8,7 @@ from core.schemas import (AnalysisResult, LOW_QUALITY, NOT_RUN, QualityReport,
                           VERIFICATION_INCOMPLETE, assert_contract_equal)
 from evaluation.cp2_evidence import analysis_disposition, analysis_evidence
 from pipeline import controller
+from tests.verification_cases import with_candidate_fits
 
 
 def fail(*args, **kwargs):
@@ -29,7 +30,8 @@ def test_completed_exports_preserve_legacy_fields(monkeypatch, observation, inje
                         best_params={"shape": "fixture", "geometry_errors": {"fixture": .2},
                                      "fit_space": "y_norm", "scale_a": 1., "offset_b": 0.})
                 for record in ambiguous.verification.per_candidate]
-    verification = replace(ambiguous.verification, per_candidate=finished, complete=True)
+    finished[1] = replace(finished[1], heldout_error=.3)
+    verification = with_candidate_fits(ambiguous.verification, finished)
     supported = replace(ambiguous, verification=verification,
                         verdict=replace(ambiguous.verdict, label="Supported", reason_codes=[],
                                         best_period_s=8., best_cluster_id=1))
@@ -62,7 +64,7 @@ def test_pending_and_all_execution_states(monkeypatch, observation, injected_con
         original = controller.verify_candidates
         def complete(*args, **kwargs):
             base = original(*args, **kwargs)
-            return replace(base, complete=True, per_candidate=[
+            return with_candidate_fits(base, [
                 replace(record, status="ok", passed=True, fit_error=.1, heldout_error=.2,
                         best_params={"shape": "fixture", "geometry_errors": {"fixture": .2},
                                      "fit_space": "y_norm", "scale_a": 1., "offset_b": 0.})

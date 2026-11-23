@@ -1,4 +1,4 @@
-"""Measure schema-v3 verification on 50 clean synthetic development curves."""
+"""Measure verification on 50 clean synthetic development curves."""
 
 import argparse
 from collections import Counter
@@ -13,7 +13,7 @@ import torch
 
 from classical_analysis.window import compute_window
 from core.config import load_config, resolve_period_bounds
-from core.schemas import Observation, Cluster, ReconciliationResult, stage2_pending
+from core.schemas import SCHEMA_VERSION, Observation, Cluster, ReconciliationResult, stage2_pending
 from ingestion import load_observation
 from ml.bundle import digest
 from ml.dataset.corpus import ROOT
@@ -130,9 +130,9 @@ def evaluate(config):
     known = {row["group"]: row for row in timing_rows}
     measured = [known.get(int(case[0].obs_id)) or run_case(case, cfg) for case in cases]
     revision = controller._repository_revision()
-    return {"schema_version": 3, "revision": revision, "environment": _environment(),
+    return {"schema_version": SCHEMA_VERSION, "revision": revision, "environment": _environment(),
             "population": "First 50 reliable synthetic development groups, without degradation",
-            "provisional": True, "scope": "Single truth candidate per curve under the schema-v3 verifier",
+            "provisional": True, "scope": "Single truth candidate per curve",
             "verification_policy": cfg, "timing_profile": "lighter" if slow else "existing",
             "initial_timing": timed, "timing": _summarize(timing_rows),
             "timing_groups": [row["group"] for row in timing_rows],

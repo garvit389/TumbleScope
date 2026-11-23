@@ -1,4 +1,4 @@
-"""Scientific verdicts for the schema-v3 decision table."""
+"""Scientific verdicts for the contract decision table."""
 
 from itertools import combinations
 from math import isfinite
@@ -9,7 +9,7 @@ from core.schemas import (
     CANDIDATE_INADEQUATE, CONFLICTING_METHODS, HARMONIC_AMBIGUITY, LOW_QUALITY,
     MODEL_MISMATCH, NO_PERIODIC_SIGNAL, REASON_CODES, VERIFICATION_INCOMPLETE,
     CandidateVerification, EstimatorResult, QualityReport, ReconciliationResult, VerificationResult, Verdict,
-    stage2_pending,
+    check_verification_scope, harmonic_resolved_for, stage2_pending,
 )
 from verdict.reasons import _alternatives
 
@@ -23,7 +23,7 @@ def _select_record(recon: ReconciliationResult,
     ))
 
 
-def _passing_decision(estimators, clusters, lead, record, cfg, summary):
+def _passing_decision(estimators, clusters, lead, record, verification, cfg, summary):
     minimum = cfg.get("min_agreeing_estimators", 2)
     maximum = cfg.get("alias_risk_max")
     if type(minimum) is not int or not 2 <= minimum <= 3:
@@ -61,29 +61,26 @@ def _passing_decision(estimators, clusters, lead, record, cfg, summary):
     elif lead.alias_risk == maximum:
         blocked.append("alias equality")
 
-    comparison = record.harmonic_comparison
-    if lead.harmonic_links:
-        linked_ids = {link["other_id"] for link in lead.harmonic_links}
-        if len(linked_ids) > 1 or comparison is None or comparison["partner_id"] not in linked_ids:
-            blocked.append("harmonic comparison scope")
-        elif comparison["prefers"] == "undecided":
-            reasons.append(HARMONIC_AMBIGUITY)
-        else:
-            partner = next(cluster for cluster in clusters if cluster.cluster_id == comparison["partner_id"])
-            preferred = "P" if lead.period_s < partner.period_s else "2P"
-            if comparison["prefers"] != preferred:
-                blocked.append("adverse harmonic comparison")
+    if not harmonic_resolved_for(verification, lead):
+        reasons.append(HARMONIC_AMBIGUITY)
 
-    if len(record.best_params["geometry_errors"]) >= 2:
+    # A conclusive harmonic disqualifier already rules out Supported.
+    if len(record.best_params["geometry_errors"]) >= 2 and HARMONIC_AMBIGUITY not in reasons:
         blocked.append("geometry margin transport")
     if blocked:
-        raise ValueError("schema-v3 verdict requires the contract amendment for " + ", ".join(blocked))
+        raise ValueError("verdict requires the contract amendment for " + ", ".join(blocked))
     return reasons
 
 
 def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
            recon: Optional[ReconciliationResult], verification: Optional[VerificationResult],
            cfg: dict) -> Verdict:
+    if recon is not None and recon.shortlist and verification is not None:
+        try:
+            verification.validate()
+            check_verification_scope(recon, verification)
+        except ValueError:
+            verification = None
     statuses = {method: result.status for method, result in estimators.items()}
     available = sum(status == "ok" for status in statuses.values())
     clusters = recon.clusters if recon is not None else []
@@ -131,7 +128,7 @@ def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
             reasons = [MODEL_MISMATCH]
         else:
             lead = next(cluster for cluster in clusters if cluster.cluster_id == record.cluster_id)
-            reasons = _passing_decision(estimators, clusters, lead, record, cfg, summary)
+            reasons = _passing_decision(estimators, clusters, lead, record, verification, cfg, summary)
             cap = cfg.get("limited_max_label", "Supported")
             if cap not in ("Supported", "Ambiguous"):
                 raise ValueError("invalid limited_max_label")

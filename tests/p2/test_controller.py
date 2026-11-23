@@ -176,13 +176,16 @@ def test_upload_cache_recovery(observation, injected_config, upload_case, monkey
     session["analysis"] = (key, "invalid JSON")
     call(b"bytes", "first.txt", observation, injected_config, session)
     assert runner.call_count == 2
+    session["analysis"] = (key, json.dumps({**good.to_dict(), "schema_version": 4}))
+    call(b"bytes", "first.txt", observation, injected_config, session)
+    assert runner.call_count == 3
     session.clear()
     runner.side_effect = [replace(good, stage_errors={"cnn": "temporary failure"}), good, good]
     call(b"bytes", "first.txt", observation, injected_config, session)
     assert session == {}
     call(b"bytes", "first.txt", observation, injected_config, session)
     call(b"bytes", "first.txt", observation, injected_config, session)
-    assert runner.call_count == 4
+    assert runner.call_count == 5
 
 
 def test_upload_cache_isolation(observation, injected_config, upload_case):
@@ -265,6 +268,17 @@ def test_cp3b_real_sdlcd(name, isolated_runs):
         pytest.skip("CP3b requires P1's real Stage 2 reconciliation")
     assert result.verdict is not None
     assert result.reconciliation is None or not result.reconciliation.is_stub
+    expected = {
+        "00029A": {"4:2", "7:4", "8:7"},
+        "00080B": {"5:3", "9:5", "10:9"},
+        "00041B": set(),
+    }[name.split("_")[0]]
+    if expected:
+        assert result.verification is not None and result.verification.complete
+        assert {row.pair_id for row in result.verification.harmonic_comparisons} == expected
+        assert all(row.status == "ok" for row in result.verification.harmonic_comparisons)
+    else:
+        assert not result.reconciliation.shortlist and result.verification is None
 
 
 def test_cp3b_real_upload(monkeypatch, isolated_runs):
@@ -284,6 +298,7 @@ def test_cp3b_real_upload(monkeypatch, isolated_runs):
     if "Stage 2 assessment pending" in headings:
         pytest.skip("Actual SDLCD upload stops at the CP2 Stage 2 skeleton")
     assert headings & {"Supported", "Ambiguous", "Inconclusive"}
+    assert "Harmonic comparisons" in headings
 
 
 def test_cp3b_runtime():

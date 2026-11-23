@@ -17,7 +17,7 @@ from core.schemas import (
     CNN, ESTIMATOR_METHODS, LOMB_SCARGLE, LOW_QUALITY, NOT_RUN, PDM, PERIOD_BOUNDS_NOT_SET,
     SCHEMA_VERSION, STAGE1_INSUFFICIENT, VERIFICATION_INCOMPLETE, AnalysisResult, EstimatorResult, Observation,
     PreparedObservation, ProgressCallback, QualityReport, ReconciliationResult, VerificationResult,
-    Verdict, check_verification_scope, report_progress,
+    Verdict, check_verification_scope, harmonic_resolved_for, report_progress,
 )
 from ml.infer import run_cnn
 from physics.verify import verify_candidates
@@ -146,6 +146,9 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
         if not any(record.cluster_id == result.best_cluster_id and record.passed
                    for record in verification.per_candidate):
             raise ValueError("contract: supported candidate has not passed verification")
+        lead = next(cluster for cluster in recon.clusters if cluster.cluster_id == result.best_cluster_id)
+        if not harmonic_resolved_for(verification, lead):
+            raise ValueError("contract: Supported requires favorable harmonic comparisons")
 
     def prepare_input():
         obs.validate()
@@ -230,7 +233,15 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
                     f"{record.cluster_id}: {record.status} ({record.notes[-1] if record.notes else 'no detail'})"
                     for record in verification.per_candidate if record.status != "ok"
                 ]
-                stage_errors["verification"] = "Incomplete candidates: " + "; ".join(unfinished)
+                pairs = [f"{row.pair_id}: {row.status} ({row.reason})"
+                         for row in verification.harmonic_comparisons
+                         if row.status != "ok" and row.reason != "partner_failed_stage2"]
+                details = []
+                if unfinished:
+                    details.append("Incomplete candidates: " + "; ".join(unfinished))
+                if pairs:
+                    details.append("Incomplete harmonic pairs: " + "; ".join(pairs))
+                stage_errors["verification"] = ". ".join(details)
 
     verdict = None
     if (not stage2_pending(recon, estimators, verification)

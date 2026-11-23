@@ -1,6 +1,6 @@
 # CONTRACTS.md
 
-**TumbleScope interface contracts. Architecture owner: P2. Status: FROZEN at the end of Phase 0 (tag `v0-skeleton`). `SCHEMA_VERSION = 4`.**
+**TumbleScope interface contracts. Architecture owner: P2. Status: FROZEN at the end of Phase 0 (tag `v0-skeleton`). `SCHEMA_VERSION = 5`.**
 
 This file is the single source of truth for how modules talk to each other. P1, P2 and every AI coding agent must follow it. If code and this file disagree, this file wins and the code is wrong. Do not change anything here except through Section 12.
 
@@ -45,7 +45,7 @@ This file is the single source of truth for how modules talk to each other. P1, 
 ## 2. Constants (defined once in `core/schemas.py`)
 
 ```python
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 
 # Top-level verdict reason codes (nine, as in the README and the submitted Round 2 deck)
 REASON_CODES = (
@@ -200,9 +200,26 @@ class CandidateVerification:
     heldout_error: Optional[float]     # Section 18; None unless status == "ok"
     decoy_periods_s: list[float]       # [] if no decoy was run
     decoy_delta_e: list[float]         # aligned with decoy_periods_s; positive favours candidate
-    harmonic_comparison: Optional[dict[str, Any]]   # required keys in Section 7
     passed: bool
     best_params: Optional[dict[str, Any]]           # required keys in Section 7
+    notes: list[str]
+
+
+@dataclass
+class HarmonicComparison:
+    pair_id: str
+    short_cluster_id: int
+    long_cluster_id: int
+    short_period_s: float
+    long_period_s: float
+    ratio: float
+    status: StageStatus
+    prefers: Literal["P", "2P", "undecided"]
+    short_heldout_error: Optional[float]
+    long_heldout_error: Optional[float]
+    delta_e: Optional[float]
+    margin: Optional[float]
+    reason: Optional[str]
     notes: list[str]
 
 
@@ -213,6 +230,8 @@ class VerificationResult:
     mode: Literal["fast", "thorough"]
     runtime_s: float
     is_stub: bool = False
+    harmonic_comparisons: list[HarmonicComparison] = field(default_factory=list)
+
 
 
 @dataclass
@@ -370,7 +389,9 @@ The dashboard distinguishes completed verdicts, pending Stage 2, and technical e
 
 ### 5.5 Shortlist and harmonic partners
 
-A non-stub reconciliation result with passed clusters must have a nonempty shortlist. The controller checks its complete top-K count against the injected limit; AnalysisResult checks the Fast-mode limit of three. Stub fixtures retain their existing rules, including the explicit pending exception. The shortlist is the top K clusters (K from `reconcile.yaml`, default 5; 3 in Fast mode) that passed Stage 2, ordered by score. The **required verification set** is the union of (a) every `cluster_id` in `recon.shortlist` and (b) every distinct cluster directly linked from a shortlisted cluster by `harmonic_links` with ratio `2` or `1/2` that also passed Stage 2. Deduplicate IDs; partners do not count toward K. Only direct links to a shortlisted cluster are included, not transitive harmonic links. Every ID in this set must have exactly one `CandidateVerification` record, including when its protocol fails or is skipped. A partner that failed Stage 2 is not in the required set; verification records `harmonic_comparison = {"partner_id": ..., "prefers": "undecided", "reason": "partner_failed_stage2", ...}` for the eligible counterpart as applicable.
+A non-stub reconciliation result with passed clusters must have a nonempty shortlist. The controller checks its complete top-K count against the injected limit; AnalysisResult checks the Fast-mode limit of three. Stub fixtures retain their existing rules, including the explicit pending exception. The shortlist is the top K clusters (K from `reconcile.yaml`, default 5; 3 in Fast mode) that passed Stage 2, ordered by score. The **required verification set** is the union of (a) every `cluster_id` in `recon.shortlist` and (b) every distinct cluster directly linked from a shortlisted cluster by `harmonic_links` with ratio `2` or `1/2` that also passed Stage 2. Deduplicate IDs; partners do not count toward K. Only direct links to a shortlisted cluster are included, not transitive harmonic links. Every ID in this set must have exactly one `CandidateVerification` record, including when its protocol fails or is skipped. A partner that failed Stage 2 is not in the required fit set.
+
+**Schema v5 harmonic pair coverage.** A required P/2P pair connects two required fit IDs with a direct 2 or 1/2 link and at least one shortlisted endpoint. Do not transitively expand the comparison set. A direct 2 or 1/2 link from a required fit ID to a Stage 2-rejected partner yields a skipped diagnostic pair with reason `partner_failed_stage2`. Orient by the link and verify that the P endpoint has the smaller period. Both directions of a reciprocal link identify the same pair. Each pair appears once in `VerificationResult.harmonic_comparisons`, ordered by the numeric (short ID, long ID) tuple. Failures and skipped pairs retain their identities. Exact pair membership, Stage 2 eligibility, endpoint periods, and consistency with the fitted errors are checked against reconciliation.
 
 ---
 
@@ -384,7 +405,7 @@ Apply this scientific decision table only when its required evidence exists. Tec
 | `no_periodic_signal` | At least one estimator is `ok` and no estimator produced any candidate (Section 5.3). |
 | `candidate_inadequate` | No usable estimator, or every cluster failed Stage 2 (Section 5.3), or fewer than `min_agreeing_estimators` estimators contributed candidates to the leading cluster. |
 | `conflicting_methods` | At least two estimators produced candidates, and the top candidates of those estimators fall in different, non-harmonic clusters. |
-| `harmonic_ambiguity` | The leading candidate has a harmonic partner and `harmonic_comparison["prefers"] == "undecided"`. |
+| `harmonic_ambiguity` | Verification is complete and at least one harmonic relationship of the leading candidate remains unresolved in its favor. This includes a tie, an adverse comparison, or a linked hypothesis without a favorable P/2P comparison. A definite harmonic disqualifier yields Ambiguous even when the provisional verdict policy lacks the geometry margin needed to qualify a Supported candidate. |
 | `alias_ambiguity` | The leading candidate's `alias_risk` exceeds `verdict.alias_risk_max` (**TBD** P2, CP4). |
 | `model_mismatch` | Verification is complete, and no candidate in the required verification set has `status="ok"` and `passed=True`. Every required candidate therefore failed at least one acceptance criterion: `heldout_error > verification.heldout_error_max` and/or `decoy_separation < verification.decoy_separation_min` (**both thresholds TBD** P2, CP4). A decoy-separation failure maps to this existing code as well; no new reason code is introduced. |
 | `geometry_uncertainty` | For the leading candidate, at least two geometry families were fitted and their held-out errors differ by less than `verification.geometry_margin` (**TBD** P2, CP4). |
@@ -400,7 +421,7 @@ Apply this scientific decision table only when its required evidence exists. Tec
 | Every cluster failed Stage 2 | Inconclusive | `candidate_inadequate` |
 | Leading cluster supported by fewer than `min_agreeing_estimators` estimators | Ambiguous | `candidate_inadequate`, `evidence_summary["estimators_agree"]=False` |
 | Top candidates of two or more estimators disagree (non-harmonic) | Ambiguous | `conflicting_methods` |
-| P versus 2P undecided | Ambiguous | `harmonic_ambiguity` |
+| Harmonic evidence does not resolve all links in favor of the leading candidate | Ambiguous | `harmonic_ambiguity` |
 | Alias risk above threshold | Ambiguous | `alias_ambiguity` |
 | Verification is complete, but no required candidate meets both the held-out-error and decoy-separation criteria | Ambiguous | `model_mismatch` |
 | Geometry families fit equally well | Ambiguous | `geometry_uncertainty` |
@@ -448,9 +469,13 @@ A peak at offset `f_a` means that a true signal at `f` can also show a spurious 
 - Required: `passed` (bool), `cycles` (float), `fail_reasons` (list[str] from `STAGE2_FAIL_REASONS`; empty iff `passed`).
 - Optional: `rel_period_uncertainty`, `phase_coverage`, `merged_with`.
 
-### 7.6 `CandidateVerification.harmonic_comparison` (when a partner exists, else `None`)
-- Required: `partner_id` (int), `prefers` (`"P"`, `"2P"` or `"undecided"`), `delta_e` (float or `None`), `reason` (str or `None`).
-- Here **P is the shorter period and 2P the longer period of the pair**, identically in both records. `delta_e = heldout_error(2P) - heldout_error(P)`; **positive favours P**. `prefers="undecided"` when `abs(delta_e) < verification.harmonic_margin` (**TBD** P2, CP4) or either member did not finish.
+### 7.6 `VerificationResult.harmonic_comparisons`
+
+Each `HarmonicComparison` represents both candidates once. `pair_id` is the string `"{short_cluster_id}:{long_cluster_id}"`. The IDs and periods refer to the P (shorter) and 2P (longer) endpoints. The ratio is the nominal link value 2.0. Reconciliation provides the link, so the measured period ratio can differ from 2.0 within reconciliation's tolerance. Duplicate unordered endpoints, duplicate or noncanonical IDs, unknown endpoints and inconsistent orientations are invalid. The list is empty when no pairs exist.
+
+- `status="ok"` means both fits and the comparison finished. Both held-out errors and the nonnegative harmonic margin are supplied. `delta_e = heldout_error(2P) - heldout_error(P)`. A positive delta favors P and a negative delta favors 2P. A zero delta or absolute delta below the margin gives `prefers="undecided"`. `reason` is null. A completed adverse or undecided outcome still counts as complete.
+- Unfinished comparisons carry `status="failed"` or `status="skipped"`, `prefers="undecided"`, null delta and margin, and a nonempty reason. Available fit errors remain visible. `harmonic_fit_unfinished` covers unavailable endpoint fits, with failed taking precedence over skipped. `harmonic_comparison_failed` covers comparison execution failures, and `harmonic_comparison_not_run` covers otherwise unattempted fit comparisons. The skipped `partner_failed_stage2` diagnostic is outside the required fit-comparison set.
+- `notes` retains pair-specific odd/even diagnostics and execution details. The underlying fit, decoy policy and harmonic margin are unchanged.
 
 ### 7.7 `CandidateVerification.best_params` (when `status="ok"`, else `None`)
 - Required: `shape` (str, the best geometry family), `geometry_errors` (dict: family name to its `heldout_error`, one entry per family fitted), `fit_space` (`"flux_rel"` or `"y_norm"`), `scale_a` (float), `offset_b` (float).
@@ -700,9 +725,9 @@ All other combinations are invalid. For `failed` and `skipped`, `fit_error` and 
 
 `verify_candidates(prep, recon, cfg, ...)` derives the required verification set from `recon` exactly as specified in Section 5.5. It must return exactly one `CandidateVerification` for every required `cluster_id`, and no record for an ID outside that set. A candidate whose protocol cannot finish remains represented by a record with `status="failed"` or `"skipped"`; it is not omitted.
 
-**`VerificationResult.complete` is True iff** (a) `per_candidate` contains exactly one record for every ID in the required set and no other IDs, and (b) every such record has `status="ok"`. A candidate with `status="ok"` and `passed=False` still counts as complete because its protocol finished; `passed` is a separate scientific acceptance result. A timeout or interruption makes that candidate `failed`, so `complete=False`. Partial results are retained in `per_candidate`, but a partially complete verification **can never produce Supported**, even if the leading candidate itself finished and passed. The required set is non-empty whenever verification is run; when the shortlist is empty, the controller does not call verification and `AnalysisResult.verification` is `None`.
+**`VerificationResult.complete` is True iff** every required fit ID and expected pair in Section 5.5 is represented exactly once, every required candidate record has `status="ok"`, and every required fit comparison has `status="ok"`. A completed candidate with `passed=False`, a completed pair with an adverse or undecided result, and a Stage 2-excluded diagnostic pair do not make verification incomplete. An unfinished required fit or comparison makes verification incomplete. The controller skips verification when the shortlist is empty.
 
-**Validation and data flow (no public signature changes).** `VerificationResult.validate()` checks the result's intrinsic structure, including unique `cluster_id` values, but cannot check membership against `recon` because `VerificationResult` does not contain the reconciliation object. After `verify_candidates()` returns, `pipeline.controller.analyze()` independently derives the required ID set from the same `recon`, checks exact one-to-one membership (no missing, duplicate or extra IDs), and recomputes the `complete` predicate above before calling `decide()`. If membership or the `complete` value is inconsistent, the controller treats the verification output as a contract violation under Section 5.4, records `stage_errors["verification"]`, and passes `verification=None` to `decide()`; with a non-empty shortlist this yields `verification_incomplete`, never Supported. `AnalysisResult.validate()` repeats the cross-object membership and `complete` checks when validating a fully assembled or deserialized result. The existing `verify_candidates`, `decide`, `analyze` and dataclass method signatures remain unchanged.
+**Validation and data flow.** Local validation checks each record's structure, pair uniqueness, canonical ordering and internal outcomes. The controller checks exact candidate and pair coverage against reconciliation and recomputes completeness. Malformed results are rejected under Section 5.4 and lead to `verification_incomplete` for a non-empty shortlist. Deserializing an analysis rechecks those invariants. Direct verdict callers also fail closed on invalid verification. The public `verify_candidates`, `decide` and `analyze` signatures are unchanged.
 
 ### 18.2 Metric definitions
 
@@ -742,9 +767,10 @@ All other combinations are invalid. For `failed` and `skipped`, `fit_error` and 
 | `Cluster` | `evidence` keys in `ESTIMATOR_METHODS`, values in [0, 1]. `alias_risk` in [0, 1]. `score` finite. `stage2` has required keys; `passed` iff `fail_reasons == []`; every fail reason in `STAGE2_FAIL_REASONS`. `harmonic_links` entries have `other_id` (existing cluster id) and `ratio` > 0. |
 | `ReconciliationResult` | Clusters sorted by `score` descending, unique `cluster_id`. `shortlist` ids exist, all have `stage2["passed"]`, ordered by score, length <= K. `stage2_passed_any == (len(shortlist) > 0)`. An empty cluster list is valid. |
 | `CandidateVerification` | Allowed `(status, passed)` pairs from Section 18.1. If `status != "ok"`: `fit_error`, `heldout_error`, `best_params` are `None`. `len(decoy_delta_e) == len(decoy_periods_s)`. All floats finite. |
-| `VerificationResult` | Local `validate()` checks unique `cluster_id`s and all `CandidateVerification` records. It cannot check required-set membership in isolation because the required set is derived from `ReconciliationResult`. `pipeline.controller.analyze()` derives the Section 5.5 required set, requires exactly one record per required ID and no extra IDs, and checks `complete == (IDs match exactly and every required record has status="ok")` before calling `decide()`. A mismatch is handled as a verification contract violation under Section 5.4. `AnalysisResult.validate()` repeats this cross-object check using its own `reconciliation` and `verification` fields. |
+| `HarmonicComparison` | Canonical identity, orientation, enum statuses and preferences, finite measurements, and outcome consistency per §7.6. |
+| `VerificationResult` | Validate all fits and pairs, unique IDs and deterministic pair order. Exact coverage and completeness are checked against reconciliation per §§5.5 and 18.1. |
 | `Verdict` | `label` valid. `Supported` implies `reason_codes == []`, `best_period_s` and `best_cluster_id` not `None`. Not `Supported` implies non-empty `reason_codes` (all in `REASON_CODES`) and both best fields `None`. `evidence_summary` has the required keys. Every `alternatives` entry has `cluster_id`, `period_s`, `why`. |
-| `AnalysisResult` | `estimators` has exactly the three `ESTIMATOR_METHODS` keys. `quality` may be absent only in the preparation/Stage 1 error states in Section 5.4. Preparation absence requires quality absence. `verdict` is `None` exactly for the unchanged pending Stage 2 stub or one of the four execution-error predicates in Section 5.4; otherwise a valid Verdict is required. A real shortlist with incomplete verification requires Ambiguous / `verification_incomplete`. Non-stub reconciliation in Fast mode must contain exactly min(3, number of passed clusters) shortlisted entries. When both `reconciliation` and `verification` are present, cross-check the exact Section 5.5 required ID set and the `complete` predicate as described above. If `verdict.label == "Supported"` then `verification` is not `None`, `verification.complete` is True and the best cluster's `CandidateVerification` has `status="ok"`, `passed=True`. |
+| `AnalysisResult` | `estimators` has exactly the three `ESTIMATOR_METHODS` keys. `quality` may be absent only in the preparation/Stage 1 error states in Section 5.4. Preparation absence requires quality absence. `verdict` is `None` exactly for the unchanged pending Stage 2 stub or one of the four execution-error predicates in Section 5.4; otherwise a valid Verdict is required. A real shortlist with incomplete verification requires Ambiguous / `verification_incomplete`. Non-stub reconciliation in Fast mode must contain exactly min(3, number of passed clusters) shortlisted entries. When both `reconciliation` and `verification` are present, cross-check the exact Section 5.5 required ID set and the `complete` predicate as described above. If `verdict.label == "Supported"` then `verification` is not `None`, `verification.complete` is True and the best cluster's `CandidateVerification` has `status="ok"`, `passed=True`, with every harmonic relationship resolved in its favor. |
 
 NaN and infinity: NaN is allowed only in `Observation.y`, `Observation.y_err`, and in `PreparedObservation.y_norm` and `flux_rel` at invalid positions. Infinity is allowed nowhere. Scalar metrics use `None`, never NaN.
 
@@ -762,7 +788,7 @@ NaN and infinity: NaN is allowed only in `Observation.y`, `Observation.y_err`, a
 | Unknown extra keys on load | Ignored in `meta`/`evidence_summary`-style dicts; rejected in top-level dataclass fields. |
 | `schema_version` | Stored in `AnalysisResult`; `from_dict` rejects a different version. |
 
-Version-4 execution-error results preserve diagnostics and encode absent fields as JSON `null`. Loading validates the execution-state predicates; versions 1, 2 and 3 remain rejected. No historical result is implicitly migrated or reinterpreted.
+Schema v5 preserves execution-error diagnostics and encodes absent fields as JSON `null`. Analyses with versions 1–4 are rejected by the version check. Standalone verification payloads must include the v5 `harmonic_comparisons` list. The cache key includes the active schema version, so old entries are recomputed and cannot be served as v5. Historical artifacts are kept as recorded without synthesizing missing comparisons.
 
 **Equality in tests.** Ordinary `==` is never used on objects containing arrays. Tests use `core.schemas.assert_contract_equal(a, b, rtol=1e-12, atol=0.0)`: arrays must have identical shape and dtype, identical NaN positions, and `np.allclose(..., equal_nan=True)`; floats are compared with `rtol`; bools, ints, strings and `None` exactly; lists, dicts and dataclasses recursively. `test_serialization.py` checks value preservation, shape preservation, dtype preservation and optional-field behaviour.
 

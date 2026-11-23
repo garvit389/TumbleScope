@@ -1,14 +1,14 @@
 """Fit and compare apparent-period hypotheses against a simplified model."""
 
-from dataclasses import replace
 from time import perf_counter
 from typing import Optional
 
 import numpy as np
 
 from core.schemas import (
-    CandidateVerification, PreparedObservation, ProgressCallback, ReconciliationResult,
-    VerificationResult, check_verification_scope, report_progress, required_verification_ids,
+    CandidateVerification, HarmonicComparison, PreparedObservation, ProgressCallback, ReconciliationResult,
+    VerificationResult, check_verification_scope, expected_harmonic_pairs, harmonic_preference,
+    report_progress, required_verification_ids, verification_finished,
 )
 from physics.fit import _check_deadline, _fit_family, _observed_sigma, normalized_error
 from physics.simulator import simulate_lightcurve
@@ -178,38 +178,38 @@ def _passes(heldout_error, deltas, cfg):
             and min(deltas) >= cfg["decoy_separation_min"])
 
 
-def _harmonic_partners(recon, required, by_id):
-    partners = {cid: set() for cid in required}
-    for cluster in recon.clusters:
-        cid = cluster.cluster_id
-        if cid not in partners:
-            continue
-        for link in cluster.harmonic_links:
-            other = link["other_id"]
-            if link["ratio"] not in (0.5, 2.):
-                continue
-            if not by_id[other].stage2["passed"]:
-                partners[cid].add(other)
-            elif other in required and (cid in recon.shortlist or other in recon.shortlist):
-                partners[cid].add(other)
-                partners[other].add(cid)
-    return partners
-
-
-def _compare_harmonic(record, other, partner, margin):
-    comparison = {"partner_id": partner.cluster_id, "prefers": "undecided",
-                  "delta_e": None, "reason": None}
-    if not partner.stage2["passed"]:
-        comparison["reason"] = "partner_failed_stage2"
-    elif other is None or other.status != "ok" or record.status != "ok":
-        comparison["reason"] = "harmonic_fit_unfinished"
+def _compare_harmonic(prep, short, long, records, residuals, required, margin):
+    short_id, long_id = short.cluster_id, long.cluster_id
+    endpoints = [records.get(cid) for cid in (short_id, long_id)]
+    short_e, long_e = (row.heldout_error if row is not None else None for row in endpoints)
+    fields = (f"{short_id}:{long_id}", short_id, long_id, short.period_s, long.period_s, 2.)
+    notes = []
+    if not required:
+        status, reason = "skipped", "partner_failed_stage2"
+    elif any(row.status != "ok" for row in endpoints):
+        status = "failed" if any(row.status == "failed" for row in endpoints) else "skipped"
+        reason = "harmonic_fit_unfinished"
     else:
-        short, long = sorted((record, other), key=lambda item: item.period_s)
-        delta = long.heldout_error - short.heldout_error
-        comparison["delta_e"] = delta
-        if delta and abs(delta) >= margin:
-            comparison["prefers"] = "P" if delta > 0 else "2P"
-    return comparison
+        status, reason = "ok", None
+    try:
+        for side, cid, row in zip(("P", "2P"), (short_id, long_id), endpoints):
+            if cid in residuals:
+                notes.extend(f"{side}: {note}" for note in _odd_even_notes(prep, residuals[cid], short.period_s))
+            elif row is not None:
+                notes.extend(f"{side}: {note}" for note in row.notes)
+        if residuals.keys() & {short_id, long_id}:
+            notes.append("AIC/BIC not compared: equal free parameter counts")
+        if status == "ok":
+            delta = long_e - short_e
+            comparison = HarmonicComparison(*fields, "ok", harmonic_preference(delta, margin),
+                                            short_e, long_e, delta, margin, None, notes)
+            comparison.validate()
+            return comparison
+    except Exception as exc:
+        notes.append(str(exc) or type(exc).__name__)
+        if status == "ok":
+            status, reason = "failed", "harmonic_comparison_failed"
+    return HarmonicComparison(*fields, status, "undecided", short_e, long_e, None, None, reason, notes)
 
 
 def _odd_even_notes(prep, residuals, shorter_period):
@@ -233,7 +233,7 @@ def verify_candidates(prep: PreparedObservation, recon: ReconciliationResult, cf
     report_progress(progress, 0.0, "Starting verification")
     by_id = {cluster.cluster_id: cluster for cluster in recon.clusters}
     required = required_verification_ids(recon)
-    partners = _harmonic_partners(recon, required, by_id)
+    pairs = expected_harmonic_pairs(recon)
     records, residuals = {}, {}
     policy_error = None
     if required:
@@ -249,8 +249,6 @@ def verify_candidates(prep: PreparedObservation, recon: ReconciliationResult, cf
             continue
         notes, fitted_decoys, deltas = [], [], []
         try:
-            if len(partners[cid]) > 1:
-                raise ValueError("multiple harmonic comparisons require the contract amendment")
             if policy_error is not None:
                 raise ValueError(policy_error)
             deadline = perf_counter() + cfg["timeout_s_per_candidate"]
@@ -271,7 +269,7 @@ def verify_candidates(prep: PreparedObservation, recon: ReconciliationResult, cf
             _check_deadline(deadline)
             notes.append("Representative coefficients from first chronological fold")
             record = CandidateVerification(
-                cid, period, "ok", fit, heldout, fitted_decoys, deltas, None,
+                cid, period, "ok", fit, heldout, fitted_decoys, deltas,
                 _passes(heldout, deltas, cfg), params, notes,
             )
             record.validate()
@@ -280,25 +278,16 @@ def verify_candidates(prep: PreparedObservation, recon: ReconciliationResult, cf
         except Exception as exc:
             notes.append(str(exc) or type(exc).__name__)
             records[cid] = CandidateVerification(
-                cid, period, "failed", None, None, fitted_decoys, deltas, None, False, None, notes,
+                cid, period, "failed", None, None, fitted_decoys, deltas, False, None, notes,
             )
         report_progress(progress, len(records) / (len(required) + 1),
                         f"Processed verification candidate {len(records)} of {len(required)}")
-    for cid, record in list(records.items()):
-        if len(partners[cid]) != 1:
-            continue
-        partner_id = next(iter(partners[cid]))
-        partner = by_id[partner_id]
-        comparison = _compare_harmonic(record, records.get(partner_id), partner,
-                                       cfg.get("harmonic_margin"))
-        notes = record.notes.copy()
-        if record.status == "ok":
-            notes.extend(_odd_even_notes(prep, residuals[cid], min(record.period_s, partner.period_s)))
-            notes.append("AIC/BIC not compared: equal free parameter counts")
-        records[cid] = replace(record, harmonic_comparison=comparison, notes=notes)
-    result = VerificationResult(list(records.values()), bool(records) and all(
-        record.status == "ok" for record in records.values()
-    ), "fast", perf_counter() - started)
+    comparisons = [_compare_harmonic(prep, by_id[short], by_id[long], records, residuals,
+                                    eligible, cfg.get("harmonic_margin"))
+                   for (short, long), eligible in pairs.items()]
+    candidates = list(records.values())
+    result = VerificationResult(candidates, verification_finished(candidates, comparisons),
+                                "fast", perf_counter() - started, harmonic_comparisons=comparisons)
     result.validate()
     if required:
         check_verification_scope(recon, result)

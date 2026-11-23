@@ -5,7 +5,7 @@ import pytest
 from core.schemas import (
     ALIAS_AMBIGUITY, CANDIDATE_INADEQUATE, CNN, CONFLICTING_METHODS, HARMONIC_AMBIGUITY,
     LOMB_SCARGLE, LOW_QUALITY, MODEL_MISMATCH, NO_CHECKPOINT, NO_PERIODIC_SIGNAL,
-    PDM, VERIFICATION_INCOMPLETE, Candidate, CandidateVerification, EstimatorResult,
+    PDM, VERIFICATION_INCOMPLETE, Candidate, CandidateVerification, EstimatorResult, HarmonicComparison,
     QualityReport, VerificationResult,
 )
 from verdict.decide import decide
@@ -24,7 +24,7 @@ def case(mock_cnn, mock_recon):
     other = replace(other, harmonic_links=[], members={})
     recon = replace(mock_recon, clusters=[lead, other], shortlist=[1, 2])
     fits = [CandidateVerification(
-        cluster.cluster_id, cluster.period_s, "ok", .4, .5, [12.], [.2], None,
+        cluster.cluster_id, cluster.period_s, "ok", .4, .5, [12.], [.2],
         cluster.cluster_id == 1,
         {"shape": "box", "geometry_errors": {"box": .5}, "fit_space": "y_norm",
          "scale_a": 1., "offset_b": 0.}, [],
@@ -43,6 +43,7 @@ def case(mock_cnn, mock_recon):
     ("conflict", "Ambiguous", [CONFLICTING_METHODS]),
     ("few_methods", "Ambiguous", [CANDIDATE_INADEQUATE]),
     ("harmonic", "Ambiguous", [HARMONIC_AMBIGUITY]),
+    ("adverse harmonic", "Ambiguous", [HARMONIC_AMBIGUITY]),
     ("missing_verification", "Ambiguous", [VERIFICATION_INCOMPLETE]),
     ("incomplete", "Ambiguous", [VERIFICATION_INCOMPLETE]),
     ("mismatch", "Ambiguous", [MODEL_MISMATCH]),
@@ -69,10 +70,14 @@ def test_verdict_decision_table(case, scenario, label, reasons):
         estimators[PDM] = replace(estimators[PDM], candidates=[
             replace(estimators[PDM].candidates[0], period_s=16.)])
         other = replace(other, members={PDM: 16.})
-    if scenario == "harmonic":
+    if scenario in ("harmonic", "adverse harmonic"):
         lead = replace(lead, harmonic_links=[{"other_id": 2, "ratio": 2.}])
-        record = replace(record, harmonic_comparison={"partner_id": 2, "prefers": "undecided",
-                                                       "delta_e": 0., "reason": None})
+        if scenario == "adverse harmonic":
+            second = replace(second, heldout_error=.4)
+        verification = replace(verification, harmonic_comparisons=[HarmonicComparison(
+            "1:2", 1, 2, 8., 16., 2., "ok", "undecided" if scenario == "harmonic" else "2P",
+            record.heldout_error, second.heldout_error, second.heldout_error - record.heldout_error,
+            .05, None, [])])
     if scenario == "mismatch":
         record = replace(record, passed=False)
     if scenario == "incomplete":
@@ -105,7 +110,7 @@ def test_selected_record_and_alternatives(case):
         assert [opt["cluster_id"] for opt in result.alternatives] == [1, 2]
 
 
-@pytest.mark.parametrize("boundary", ["missing policy", "alias equality", "adverse harmonic",
+@pytest.mark.parametrize("boundary", ["missing policy", "alias equality",
                                       "top-vote mapping", "geometry margin"])
 def test_missing_policy_execution_boundary(case, boundary):
     recon, estimators, verification = case
@@ -116,10 +121,6 @@ def test_missing_policy_execution_boundary(case, boundary):
         cfg = {}
     if boundary == "alias equality":
         lead = replace(lead, alias_risk=.35)
-    if boundary == "adverse harmonic":
-        lead = replace(lead, harmonic_links=[{"other_id": 2, "ratio": 2.}])
-        record = replace(record, harmonic_comparison={"partner_id": 2, "prefers": "2P",
-                                                       "delta_e": -.1, "reason": None})
     if boundary == "top-vote mapping":
         lead = replace(lead, members={CNN: 8., LOMB_SCARGLE: 7., PDM: 7.})
     if boundary == "geometry margin":

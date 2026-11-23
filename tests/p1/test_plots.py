@@ -112,12 +112,15 @@ def test_quality_shows_units_warning_and_reason_code():
 def verification():
     completed = CandidateVerification(
         1, 8.0, "ok", 0.2, 0.4, [6.0, 12.0], [0.3, -0.1],
-        {"partner_id": 2, "prefers": "undecided", "delta_e": None, "reason": None},
         False, {"shape": "box", "geometry_errors": {"box": 0.4}, "fit_space": "y_norm",
                 "scale_a": 1.0, "offset_b": 0.0}, [],
     )
-    skipped = CandidateVerification(2, 16.0, "skipped", None, None, [], [], None, False, None, [NOT_RUN])
-    result = VerificationResult([completed, skipped], False, "fast", 0.1)
+    skipped = CandidateVerification(2, 16.0, "skipped", None, None, [], [], False, None, [NOT_RUN])
+    from core.schemas import HarmonicComparison
+
+    result = VerificationResult([completed, skipped], False, "fast", 0.1, harmonic_comparisons=[
+        HarmonicComparison("1:2", 1, 2, 8., 16., 2., "skipped", "undecided", .4, None,
+                           None, None, "harmonic_fit_unfinished", [])])
     result.validate()
     return result
 

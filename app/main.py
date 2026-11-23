@@ -80,6 +80,14 @@ def main():
     else:
         st.subheader(result.verdict.label)
         st.write(result.verdict.text)
+    if result.verification is not None and result.verification.harmonic_comparisons:
+        st.subheader("Harmonic comparisons")
+        st.table([
+            {"Pair": pair.pair_id, "P (s)": pair.short_period_s, "2P (s)": pair.long_period_s,
+             "Status": pair.status, "Prefers": pair.prefers, "Δ held-out error": pair.delta_e,
+             "Detail": pair.reason or ""}
+            for pair in result.verification.harmonic_comparisons
+        ])
     st.table([
         {"Estimator": method, "Status": item.status, "Detail": item.error or ""}
         for method, item in result.estimators.items()

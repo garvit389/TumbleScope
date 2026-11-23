@@ -39,7 +39,7 @@ def _model_from_dict(cls, payload):
     return value
 
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 
 REASON_CODES = (
     "low_quality",
@@ -213,9 +213,30 @@ class CandidateVerification:
     heldout_error: Optional[float]
     decoy_periods_s: list[float]
     decoy_delta_e: list[float]
-    harmonic_comparison: Optional[dict[str, Any]]
     passed: bool
     best_params: Optional[dict[str, Any]]
+    notes: list[str]
+
+    validate = _validate_model
+    to_dict = _model_to_dict
+    from_dict = classmethod(_model_from_dict)
+
+
+@dataclass
+class HarmonicComparison:
+    pair_id: str
+    short_cluster_id: int
+    long_cluster_id: int
+    short_period_s: float
+    long_period_s: float
+    ratio: float
+    status: StageStatus
+    prefers: Literal["P", "2P", "undecided"]
+    short_heldout_error: Optional[float]
+    long_heldout_error: Optional[float]
+    delta_e: Optional[float]
+    margin: Optional[float]
+    reason: Optional[str]
     notes: list[str]
 
     validate = _validate_model
@@ -230,6 +251,7 @@ class VerificationResult:
     mode: Literal["fast", "thorough"]
     runtime_s: float
     is_stub: bool = False
+    harmonic_comparisons: list[HarmonicComparison] = field(default_factory=list)
 
     validate = _validate_model
     to_dict = _model_to_dict
@@ -278,6 +300,10 @@ def _check_type(value, annotation, name):
     if annotation is Any:
         return
     if origin in (Union, UnionType):
+        if len(args) == 2 and type(None) in args:
+            if value is not None:
+                _check_type(value, next(option for option in args if option is not type(None)), name)
+            return
         for option in args:
             try:
                 _check_type(value, option, name)
@@ -402,6 +428,8 @@ def _decode(payload, annotation=Any):
         if annotation is AnalysisResult:
             version = payload.get("schema_version")
             _require(type(version) is int and version == SCHEMA_VERSION, "schema version mismatch")
+        if annotation is VerificationResult:
+            _require("harmonic_comparisons" in payload, "missing harmonic_comparisons")
         hints = _hints(annotation)
         _require(set(payload) <= hints.keys(), f"unknown {annotation.__name__} fields")
         try:
@@ -556,18 +584,54 @@ def _candidate_verification(value):
     else:
         _require(not value.passed and value.fit_error is None and value.heldout_error is None
                  and value.best_params is None, "invalid unfinished verification")
-    if value.harmonic_comparison is not None:
-        _dict_fields(value.harmonic_comparison, "harmonic_comparison", partner_id=int,
-                     prefers=Literal["P", "2P", "undecided"], delta_e=Optional[float],
-                     reason=Optional[str])
+
+
+def harmonic_preference(delta_e: float, margin: float) -> Literal["P", "2P", "undecided"]:
+    if not delta_e or abs(delta_e) < margin:
+        return "undecided"
+    return "P" if delta_e > 0 else "2P"
+
+
+def _harmonic_comparison(value):
+    short, long = value.short_cluster_id, value.long_cluster_id
+    _require(short != long and 0 < value.short_period_s < value.long_period_s and value.ratio == 2.,
+             "invalid harmonic relationship or orientation")
+    _require(value.pair_id == f"{short}:{long}", "invalid harmonic pair ID")
+    errors = value.short_heldout_error, value.long_heldout_error
+    _require(all(e is None or e >= 0 for e in errors), "negative harmonic held-out error")
+    if value.status == "ok":
+        _require(all(e is not None for e in errors) and value.margin is not None and value.margin >= 0,
+                 "completed harmonic comparison missing inputs")
+        _require(value.delta_e == errors[1] - errors[0] and value.reason is None
+                 and value.prefers == harmonic_preference(value.delta_e, value.margin),
+                 "invalid completed harmonic outcome")
+    else:
+        _require(value.delta_e is None and value.margin is None and value.prefers == "undecided"
+                 and value.reason is not None and bool(value.reason.strip()),
+                 "invalid unfinished harmonic outcome")
+        allowed = {"failed": {"harmonic_fit_unfinished", "harmonic_comparison_failed"},
+                   "skipped": {"harmonic_fit_unfinished", "harmonic_comparison_not_run", "partner_failed_stage2"}}
+        _require(value.reason in allowed[value.status], "invalid harmonic comparison reason for status")
 
 
 def _verification(value):
     ids = {record.cluster_id for record in value.per_candidate}
     _require(len(ids) == len(value.per_candidate), "duplicate verification cluster ID")
+    pairs = [(row.short_cluster_id, row.long_cluster_id) for row in value.harmonic_comparisons]
+    _require(len({row.pair_id for row in value.harmonic_comparisons}) == len(pairs)
+             and len({frozenset(pair) for pair in pairs}) == len(pairs), "duplicate harmonic pair")
+    _require(pairs == sorted(pairs), "harmonic comparisons out of order")
+    for row, pair in zip(value.harmonic_comparisons, pairs):
+        count = 1 if row.reason == "partner_failed_stage2" else 2
+        _require(len(ids.intersection(pair)) == count, "harmonic comparison references unknown fits")
     if value.complete:
-        _require(bool(ids) and all(record.status == "ok" for record in value.per_candidate),
-                 "verification marked complete with unfinished candidates")
+        _require(verification_finished(value.per_candidate, value.harmonic_comparisons),
+                 "verification marked complete with unfinished candidates or harmonic comparisons")
+
+
+def verification_finished(records: list[CandidateVerification], comparisons: list[HarmonicComparison]) -> bool:
+    return (bool(records) and all(record.status == "ok" for record in records)
+            and all(row.status == "ok" or row.reason == "partner_failed_stage2" for row in comparisons))
 
 
 def _verdict(value):
@@ -612,12 +676,74 @@ def required_verification_ids(recon: ReconciliationResult) -> set[int]:
     return required
 
 
+def expected_harmonic_pairs(recon: ReconciliationResult) -> dict[tuple[int, int], bool]:
+    """Map ordered short/long IDs to whether a fit comparison is required."""
+    by_id = {cluster.cluster_id: cluster for cluster in recon.clusters}
+    shortlist = set(recon.shortlist)
+    required = required_verification_ids(recon)
+    pairs = {}
+    for cid in required:
+        cluster = by_id[cid]
+        for link in cluster.harmonic_links:
+            other = link["other_id"]
+            ratio = link["ratio"]
+            if ratio not in (0.5, 2.):
+                continue
+            partner = by_id[other]
+            eligible = partner.stage2["passed"]
+            if eligible and (other not in required or not (cid in shortlist or other in shortlist)):
+                continue
+            short, long = (cluster, partner) if ratio == 2. else (partner, cluster)
+            _require(short.period_s < long.period_s, "invalid reconciliation harmonic orientation")
+            pairs[short.cluster_id, long.cluster_id] = eligible
+    return dict(sorted(pairs.items()))
+
+
+def harmonic_resolved_for(result: VerificationResult, cluster: Cluster) -> bool:
+    cid = cluster.cluster_id
+    favorable = set()
+    for row in result.harmonic_comparisons:
+        if cid not in (row.short_cluster_id, row.long_cluster_id):
+            continue
+        is_short = cid == row.short_cluster_id
+        if row.status != "ok" or row.prefers != ("P" if is_short else "2P"):
+            return False
+        favorable.add(row.long_cluster_id if is_short else row.short_cluster_id)
+    return all(link["other_id"] in favorable for link in cluster.harmonic_links)
+
+
 def check_verification_scope(recon: ReconciliationResult, result: VerificationResult) -> None:
     required = required_verification_ids(recon)
-    ids = {record.cluster_id for record in result.per_candidate}
-    _require(bool(required) and ids == required and len(result.per_candidate) == len(required),
+    records = {record.cluster_id: record for record in result.per_candidate}
+    _require(bool(required) and records.keys() == required and len(result.per_candidate) == len(required),
              "verification membership differs from required cluster IDs")
-    _require(result.complete == all(record.status == "ok" for record in result.per_candidate),
+    expected = expected_harmonic_pairs(recon)
+    rows = result.harmonic_comparisons
+    _require([(row.short_cluster_id, row.long_cluster_id) for row in rows] == list(expected),
+             "harmonic comparison membership differs from expected pairs")
+    periods = {cluster.cluster_id: cluster.period_s for cluster in recon.clusters}
+    _require(all(record.period_s == periods[cid] for cid, record in records.items()),
+             "verification period differs from reconciliation")
+    for row in rows:
+        short, long = row.short_cluster_id, row.long_cluster_id
+        _require((row.short_period_s, row.long_period_s) == (periods[short], periods[long]),
+                 "harmonic comparison periods differ from reconciliation")
+        eligible = expected[short, long]
+        _require((row.reason == "partner_failed_stage2") == (not eligible),
+                 "incorrect harmonic Stage 2 exclusion")
+        endpoints = [records.get(cid) for cid in (short, long)]
+        errors = tuple(record.heldout_error if record is not None else None for record in endpoints)
+        _require((row.short_heldout_error, row.long_heldout_error) == errors,
+                 "harmonic comparison errors differ from verified fits")
+        if not eligible:
+            _require(row.status == "skipped", "excluded harmonic comparison must be skipped")
+        elif any(record.status != "ok" for record in endpoints):
+            status = "failed" if any(record.status == "failed" for record in endpoints) else "skipped"
+            _require(row.status == status and row.reason == "harmonic_fit_unfinished",
+                     "harmonic comparison status differs from unfinished fits")
+        else:
+            _require(row.reason != "harmonic_fit_unfinished", "harmonic comparison has finished fits")
+    _require(result.complete == verification_finished(result.per_candidate, rows),
              "incorrect verification completeness")
 
 
@@ -710,6 +836,10 @@ def _analysis(value):
                      record.status == "ok" and record.passed
                      for record in value.verification.per_candidate),
                  "supported candidate has not passed verification")
+        best_cluster = next(cluster for cluster in value.reconciliation.clusters
+                            if cluster.cluster_id == value.verdict.best_cluster_id)
+        _require(harmonic_resolved_for(value.verification, best_cluster),
+                 "Supported requires favorable harmonic comparisons")
     outcome = _structural_outcome(value.quality, value.estimators, value.reconciliation, value.verification)
     if outcome == "incomplete":
         _require(value.verdict is not None and value.verdict.label == "Ambiguous"
@@ -727,6 +857,7 @@ _VALIDATORS = {
     Cluster: _cluster,
     ReconciliationResult: _reconciliation,
     CandidateVerification: _candidate_verification,
+    HarmonicComparison: _harmonic_comparison,
     VerificationResult: _verification,
     Verdict: _verdict,
     AnalysisResult: _analysis,

@@ -71,6 +71,7 @@ def _analyze_upload(raw: bytes, name: str, obs: Observation, cfg: PipelineConfig
     saved = entry.get("analysis")
     if isinstance(saved, tuple) and len(saved) == 2 and saved[0] == key:
         try:
+            # Decode against the active schema and recheck exact verification coverage.
             cached = AnalysisResult.from_dict(json.loads(saved[1]))
             if ((cached.obs_id, cached.mode, cached.config_hash) != (obs.obs_id, "fast", digest)
                     or not _cacheable(cached)):

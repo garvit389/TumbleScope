@@ -318,14 +318,20 @@ def fig_verification(verification):
         figure.add_annotation(x=0.5, y=0.5, xref="x domain", yref="y domain",
                               text="No decoy comparisons available.", showarrow=False, row=2, col=1)
     outcomes, details = [], []
+    fit_ids = {entry.cluster_id for entry in records}
     for entry in records:
         outcomes.append(entry.status if entry.status != "ok" else "Passed" if entry.passed else "Rejected")
         notes = list(entry.notes)
-        if entry.harmonic_comparison:
-            comparison = entry.harmonic_comparison
-            notes.append(f'Harmonic partner #{comparison["partner_id"]} · {comparison["prefers"]}')
-            if comparison.get("reason"):
-                notes.append(comparison["reason"])
+        for comparison in verification.harmonic_comparisons:
+            display_id = (comparison.short_cluster_id if comparison.short_cluster_id in fit_ids
+                          else comparison.long_cluster_id)
+            if entry.cluster_id != display_id:
+                continue
+            notes.append(f"Harmonic pair {comparison.pair_id} · {comparison.status} · {comparison.prefers}")
+            if comparison.delta_e is not None:
+                notes.append(f"Δ held-out error {comparison.delta_e:.4g}")
+            if comparison.reason:
+                notes.append(comparison.reason)
         details.append("; ".join(notes) or "—")
     figure.add_trace(go.Table(
         header=dict(values=["Candidate", "Outcome", "Details"], align="left"),

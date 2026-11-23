@@ -251,7 +251,7 @@ def test_equal_optimizer_budget(prepared, mock_recon, protocol_cfg, monkeypatch)
     assert seen[3][3] == seen[4][3] == seen[5][3]
     assert all(sigma is seen[0][4] for _, _, _, _, sigma in seen)
     assert all(record.decoy_delta_e == [.25, .25] for record in result.per_candidate)
-    assert any("even shorter-period cycles" in note for note in result.per_candidate[0].notes)
+    assert any("even shorter-period cycles" in note for note in result.harmonic_comparisons[0].notes)
 
 
 def test_zero_observed_mad_marks_all_required_fits_failed(prepared, mock_recon, protocol_cfg, monkeypatch):
@@ -295,14 +295,12 @@ def test_required_ids_and_harmonic_direction(prepared, mock_recon, protocol_cfg,
         monkeypatch.setattr(verify, "_score_period", score)
         result = verify.verify_candidates(prepared, mock_recon, protocol_cfg)
         assert result.complete
-        for record, other in zip(result.per_candidate, (long, short)):
-            assert record.harmonic_comparison == {
-                "partner_id": other.cluster_id, "prefers": preference,
-                "delta_e": long_e - short_e, "reason": None,
-            }
+        comparison, = result.harmonic_comparisons
+        assert (comparison.short_cluster_id, comparison.long_cluster_id) == (short.cluster_id, long.cluster_id)
+        assert (comparison.prefers, comparison.delta_e, comparison.reason) == (preference, long_e - short_e, None)
 
 
-def test_v3_multiple_partners_preserve_required_ids(prepared, mock_recon):
+def test_multiple_partners_preserve_required_ids_on_policy_failure(prepared, mock_recon):
     from dataclasses import replace
     from physics.verify import verify_candidates
 
@@ -314,9 +312,9 @@ def test_v3_multiple_partners_preserve_required_ids(prepared, mock_recon):
     result = verify_candidates(prepared, recon, {})
     assert [record.cluster_id for record in result.per_candidate] == [1, 2, 3]
     assert not result.complete and result.per_candidate[0].status == "failed"
-    assert any("contract amendment" in note for note in result.per_candidate[0].notes)
-    assert all(record.harmonic_comparison is None or "pairs" not in record.harmonic_comparison
-               for record in result.per_candidate)
+    assert [row.pair_id for row in result.harmonic_comparisons] == ["1:2", "3:1"]
+    assert all(row.status == "failed" and row.reason == "harmonic_fit_unfinished"
+               for row in result.harmonic_comparisons)
 
 
 def test_missing_policy_and_timeout(prepared, mock_recon, protocol_cfg, monkeypatch):
@@ -353,6 +351,7 @@ def test_verification_replay(prepared, mock_recon, protocol_cfg, monkeypatch):
     second = verify.verify_candidates(prepared, mock_recon, cfg)
     assert first.complete and second.complete
     assert first.per_candidate == second.per_candidate
+    assert first.harmonic_comparisons == second.harmonic_comparisons
 
 
 def test_odd_even_diagnostics(prepared):

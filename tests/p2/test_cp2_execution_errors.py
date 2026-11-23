@@ -49,8 +49,10 @@ def test_execution_failures(monkeypatch, observation, injected_config, mock_cnn,
 
 
 def completed(prep, recon, cfg, **kwargs):
+    from tests.verification_cases import with_candidate_fits
+
     stub = controller.verify_candidates_original(prep, recon, cfg, **kwargs)
-    return replace(stub, complete=True, is_stub=False, per_candidate=[
+    return with_candidate_fits(replace(stub, is_stub=False), [
         replace(r, status="ok", passed=True, fit_error=.1, heldout_error=.2,
                 best_params={"shape": "fixture", "geometry_errors": {"fixture": .2},
                              "fit_space": "y_norm", "scale_a": 1., "offset_b": 0.})
