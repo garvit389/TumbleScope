@@ -39,7 +39,7 @@ def _model_from_dict(cls, payload):
     return value
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 3
 
 REASON_CODES = (
     "low_quality",
@@ -260,7 +260,7 @@ class AnalysisResult:
     estimators: dict[str, EstimatorResult]
     reconciliation: Optional[ReconciliationResult]
     verification: Optional[VerificationResult]
-    verdict: Verdict
+    verdict: Optional[Verdict]
     stage_errors: dict[str, str]
     timings_s: dict[str, float]
     mode: str
@@ -536,6 +536,9 @@ def _reconciliation(value):
     _require(len(set(value.shortlist)) == len(value.shortlist), "duplicate shortlist ID")
     _require(all(cid in by_id and by_id[cid].stage2["passed"] for cid in value.shortlist),
              "shortlist contains an unknown or rejected cluster")
+    if not value.is_stub:
+        _require(bool(value.shortlist) == any(c.stage2["passed"] for c in value.clusters),
+                 "real Stage 2 pass requires a shortlist")
     selected = [by_id[cid].score for cid in value.shortlist]
     accepted = [cluster.score for cluster in value.clusters if cluster.stage2["passed"]]
     _require(selected == accepted[:len(selected)], "shortlist scores out of order")
@@ -626,23 +629,92 @@ def report_progress(progress: Optional[ProgressCallback], fraction: float, messa
             pass
 
 
+def stage2_pending(recon, estimators, verification):
+    """Recognize only the pending stub exception defined in CONTRACTS.md §5.4."""
+    return (recon is not None and recon.is_stub
+            and "stage2_not_evaluated" in recon.notes
+            and bool(recon.clusters) and not recon.shortlist and not recon.stage2_passed_any
+            and verification is None
+            and any(item.status == "ok" and item.candidates for item in estimators.values()))
+
+
+def _structural_outcome(quality, estimators, recon, verification):
+    """Existing decisions that remain available without calibrated verdict logic."""
+    if quality is None:
+        return None
+    if quality.status == "insufficient":
+        return "quality"
+    if not any(item.status == "ok" for item in estimators.values()):
+        return "unavailable"
+    if not any(item.candidates for item in estimators.values()):
+        return "empty"
+    if recon is not None and not recon.shortlist and recon.clusters and all(
+            not c.stage2["passed"] for c in recon.clusters):
+        return "rejected"
+    if recon is not None and recon.shortlist:
+        if verification is None or not verification.complete:
+            return "incomplete"
+        if not any(item.passed for item in verification.per_candidate):
+            return "mismatch"
+    return None
+
+
+def _execution_error(prepared, quality, estimators, recon, verification, errors):
+    """Mutually exclusive execution states defined in CONTRACTS.md §5.4."""
+    diagnostic = lambda name: bool(errors.get(name, "").strip())
+    stopped = (recon is None and verification is None and all(
+        item.status == "skipped" and item.error == NOT_RUN for item in estimators.values()))
+    if prepared is None:
+        return "prepare" if quality is None and stopped and diagnostic("prepare") else None
+    if quality is None:
+        return "stage1" if stopped and diagnostic("stage1") else None
+    if quality.status == "insufficient":
+        return None
+    candidates = any(item.status == "ok" and item.candidates for item in estimators.values())
+    if candidates and recon is None:
+        return "reconciliation" if verification is None and diagnostic("reconciliation") else None
+    if stage2_pending(recon, estimators, verification):
+        return None
+    if (candidates and recon is not None and recon.shortlist and verification is not None
+            and verification.complete and diagnostic("verdict")
+            and _structural_outcome(quality, estimators, recon, verification) is None):
+        return "verdict"
+    return None
+
+
 def _analysis(value):
     _require(value.schema_version == SCHEMA_VERSION, "schema version mismatch")
     _require(value.mode == "fast", "unsupported analysis mode")
-    _require((value.prepared is None) == (value.quality is None), "inconsistent preparation and quality")
+    error_state = _execution_error(value.prepared, value.quality, value.estimators,
+                                   value.reconciliation, value.verification, value.stage_errors)
+    _require(value.prepared is not None or value.quality is None, "quality requires preparation")
+    _require(value.quality is not None or error_state in ("prepare", "stage1"),
+             "missing quality requires execution failure")
     _require(set(value.estimators) == set(ESTIMATOR_METHODS), "invalid analysis estimator keys")
     _require(all(key == item.method for key, item in value.estimators.items()),
              "analysis estimator method mismatch")
     if value.verification is not None:
         _require(value.reconciliation is not None, "verification requires reconciliation")
         check_verification_scope(value.reconciliation, value.verification)
-    if value.verdict.label == "Supported":
+    if value.reconciliation is not None and not value.reconciliation.is_stub:
+        accepted = sum(c.stage2["passed"] for c in value.reconciliation.clusters)
+        _require(len(value.reconciliation.shortlist) == min(3, accepted),
+                 "incomplete Fast mode shortlist")
+    pending = stage2_pending(value.reconciliation, value.estimators, value.verification)
+    _require((value.verdict is None) == (pending or error_state is not None),
+             "verdict absence requires pending Stage 2 stub or execution failure")
+    if value.verdict is not None and value.verdict.label == "Supported":
         _require(value.verification is not None and value.verification.complete,
                  "Supported requires complete verification")
         _require(any(record.cluster_id == value.verdict.best_cluster_id and
                      record.status == "ok" and record.passed
                      for record in value.verification.per_candidate),
                  "supported candidate has not passed verification")
+    outcome = _structural_outcome(value.quality, value.estimators, value.reconciliation, value.verification)
+    if outcome == "incomplete":
+        _require(value.verdict is not None and value.verdict.label == "Ambiguous"
+                 and VERIFICATION_INCOMPLETE in value.verdict.reason_codes,
+                 "required verification is incomplete")
 
 
 _VALIDATORS = {

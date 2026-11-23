@@ -70,8 +70,8 @@ def test_invalid_stage_output_yields_valid_partial_analysis(
     if stage == "prepare":
         assert result.prepared is result.quality is None
     elif stage == "stage1":
-        assert result.quality.status == "insufficient"
-        assert result.verdict.reason_codes == [LOW_QUALITY]
+        assert result.prepared is not None
+        assert result.quality is result.verdict is None
     elif stage == "cnn":
         assert result.estimators[mock_cnn.method].status == "failed"
     elif stage == "reconciliation":

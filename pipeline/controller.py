@@ -24,6 +24,9 @@ from preprocessing.prepare import prepare
 from preprocessing.quality import assess_stage1
 from reconciliation.reconcile import reconcile
 from verdict.decide import decide
+from core.schemas import stage2_pending, _execution_error, _structural_outcome
+from core.schemas import (ALL_ESTIMATORS_UNAVAILABLE, ALL_CANDIDATES_FAILED_STAGE2,
+                          CANDIDATE_INADEQUATE, NO_PERIODIC_SIGNAL, MODEL_MISMATCH)
 
 
 _ROOT = Path(__file__).resolve().parents[1]
@@ -126,6 +129,9 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
     def reconcile_checks(result):
         if len(result.shortlist) > _FAST_SHORTLIST_LIMIT:
             raise ValueError("contract: shortlist exceeds the Fast mode limit")
+        if not result.is_stub and len(result.shortlist) != min(
+                _FAST_SHORTLIST_LIMIT, sum(c.stage2["passed"] for c in result.clusters)):
+            raise ValueError("contract: incomplete Fast mode shortlist")
 
     def verdict_checks(result):
         if recon is not None and recon.shortlist and (verification is None or not verification.complete):
@@ -151,9 +157,6 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
     if prepared is not None:
         quality = accept("stage1", stage("stage1", lambda: assess_stage1(prepared, cfg.preprocess),
                                         expected=QualityReport))
-        if quality is None:
-            quality = QualityReport("insufficient", {}, ["Stage 1 did not complete."],
-                                    [LOW_QUALITY], is_stub=True)
 
     report_progress(progress, 0.2, "Preparation and quality complete")
     estimators = {}
@@ -213,19 +216,17 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
             ), expected=VerificationResult, check=verify_checks)
             verification = accept("verification", verification, verify_checks)
 
-    verdict_quality = quality
-    if verdict_quality is None:
-        verdict_quality = QualityReport("insufficient", {}, ["Preparation did not complete."],
-                                        [LOW_QUALITY], is_stub=True)
-    verdict = stage("verdict", lambda: decide(verdict_quality, estimators, recon, verification, cfg.verdict),
-                    expected=Verdict, check=verdict_checks)
-    verdict = accept("verdict", verdict, verdict_checks)
-    if verdict is None:
-        try:
-            verdict = _stub_decision(verdict_quality, estimators, recon, verification, cfg.verdict)
-        except NotImplementedError:
-            verification = None
-            verdict = _stub_decision(verdict_quality, estimators, recon, verification, cfg.verdict)
+    verdict = None
+    if (not stage2_pending(recon, estimators, verification)
+            and _execution_error(prepared, quality, estimators, recon, verification, stage_errors) is None):
+        verdict = stage("verdict", lambda: decide(quality, estimators, recon, verification, cfg.verdict),
+                        expected=Verdict, check=verdict_checks)
+        verdict = accept("verdict", verdict, verdict_checks)
+        if verdict is None:
+            verdict = _fallback_verdict(quality, estimators, recon, verification)
+            if verdict is not None:
+                # Fallback is independent of decide and must pass both validation layers.
+                validate_result(verdict, verdict_checks)
     result = AnalysisResult(obs.obs_id, prepared, quality, estimators, recon, verification,
                             verdict, stage_errors, timings, mode, digest)
     result.validate()
@@ -233,4 +234,42 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
     return result
 
 
-_stub_decision = decide
+def _fallback_verdict(quality, estimators, recon, verification):
+    outcome = _structural_outcome(quality, estimators, recon, verification)
+    if outcome is None:
+        return None
+    label, reason = {
+        "quality": ("Inconclusive", LOW_QUALITY),
+        "unavailable": ("Inconclusive", CANDIDATE_INADEQUATE),
+        "empty": ("Inconclusive", NO_PERIODIC_SIGNAL),
+        "rejected": ("Inconclusive", CANDIDATE_INADEQUATE),
+        "incomplete": ("Ambiguous", VERIFICATION_INCOMPLETE),
+        "mismatch": ("Ambiguous", MODEL_MISMATCH),
+    }[outcome]
+    stage2_failures = sorted({r for c in (recon.clusters if recon else [])
+                              for r in c.stage2["fail_reasons"]})
+    summary = {
+        "stage1_status": quality.status, "stage1_warnings": list(quality.warnings),
+        "estimator_status": {k: v.status for k, v in estimators.items()},
+        "n_estimators_available": sum(v.status == "ok" for v in estimators.values()),
+        "estimators_agree": None, "alias_risk": None,
+        "verification_complete": verification.complete if verification is not None else None,
+        "heldout_error": None, "decoy_separation": None,
+        "stage2_fail_reasons": stage2_failures,
+        "selective_accuracy_validation": None,
+    }
+    if outcome in ("unavailable", "rejected"):
+        cause = ALL_ESTIMATORS_UNAVAILABLE if outcome == "unavailable" else ALL_CANDIDATES_FAILED_STAGE2
+        summary["inconclusive_cause"] = cause
+    if verification is not None:
+        scores = {c.cluster_id: c.score for c in recon.clusters}
+        finished = [r for r in verification.per_candidate if r.status == "ok"]
+        if finished:
+            record = min(finished, key=lambda r: (not r.passed, -scores[r.cluster_id], r.cluster_id))
+            summary["heldout_error"] = record.heldout_error
+            summary["decoy_separation"] = min(record.decoy_delta_e, default=None)
+    reasons = [reason]
+    if quality.status == "limited":
+        reasons.append(LOW_QUALITY)
+    return Verdict(label, None, None, [], reasons, summary,
+                   f"{label}. Structural fallback: {reason}. " + " ".join(quality.warnings))

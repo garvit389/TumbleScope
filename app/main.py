@@ -8,6 +8,7 @@ import streamlit as st
 
 from core.config import load_config
 from core.errors import IngestionError
+from core.schemas import stage2_pending
 from ingestion import load_observation
 from pipeline.controller import analyze
 
@@ -43,8 +44,19 @@ def main():
         st.write(f"Observation quality: {result.quality.status}")
         for warning in result.quality.warnings:
             st.caption(warning)
-    st.subheader(result.verdict.label)
-    st.write(result.verdict.text)
+    for stage, diagnostic in result.stage_errors.items():
+        st.caption(f"{stage}: {diagnostic}")
+    if result.verdict is None and not stage2_pending(
+            result.reconciliation, result.estimators, result.verification):
+        st.subheader("Technical execution failure")
+        st.write("A required stage failed. Retained results are shown below; no final scientific verdict is available.")
+    elif result.verdict is None:
+        st.subheader("Stage 2 assessment pending")
+        st.write("Estimator candidates are available. Stage 2 reconciliation and shortlisting "
+                 "have not yet been evaluated. A final verdict is pending.")
+    else:
+        st.subheader(result.verdict.label)
+        st.write(result.verdict.text)
     st.table([
         {"Estimator": method, "Status": item.status, "Detail": item.error or ""}
         for method, item in result.estimators.items()

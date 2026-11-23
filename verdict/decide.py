@@ -6,6 +6,7 @@ from core.schemas import (
     ALL_CANDIDATES_FAILED_STAGE2, ALL_ESTIMATORS_UNAVAILABLE, CANDIDATE_INADEQUATE,
     LOW_QUALITY, MODEL_MISMATCH, NO_PERIODIC_SIGNAL, VERIFICATION_INCOMPLETE,
     EstimatorResult, QualityReport, ReconciliationResult, VerificationResult, Verdict,
+    stage2_pending,
 )
 
 
@@ -40,6 +41,10 @@ def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
     elif not any(result.candidates for result in estimators.values()):
         reasons = [NO_PERIODIC_SIGNAL]
     elif recon is None or not recon.shortlist:
+        if stage2_pending(recon, estimators, verification):
+            raise ValueError("contract: final verdict requested for pending Stage 2 stub")
+        if not clusters or not all(not cluster.stage2["passed"] for cluster in clusters):
+            raise ValueError("contract: no scientific verdict without evaluated Stage 2 rejection")
         reasons = [CANDIDATE_INADEQUATE]
         summary["inconclusive_cause"] = ALL_CANDIDATES_FAILED_STAGE2
     else:

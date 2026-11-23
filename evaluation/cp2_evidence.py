@@ -1,6 +1,7 @@
 """Reproduce the P1 CP2 experiments with python -m evaluation.cp2_evidence."""
 
 import argparse
+from collections import Counter
 from dataclasses import asdict
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -21,7 +22,8 @@ from scipy.special import betainccinv
 from classical_analysis import lomb_scargle as ls, pdm
 from classical_analysis.window import compute_window
 from core.config import load_config, resolve_period_bounds
-from core.schemas import LOMB_SCARGLE, PDM, EstimatorResult, Observation
+from core.schemas import (LOMB_SCARGLE, PDM, EstimatorResult, Observation,
+                          _execution_error, stage2_pending)
 from ingestion import load_observation
 from pipeline import controller
 from preprocessing.prepare import prepare
@@ -208,22 +210,63 @@ def estimator_output(result):
     return data
 
 
+def analysis_disposition(analysis):
+    """Classify only validated schema-v3 analyses; no missing verdict is a prediction."""
+    analysis.validate()
+    if analysis.verdict is not None:
+        return "completed", None
+    if stage2_pending(analysis.reconciliation, analysis.estimators, analysis.verification):
+        return "stage2_pending", None
+    failed_stage = _execution_error(analysis.prepared, analysis.quality, analysis.estimators,
+                                    analysis.reconciliation, analysis.verification, analysis.stage_errors)
+    if failed_stage is None:
+        raise ValueError("Invalid nullable-verdict analysis")
+    return "execution_error", failed_stage
+
+
+def analysis_evidence(analysis):
+    """Keep legacy completed records; retain the full analysis for unfinished runs."""
+    disposition, failed_stage = analysis_disposition(analysis)
+    if disposition == "completed":
+        return {"controller_stage_errors": analysis.stage_errors,
+                "controller_verdict": analysis.verdict.label}
+    return {"controller_stage_errors": analysis.stage_errors, "controller_verdict": None,
+            "analysis_disposition": disposition, "failed_stage": failed_stage,
+            "analysis_result": analysis.to_dict()}
+
+
 def real_outputs(config, classical, directory):
     outputs = []
     with TemporaryDirectory(prefix="tumblescope-cp2-") as temp, patch.object(controller, "_OUTPUTS", Path(temp)):
         for filename in SDLCD_FILES:
             path = directory / filename
             observation = load_observation(str(path))
-            prep = prepare(observation, config.preprocess)
-            quality = assess_stage1(prep, config.preprocess)
             analysis = controller.analyze(observation, config)
             analysis.validate()
-            if analysis.quality.to_dict() != quality.to_dict():
-                raise ValueError(f"Controller quality differs for {filename}")
+            disposition, _ = analysis_disposition(analysis)
+            if disposition == "execution_error":
+                outputs.append({"file": filename, "sha256": digest(path.read_bytes()),
+                                **analysis_evidence(analysis)})
+                continue
+            prep, quality = analysis.prepared, analysis.quality
             estimators = {}
             for method, runner in ((LOMB_SCARGLE, ls.run_lomb_scargle), (PDM, pdm.run_pdm)):
-                direct = estimator_output(runner(prep, classical))
-                integrated = estimator_output(analysis.estimators[method])
+                source = analysis.estimators[method]
+                if source.status != "ok":
+                    estimators[method] = source.to_dict()
+                    estimators[method]["direct_comparison"] = None
+                    continue
+                integrated = estimator_output(source)
+                try:
+                    comparison = runner(prep, classical)
+                    comparison.validate()
+                    if comparison.status != "ok":
+                        raise ValueError(f"{comparison.status}: {comparison.error}")
+                    direct = estimator_output(comparison)
+                except Exception as error:
+                    estimators[method] = {**integrated, "direct_comparison": None,
+                                          "direct_comparison_error": str(error) or type(error).__name__}
+                    continue
                 direct_runtime = direct["meta"].pop("runtime_s")
                 integrated_runtime = integrated["meta"].pop("runtime_s")
                 if direct != integrated:
@@ -249,11 +292,18 @@ def real_outputs(config, classical, directory):
                 "brightness_kind": observation.brightness_kind, "brightness_sign": prep.norm_params["sign"],
                 "n_rows": prep.meta["n_rows"], "n_valid": prep.meta["n_valid"], "quality": quality.to_dict(),
                 "estimators": estimators, "window": window, "window_runtime_s": window_time,
-                "controller_stage_errors": analysis.stage_errors, "controller_verdict": analysis.verdict.label,
+                **analysis_evidence(analysis),
             })
+    counts = Counter(row.get("analysis_disposition", "completed") for row in outputs)
     return {"dataset": "Three local SDLCD observations used for the P1 backend smoke check",
             "selection": "Two files with candidates in both estimators and one with two successful empty lists",
-            "trial_count": len(outputs), "controller_matches_direct_excluding_runtime": True,
+            "trial_count": len(outputs),
+            "controller_matches_direct_excluding_runtime": (
+                True if all("estimators" in row and all(
+                    item.get("direct_comparison", True) is not None
+                    for item in row["estimators"].values()) for row in outputs) else None),
+            "disposition_counts": dict(counts), "scientific_prediction_denominator": counts["completed"],
+            "denominator_policy": "Only completed verdicts enter scientific prediction metrics; pending and execution-error records remain in trial_count and are reported separately.",
             "outputs": outputs}
 
 

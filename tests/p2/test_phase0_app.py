@@ -43,7 +43,7 @@ def test_demo_with_real_cp1_stages(tmp_path, monkeypatch):
     entry_point = Path(__file__).resolve().parents[2] / "app" / "main.py"
     demo = AppTest.from_file(str(entry_point)).run(timeout=20)
     assert not demo.exception and not demo.error
-    assert any("Inconclusive" == heading.value for heading in demo.subheader)
+    assert any("Stage 2 assessment pending" == heading.value for heading in demo.subheader)
     assert (tmp_path / "run_config.json").is_file()
 
 
