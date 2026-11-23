@@ -1,4 +1,4 @@
-"""Phase 0 controller for the shared interfaces in CONTRACTS.md."""
+"""Run Fast analysis and preserve evidence across stage failures."""
 
 from dataclasses import asdict
 from importlib.metadata import distributions
@@ -11,12 +11,13 @@ from typing import Optional
 
 from classical_analysis.lomb_scargle import run_lomb_scargle
 from classical_analysis.pdm import run_pdm
+from classical_analysis.window import compute_window
 from core.config import PipelineConfig, config_hash, resolve_period_bounds
 from core.schemas import (
     CNN, ESTIMATOR_METHODS, LOMB_SCARGLE, LOW_QUALITY, NOT_RUN, PDM, PERIOD_BOUNDS_NOT_SET,
     SCHEMA_VERSION, STAGE1_INSUFFICIENT, VERIFICATION_INCOMPLETE, AnalysisResult, EstimatorResult, Observation,
     PreparedObservation, ProgressCallback, QualityReport, ReconciliationResult, VerificationResult,
-    Verdict, check_verification_scope, report_progress,
+    Verdict, check_verification_scope, harmonic_resolved_for, report_progress,
 )
 from ml.infer import run_cnn
 from physics.verify import verify_candidates
@@ -24,6 +25,7 @@ from preprocessing.prepare import prepare
 from preprocessing.quality import assess_stage1
 from reconciliation.reconcile import reconcile
 from verdict.decide import decide
+from verdict.reasons import _alternatives
 from core.schemas import stage2_pending, _execution_error, _structural_outcome
 from core.schemas import (ALL_ESTIMATORS_UNAVAILABLE, ALL_CANDIDATES_FAILED_STAGE2,
                           CANDIDATE_INADEQUATE, NO_PERIODIC_SIGNAL, MODEL_MISMATCH)
@@ -69,7 +71,7 @@ def _write_run_config(cfg, digest):
 
 
 def _unavailable(method, error, status="skipped", runtime=0.0):
-    return EstimatorResult(method, status, [], error, {"runtime_s": runtime}, is_stub=True)
+    return EstimatorResult(method, status, [], error, {"runtime_s": runtime})
 
 
 def _validation_message(error):
@@ -144,12 +146,15 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
         if not any(record.cluster_id == result.best_cluster_id and record.passed
                    for record in verification.per_candidate):
             raise ValueError("contract: supported candidate has not passed verification")
+        lead = next(cluster for cluster in recon.clusters if cluster.cluster_id == result.best_cluster_id)
+        if not harmonic_resolved_for(verification, lead):
+            raise ValueError("contract: Supported requires favorable harmonic comparisons")
 
     def prepare_input():
         obs.validate()
         return prepare(obs, cfg.preprocess)
 
-    report_progress(progress, 0.0, "Starting Phase 0 analysis")
+    report_progress(progress, 0.0, "Starting analysis")
     digest = config_hash(cfg)
     stage("run_config", lambda: _write_run_config(cfg, digest))
     prepared = accept("prepare", stage("prepare", prepare_input, expected=PreparedObservation))
@@ -194,12 +199,20 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
             if result.status != "ok":
                 stage_errors[method] = result.error
 
-        report_progress(progress, 0.45, "Estimator placeholders complete")
+        report_progress(progress, 0.45, "Period estimation complete")
         policies = injected if bounds is not None else {}
         reconcile_cfg = {**cfg.reconcile, **policies, "top_k": _FAST_SHORTLIST_LIMIT}
-        recon = stage("reconciliation", lambda: reconcile(
-            prepared, list(estimators.values()), reconcile_cfg
-        ), expected=ReconciliationResult, check=reconcile_checks)
+        window_result = None
+
+        def run_reconciliation():
+            nonlocal window_result
+            if any(item.status == "ok" and item.candidates for item in estimators.values()):
+                window_result = compute_window(prepared, {**cfg.classical, **policies})
+                reconcile_cfg["window_result"] = window_result
+            return reconcile(prepared, list(estimators.values()), reconcile_cfg)
+
+        recon = stage("reconciliation", run_reconciliation,
+                      expected=ReconciliationResult, check=reconcile_checks)
         recon = accept("reconciliation", recon, reconcile_checks)
         if recon is not None and recon.shortlist:
             report_progress(progress, 0.6, "Starting verification")
@@ -211,10 +224,24 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
                 check_verification_scope(recon, result)
 
             verification = stage("verification", lambda: verify_candidates(
-                prepared, recon, {**cfg.verification, **policies}, mode=mode,
+                prepared, recon, {**cfg.verification, **policies, "window_result": window_result}, mode=mode,
                 progress=verify_progress if progress is not None else None,
             ), expected=VerificationResult, check=verify_checks)
             verification = accept("verification", verification, verify_checks)
+            if verification is not None and not verification.complete and not verification.is_stub:
+                unfinished = [
+                    f"{record.cluster_id}: {record.status} ({record.notes[-1] if record.notes else 'no detail'})"
+                    for record in verification.per_candidate if record.status != "ok"
+                ]
+                pairs = [f"{row.pair_id}: {row.status} ({row.reason})"
+                         for row in verification.harmonic_comparisons
+                         if row.status != "ok" and row.reason != "partner_failed_stage2"]
+                details = []
+                if unfinished:
+                    details.append("Incomplete candidates: " + "; ".join(unfinished))
+                if pairs:
+                    details.append("Incomplete harmonic pairs: " + "; ".join(pairs))
+                stage_errors["verification"] = ". ".join(details)
 
     verdict = None
     if (not stage2_pending(recon, estimators, verification)
@@ -230,7 +257,7 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
     result = AnalysisResult(obs.obs_id, prepared, quality, estimators, recon, verification,
                             verdict, stage_errors, timings, mode, digest)
     result.validate()
-    report_progress(progress, 1.0, "Phase 0 analysis complete")
+    report_progress(progress, 1.0, "Analysis complete")
     return result
 
 
@@ -270,6 +297,7 @@ def _fallback_verdict(quality, estimators, recon, verification):
             summary["decoy_separation"] = min(record.decoy_delta_e, default=None)
     reasons = [reason]
     if quality.status == "limited":
-        reasons.append(LOW_QUALITY)
-    return Verdict(label, None, None, [], reasons, summary,
+        reasons.insert(0, LOW_QUALITY)
+    alternatives = _alternatives(recon, verification) if label == "Ambiguous" else []
+    return Verdict(label, None, None, alternatives, reasons, summary,
                    f"{label}. Structural fallback: {reason}. " + " ".join(quality.warnings))

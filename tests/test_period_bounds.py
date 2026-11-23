@@ -33,6 +33,18 @@ def test_only_period_bounds_file_defines_bounds():
     assert all((CONFIGS / file).is_file() for file in manifest.values() if isinstance(file, str))
 
 
+def test_cp3b_real_checkpoint_bounds_mismatch(prepared):
+    from ml.infer import run_cnn
+
+    config = load_config()
+    lower, upper = resolve_period_bounds(config.period_bounds)
+    result = run_cnn(prepared, dict(config.cnn, period_min_s=lower / 2, period_max_s=upper))
+    result.validate()
+    assert (result.status, result.error, result.candidates) == (
+        "failed", "checkpoint_bounds_mismatch", [],
+    )
+
+
 def test_unset_api_rejects_bounds(monkeypatch, tmp_path):
     from core import config
 

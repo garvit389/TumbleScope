@@ -9,6 +9,7 @@ from core.schemas import (
 )
 from physics.verify import verify_candidates
 from pipeline import controller
+from tests.verification_cases import with_candidate_fits
 from verdict.decide import decide
 
 
@@ -56,7 +57,7 @@ def test_required_verification_ignores_failed_and_transitive_partners(prepared, 
     outcome = verify_candidates(prepared, filtered, {})
     check_verification_scope(filtered, outcome)
     assert [record.cluster_id for record in outcome.per_candidate] == [1]
-    assert outcome.per_candidate[0].harmonic_comparison["reason"] == "partner_failed_stage2"
+    assert outcome.harmonic_comparisons[0].reason == "partner_failed_stage2"
 
 
 @pytest.fixture
@@ -66,7 +67,8 @@ def configured_pipeline(monkeypatch, injected_config, mock_cnn, mock_recon):
     return injected_config
 
 
-@pytest.mark.parametrize("problem", ["missing", "extra", "duplicate", "incorrect completeness"])
+@pytest.mark.parametrize("problem", ["missing", "extra", "duplicate", "incorrect completeness",
+                                     "missing pair", "duplicate pair"])
 def test_controller_rejects_invalid_verification(
     monkeypatch, observation, prepared, mock_recon, configured_pipeline, problem
 ):
@@ -77,6 +79,8 @@ def test_controller_rejects_invalid_verification(
         "extra": replace(valid_stub, per_candidate=[first, second, replace(first, cluster_id=99)]),
         "duplicate": replace(valid_stub, per_candidate=[first, first]),
         "incorrect completeness": replace(valid_stub, per_candidate=[finished(first), finished(second)]),
+        "missing pair": replace(valid_stub, harmonic_comparisons=[]),
+        "duplicate pair": replace(valid_stub, harmonic_comparisons=valid_stub.harmonic_comparisons * 2),
     }
     monkeypatch.setattr(controller, "verify_candidates", lambda *args, **kwargs: options[problem])
     result = controller.analyze(observation, configured_pipeline)
@@ -93,7 +97,7 @@ def test_completed_failure_uses_one_diagnostic_record(
 ):
     outcome = verify_candidates(prepared, mock_recon, {})
     first, second = outcome.per_candidate
-    outcome = replace(outcome, complete=True, per_candidate=[
+    outcome = with_candidate_fits(outcome, [
         finished(second, heldout=0.25, decoy_error=0.875),
         finished(first, heldout=0.50, decoy_error=0.75),
     ])
@@ -112,7 +116,7 @@ def test_one_unfinished_partner_prevents_supported(
 ):
     outcome = verify_candidates(prepared, mock_recon, {})
     first, second = outcome.per_candidate
-    outcome = replace(outcome, per_candidate=[
+    outcome = with_candidate_fits(outcome, [
         finished(first, passed=leading_passed), replace(second, status=other_status),
     ])
     monkeypatch.setattr(controller, "verify_candidates", lambda *args, **kwargs: outcome)
@@ -138,7 +142,7 @@ def test_random_incomplete_verification_cannot_support_a_candidate(
             for record in stub.per_candidate
         ]
         rng.shuffle(records)
-        outcome = replace(stub, per_candidate=records, complete=False)
+        outcome = with_candidate_fits(stub, records)
         outcome.validate()
         check_verification_scope(mock_recon, outcome)
         verdict = decide(base.quality, base.estimators, mock_recon, outcome, {})
@@ -160,7 +164,7 @@ def test_decoy_delta_sign_and_worst_decoy_are_preserved(
     # Candidate error 0.50, decoy errors 0.75 and 0.25: deltas +0.25 and -0.25.
     diagnostic = replace(finished(lead, heldout=0.50, decoy_error=0.75),
                          decoy_periods_s=[13.0, 19.0], decoy_delta_e=[0.25, -0.25])
-    outcome = replace(stub, per_candidate=[diagnostic, partner])
+    outcome = with_candidate_fits(stub, [diagnostic, partner])
     monkeypatch.setattr(controller, "verify_candidates", lambda *args, **kwargs: outcome)
     result = controller.analyze(observation, configured_pipeline)
     assert result.verification.per_candidate[0].decoy_delta_e == [0.25, -0.25]

@@ -1,5 +1,14 @@
 seed: 17
-# Development search budgets for one candidate. Scientific gates are due later.
+# Day 3 provisional policy. Validation and threshold freeze are due at CP4.
+heldout_error_max: 0.85
+decoy_separation_min: 0.10
+harmonic_margin: 0.05
+geometry_margin: 0.05
+n_blocks: 3
+min_decoys: 1
+timeout_s_per_candidate: 30.0
+decoy_ratios: [1.37, 0.61]
+decoy_exclusion_resolutions: 1.0
 fit:
   shapes: [box, cylinder]
   aspect_range: [1.2, 2.5]

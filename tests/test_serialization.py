@@ -76,7 +76,11 @@ def test_analysis_round_trip_rechecks_nested_verification_scope(
     payload = json.loads(json.dumps(result.to_dict(), allow_nan=False))
     assert_contract_equal(result, type(result).from_dict(payload))
     payload["verification"]["per_candidate"].pop()
-    with pytest.raises(ValueError, match="verification membership"):
+    with pytest.raises(ValueError, match="verification membership|harmonic comparison references unknown fits"):
+        type(result).from_dict(payload)
+    payload = result.to_dict()
+    payload["verification"]["harmonic_comparisons"].clear()
+    with pytest.raises(ValueError, match="harmonic comparison membership"):
         type(result).from_dict(payload)
 
 
@@ -85,7 +89,7 @@ def test_analysis_schema_version_is_required(
 ):
     result = analyze(observation, stub_config)
     payload = result.to_dict()
-    for version in (0, True, None):
+    for version in (0, 4, True, None):
         with pytest.raises(ValueError, match="schema version"):
             type(result).from_dict({**payload, "schema_version": version})
     del payload["schema_version"]

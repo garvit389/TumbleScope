@@ -205,7 +205,7 @@ $$B \propto A,\rho,\max(0,\mathbf{n}\cdot\mathbf{s}),\max(0,\mathbf{n}\cdot\math
 2. **Solve scale and offset analytically** by least squares: $y_{obs}(t) \approx a,F_{sim}(t) + b$.
 3. **Optimise** the remaining parameters with a coarse search, then SciPy differential evolution, with fixed seeds and restarts.
 4. **Hold out time blocks:** fit on selected contiguous blocks and score on separate contiguous blocks.
-5. **Compare harmonic hypotheses** (P vs 2P) as competing interpretations, using an odd/even-cycle check and AIC/BIC when model complexity differs.
+5. **Compare harmonic hypotheses** (P vs 2P) as competing interpretations, using an odd/even-cycle check and AIC/BIC when model complexity differs. Schema v5 stores one ordered record for each direct P/2P pair. A candidate can have multiple partners. See [comparison coverage and completeness](CONTRACTS.md#55-shortlist-and-harmonic-partners).
 6. **Compare against non-harmonic decoys** (for example 1.37P and 0.61P), excluding known aliases and separating them from the candidate by more than the effective resolution, with equal optimisation budgets.
 7. **Evaluate on held-out simulator variants** and report ROC-AUC for true-candidate vs decoy separation, using $\Delta E = E_{decoy} - E_{candidate}$.
 

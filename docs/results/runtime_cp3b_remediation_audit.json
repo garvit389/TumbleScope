@@ -1,0 +1,409 @@
+{
+  "purpose": "Forensic replay of saved CP3b evidence at fixed temperatures. No fitting, tuning, training or real-file rerun.",
+  "schema_version": 4,
+  "provenance": {
+    "dataset_id": "239f752160c2b12809b12662a9ef0cf9964c51c2145d8b4a6be9b61fae37051c",
+    "bundle_entries": [
+      "config.json",
+      "manifest.json",
+      "ml/bundle.py",
+      "ml/model.py",
+      "ml/train.py",
+      "train.npz",
+      "val.npz"
+    ],
+    "sha256": {
+      "docs\\results\\cnn_calibration.json": "e36a2420ff190c47161e8d053098c948fa689b469fc6fb7906c40eac8d3bed04",
+      "data\\synthetic\\cp2_colab.zip": "cedd0fb8638fbeaf21a46e24f216b2d176cf6d79710e2b67d6c0a5224efa5a0a",
+      "models\\cnn_v1.pt": "bd5978f2b76d14d07bb7c97122ed05a1845abf37f0f5bceb1c81695628521dfe",
+      "data\\synthetic_holdout\\holdout_small.npz": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      ".phase0-local\\cp3b-checkpoint\\real-runs.jsonl": "212b53bb360a92b3038df33693955f947f6ed49094cdcdbe9745f023710e807d"
+    },
+    "torch_version": "2.8.0+cpu",
+    "threads": 1
+  },
+  "partition": {
+    "train_n": 3500,
+    "selection_n": 407,
+    "check_n": 343,
+    "selection_nrp": 113,
+    "check_nrp": 112,
+    "windows_per_curve": [
+      750
+    ],
+    "only_one_window": true,
+    "top_predictions_changed": 0
+  },
+  "cnn": {
+    "before": {
+      "temperature": 1.0,
+      "n": 343,
+      "ece": 0.13800107419985622,
+      "brier": 0.8361591773120796,
+      "top_accuracy": 0.3498542274052478,
+      "top_correct": 120,
+      "mean_confidence": 0.4878553016051041,
+      "ece_bins": [
+        {
+          "bin": 0,
+          "n": 28,
+          "accuracy": 0.03571428571428571,
+          "mean_confidence": 0.08049037709789786
+        },
+        {
+          "bin": 1,
+          "n": 88,
+          "accuracy": 0.06818181818181818,
+          "mean_confidence": 0.14438710341942726
+        },
+        {
+          "bin": 2,
+          "n": 40,
+          "accuracy": 0.225,
+          "mean_confidence": 0.23676479053203234
+        },
+        {
+          "bin": 3,
+          "n": 23,
+          "accuracy": 0.2608695652173913,
+          "mean_confidence": 0.3428409915933661
+        },
+        {
+          "bin": 4,
+          "n": 20,
+          "accuracy": 0.3,
+          "mean_confidence": 0.453342651576882
+        },
+        {
+          "bin": 5,
+          "n": 12,
+          "accuracy": 0.4166666666666667,
+          "mean_confidence": 0.5540459334166603
+        },
+        {
+          "bin": 6,
+          "n": 11,
+          "accuracy": 0.36363636363636365,
+          "mean_confidence": 0.6490904124958292
+        },
+        {
+          "bin": 7,
+          "n": 16,
+          "accuracy": 0.6875,
+          "mean_confidence": 0.7661850335415107
+        },
+        {
+          "bin": 8,
+          "n": 21,
+          "accuracy": 0.7142857142857143,
+          "mean_confidence": 0.8549180430289658
+        },
+        {
+          "bin": 9,
+          "n": 84,
+          "accuracy": 0.6785714285714286,
+          "mean_confidence": 0.9756071446750845
+        }
+      ],
+      "soft_nll_selection": 6.3413696596094224,
+      "hard_nll_selection": 6.342134678061227,
+      "soft_nll_check": 6.066397770848137,
+      "hard_nll_check": 6.033563745222456
+    },
+    "after": {
+      "temperature": 3.6269876092420468,
+      "n": 343,
+      "ece": 0.2952849170669184,
+      "brier": 0.9532025606987439,
+      "top_accuracy": 0.3498542274052478,
+      "top_correct": 120,
+      "mean_confidence": 0.07969831925379277,
+      "ece_bins": [
+        {
+          "bin": 0,
+          "n": 279,
+          "accuracy": 0.3010752688172043,
+          "mean_confidence": 0.04687853747612908
+        },
+        {
+          "bin": 1,
+          "n": 45,
+          "accuracy": 0.6888888888888889,
+          "mean_confidence": 0.13204166270678946
+        },
+        {
+          "bin": 2,
+          "n": 5,
+          "accuracy": 0.4,
+          "mean_confidence": 0.23637623873545593
+        },
+        {
+          "bin": 3,
+          "n": 5,
+          "accuracy": 0.4,
+          "mean_confidence": 0.36480610074522735
+        },
+        {
+          "bin": 4,
+          "n": 4,
+          "accuracy": 0.25,
+          "mean_confidence": 0.4305663031640103
+        },
+        {
+          "bin": 5,
+          "n": 1,
+          "accuracy": 0.0,
+          "mean_confidence": 0.5060921174918278
+        },
+        {
+          "bin": 6,
+          "n": 1,
+          "accuracy": 0.0,
+          "mean_confidence": 0.6952075814668307
+        },
+        {
+          "bin": 7,
+          "n": 2,
+          "accuracy": 0.0,
+          "mean_confidence": 0.7586835453257428
+        },
+        {
+          "bin": 8,
+          "n": 1,
+          "accuracy": 0.0,
+          "mean_confidence": 0.8686930267357772
+        }
+      ],
+      "soft_nll_selection": 4.296335399539173,
+      "hard_nll_selection": 4.296546324973791,
+      "soft_nll_check": 4.26315079816544,
+      "hard_nll_check": 4.254098095974145
+    }
+  },
+  "verification_saved_results": [
+    {
+      "file": "00029A_2_3_R_20190322_DATA.txt",
+      "required_cluster_ids": [
+        2,
+        4,
+        7,
+        8
+      ],
+      "verification_complete": false,
+      "verdict": "Ambiguous",
+      "verdict_reason_codes": [
+        "verification_incomplete"
+      ],
+      "records": [
+        {
+          "cluster_id": 7,
+          "period_s": 32.66095267259826,
+          "status": "failed",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 4,
+              "period_s": 65.56902150606562,
+              "passed_stage2": true,
+              "has_required_fit": true
+            },
+            {
+              "cluster_id": 8,
+              "period_s": 16.471241626551418,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": null,
+          "notes_last": [
+            "multiple harmonic comparisons require the contract amendment"
+          ]
+        },
+        {
+          "cluster_id": 4,
+          "period_s": 65.56902150606562,
+          "status": "failed",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 2,
+              "period_s": 131.87353956621314,
+              "passed_stage2": true,
+              "has_required_fit": true
+            },
+            {
+              "cluster_id": 7,
+              "period_s": 32.66095267259826,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": null,
+          "notes_last": [
+            "multiple harmonic comparisons require the contract amendment"
+          ]
+        },
+        {
+          "cluster_id": 2,
+          "period_s": 131.87353956621314,
+          "status": "ok",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 4,
+              "period_s": 65.56902150606562,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": {
+            "partner_id": 4,
+            "prefers": "undecided",
+            "delta_e": null,
+            "reason": "harmonic_fit_unfinished"
+          },
+          "notes_last": []
+        },
+        {
+          "cluster_id": 8,
+          "period_s": 16.471241626551418,
+          "status": "ok",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 7,
+              "period_s": 32.66095267259826,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": {
+            "partner_id": 7,
+            "prefers": "undecided",
+            "delta_e": null,
+            "reason": "harmonic_fit_unfinished"
+          },
+          "notes_last": []
+        }
+      ]
+    },
+    {
+      "file": "00080B_1_2_R_20190724_DATA.txt",
+      "required_cluster_ids": [
+        3,
+        5,
+        9,
+        10
+      ],
+      "verification_complete": false,
+      "verdict": "Ambiguous",
+      "verdict_reason_codes": [
+        "low_quality",
+        "verification_incomplete"
+      ],
+      "records": [
+        {
+          "cluster_id": 5,
+          "period_s": 11.754255263592007,
+          "status": "failed",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 3,
+              "period_s": 23.765089518257348,
+              "passed_stage2": true,
+              "has_required_fit": true
+            },
+            {
+              "cluster_id": 9,
+              "period_s": 6.025542310483919,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": null,
+          "notes_last": [
+            "multiple harmonic comparisons require the contract amendment"
+          ]
+        },
+        {
+          "cluster_id": 9,
+          "period_s": 6.025542310483919,
+          "status": "failed",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 5,
+              "period_s": 11.754255263592007,
+              "passed_stage2": true,
+              "has_required_fit": true
+            },
+            {
+              "cluster_id": 10,
+              "period_s": 2.9697961143524387,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": null,
+          "notes_last": [
+            "multiple harmonic comparisons require the contract amendment"
+          ]
+        },
+        {
+          "cluster_id": 3,
+          "period_s": 23.765089518257348,
+          "status": "ok",
+          "passed": true,
+          "partners": [
+            {
+              "cluster_id": 5,
+              "period_s": 11.754255263592007,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": {
+            "partner_id": 5,
+            "prefers": "undecided",
+            "delta_e": null,
+            "reason": "harmonic_fit_unfinished"
+          },
+          "notes_last": []
+        },
+        {
+          "cluster_id": 10,
+          "period_s": 2.9697961143524387,
+          "status": "ok",
+          "passed": false,
+          "partners": [
+            {
+              "cluster_id": 9,
+              "period_s": 6.025542310483919,
+              "passed_stage2": true,
+              "has_required_fit": true
+            }
+          ],
+          "harmonic_comparison": {
+            "partner_id": 9,
+            "prefers": "undecided",
+            "delta_e": null,
+            "reason": "harmonic_fit_unfinished"
+          },
+          "notes_last": []
+        }
+      ]
+    },
+    {
+      "file": "00041B_2_3_R_20191118_DATA.txt",
+      "required_cluster_ids": [],
+      "verification_complete": null,
+      "verdict": "Inconclusive",
+      "verdict_reason_codes": [
+        "low_quality",
+        "no_periodic_signal"
+      ],
+      "records": []
+    }
+  ]
+}

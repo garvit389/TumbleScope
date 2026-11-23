@@ -411,7 +411,7 @@ class CandidateVerification:
     heldout_error: Optional[float]
     decoy_periods_s: list
     decoy_delta_e: list             # E_decoy - E_candidate on held-out blocks
-    harmonic_comparison: Optional[dict]   # {'partner_id', 'prefers': 'P'|'2P'|'undecided'}
+    # See CONTRACTS.md §7.6 for the current pair records on VerificationResult.
     passed: bool
     best_params: Optional[dict]     # for the 'plausible fitted configuration' view
     notes: list
@@ -929,7 +929,7 @@ Go through the README, document, slides and video script. For every number or ca
 
 **A1. Git-ignored files that P1 needs.** `data/synthetic/` and `models/*.pt` are git-ignored, but P1 needs a small synthetic holdout set and a CNN checkpoint for evaluation and weight tuning on Days 3-4. Rule: by **CP3b (end of Day 3)** P2 force-adds (`git add -f`) one small holdout shard `data/synthetic_holdout/holdout_small.npz` (a few hundred curves, under about 5 MB) and the current checkpoint `models/cnn_v1.pt` (about 1 MB). `.gitignore` gets exceptions for exactly these two paths in Phase 0. P1's evaluation code reads from `data/synthetic_holdout/` and must not assume the full corpus exists. If the CNN is still weak, P2 commits it anyway, marked experimental in its file name or metadata, so P1 is never blocked.
 
-**A2. Harmonic partners and the shortlist.** The shortlist holds the top K (5, or 3 in Fast mode) clusters that passed Stage 2. In addition, any cluster linked by `harmonic_links` (ratio 2 or 1/2) to a shortlisted cluster, and that also passed Stage 2, is **always included in verification** for the P versus 2P comparison. Partners do not count toward K. Reconciliation (P1) lists partner ids in `notes` and keeps them in `clusters`; verification (P2) looks them up through `harmonic_links`. If a partner failed Stage 2, verification records `harmonic_comparison` as `{'prefers': 'undecided', 'reason': 'partner_failed_stage2'}`.
+**A2. Harmonic partners and the shortlist.** The shortlist holds the top K (5, or 3 in Fast mode) clusters that passed Stage 2. In addition, any cluster linked by `harmonic_links` (ratio 2 or 1/2) to a shortlisted cluster, and that also passed Stage 2, is **always included in verification** for the P versus 2P comparison. Partners do not count toward K. Reconciliation (P1) lists partner ids in `notes` and keeps them in `clusters`; verification (P2) looks them up through `harmonic_links`. If a partner failed Stage 2, verification records a skipped diagnostic pair as defined in [CONTRACTS.md §7.6](CONTRACTS.md#76-verificationresultharmonic_comparisons).
 
 **A3. Period bounds must match.** P1's `classical.yaml` (`min_period_s`, `max_period_s`) and P2's `cnn.yaml` (`p_min_s`, `p_max_s`, 128 log-spaced bins) must use the same range. Single source of truth: the range written at the end of `docs/data_audit.md` (P1-01) and copied into `CONTRACTS.md` by P2 on Day 1 as a documented constant. Both configs then copy those two numbers. A test in `tests/test_contracts.py` (P2) loads both YAML files and asserts the bounds agree.
 

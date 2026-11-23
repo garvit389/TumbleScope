@@ -8,16 +8,24 @@ import streamlit as st
 
 from core.config import load_config
 from core.errors import IngestionError
-from core.schemas import stage2_pending
+from core.schemas import Observation, stage2_pending
 from ingestion import load_observation
+from pipeline.cache import _CACHE_HIT_MESSAGE, _analyze_upload
 from pipeline.controller import analyze
 
 
-def load_upload(uploaded):
+def _load_upload_bytes(name: str, raw: bytes) -> Observation:
+    name = Path(name).name
+    if name in ("", ".", ".."):
+        raise IngestionError("Invalid upload filename")
     with TemporaryDirectory() as folder:
-        path = Path(folder) / Path(uploaded.name).name
-        path.write_bytes(uploaded.getvalue())
+        path = Path(folder) / name
+        path.write_bytes(raw)
         return load_observation(str(path), "sdlcd")
+
+
+def load_upload(uploaded):
+    return _load_upload_bytes(uploaded.name, uploaded.getvalue())
 
 
 def main():
@@ -27,8 +35,23 @@ def main():
     sample = Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "synthetic_sine.csv"
     uploaded = st.file_uploader("Upload a local SDLCD observation", type=["txt"])
     try:
-        observation = load_upload(uploaded) if uploaded is not None else load_observation(str(sample))
-        result = analyze(observation, load_config())
+        cfg = load_config()
+        if uploaded is None:
+            observation = load_observation(str(sample))
+            result = analyze(observation, cfg)
+        else:
+            raw = uploaded.getvalue()
+            observation = _load_upload_bytes(uploaded.name, raw)
+            reused = False
+
+            def progress(fraction, message):
+                nonlocal reused
+                reused = message == _CACHE_HIT_MESSAGE
+
+            entry = st.session_state.setdefault("upload_analysis", {})
+            result = _analyze_upload(raw, uploaded.name, observation, cfg, entry, progress)
+            if reused:
+                st.caption("Reused cached analysis. Stage timings are from the original run.")
     except (IngestionError, ValueError) as exc:
         st.error(str(exc))
         return
@@ -57,6 +80,14 @@ def main():
     else:
         st.subheader(result.verdict.label)
         st.write(result.verdict.text)
+    if result.verification is not None and result.verification.harmonic_comparisons:
+        st.subheader("Harmonic comparisons")
+        st.table([
+            {"Pair": pair.pair_id, "P (s)": pair.short_period_s, "2P (s)": pair.long_period_s,
+             "Status": pair.status, "Prefers": pair.prefers, "Δ held-out error": pair.delta_e,
+             "Detail": pair.reason or ""}
+            for pair in result.verification.harmonic_comparisons
+        ])
     st.table([
         {"Estimator": method, "Status": item.status, "Detail": item.error or ""}
         for method, item in result.estimators.items()

@@ -8,6 +8,7 @@ from core.schemas import (AnalysisResult, LOW_QUALITY, NOT_RUN, QualityReport,
                           VERIFICATION_INCOMPLETE, assert_contract_equal)
 from evaluation.cp2_evidence import analysis_disposition, analysis_evidence
 from pipeline import controller
+from tests.verification_cases import with_candidate_fits
 
 
 def fail(*args, **kwargs):
@@ -29,7 +30,8 @@ def test_completed_exports_preserve_legacy_fields(monkeypatch, observation, inje
                         best_params={"shape": "fixture", "geometry_errors": {"fixture": .2},
                                      "fit_space": "y_norm", "scale_a": 1., "offset_b": 0.})
                 for record in ambiguous.verification.per_candidate]
-    verification = replace(ambiguous.verification, per_candidate=finished, complete=True)
+    finished[1] = replace(finished[1], heldout_error=.3)
+    verification = with_candidate_fits(ambiguous.verification, finished)
     supported = replace(ambiguous, verification=verification,
                         verdict=replace(ambiguous.verdict, label="Supported", reason_codes=[],
                                         best_period_s=8., best_cluster_id=1))
@@ -41,8 +43,15 @@ def test_completed_exports_preserve_legacy_fields(monkeypatch, observation, inje
         assert result.verdict.reason_codes is not None
 
 
-def test_pending_and_all_execution_states(monkeypatch, observation, injected_config, mock_cnn, mock_recon):
+@pytest.fixture
+def pending_recon(mock_recon):
+    return replace(mock_recon, shortlist=[], stage2_passed_any=False,
+                   notes=["stage2_not_evaluated"], is_stub=True)
+
+
+def test_pending_and_all_execution_states(monkeypatch, observation, injected_config, mock_cnn, mock_recon, pending_recon):
     monkeypatch.setattr(controller, "run_cnn", Mock(return_value=mock_cnn))
+    monkeypatch.setattr(controller, "reconcile", Mock(return_value=pending_recon))
     pending = controller.analyze(observation, injected_config)
     cases = [(pending, "stage2_pending", None)]
     for name, target in (("prepare", "prepare"), ("stage1", "assess_stage1"),
@@ -55,7 +64,7 @@ def test_pending_and_all_execution_states(monkeypatch, observation, injected_con
         original = controller.verify_candidates
         def complete(*args, **kwargs):
             base = original(*args, **kwargs)
-            return replace(base, complete=True, per_candidate=[
+            return with_candidate_fits(base, [
                 replace(record, status="ok", passed=True, fit_error=.1, heldout_error=.2,
                         best_params={"shape": "fixture", "geometry_errors": {"fixture": .2},
                                      "fit_space": "y_norm", "scale_a": 1., "offset_b": 0.})
@@ -77,7 +86,7 @@ def test_pending_and_all_execution_states(monkeypatch, observation, injected_con
         analysis_evidence(replace(pending, reconciliation=None))
 
 
-def test_real_report_counts_pending_without_scientific_prediction(monkeypatch):
+def test_real_report_counts_pending_without_scientific_prediction(monkeypatch, pending_recon):
     from pathlib import Path
     from core.config import load_config, resolve_period_bounds
     from evaluation.cp2_evidence import ROOT, real_outputs
@@ -85,6 +94,14 @@ def test_real_report_counts_pending_without_scientific_prediction(monkeypatch):
     bounds = resolve_period_bounds(config.period_bounds)
     classical = dict(config.classical, period_min_s=bounds.min_period_s,
                      period_max_s=bounds.max_period_s)
+    reconcile = controller.reconcile
+
+    def reconcile_with_pending(prep, estimators, cfg):
+        if any(item.candidates for item in estimators):
+            return pending_recon
+        return reconcile(prep, estimators, cfg)
+
+    monkeypatch.setattr(controller, "reconcile", reconcile_with_pending)
     report = real_outputs(config, classical, ROOT / "data/sdlcd_raw")
     assert report["trial_count"] == 3
     assert report["scientific_prediction_denominator"] == report["disposition_counts"].get("completed", 0)
