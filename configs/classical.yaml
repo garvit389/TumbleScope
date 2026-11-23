@@ -1,1 +1,23 @@
-{}
+# Shared trial grid settings for LS and PDM.
+frequency_oversampling: 5
+cadence_frequency_factor: 0.5
+
+ls_nterms: 1
+ls_max_candidates: 5
+ls_periodogram_max_points: 1000
+# Family-wise target for independent Gaussian errors across the trial grid.
+ls_false_alarm_alpha: 0.025
+
+pdm_phase_bins: 10
+pdm_min_bin_occupancy: 3
+pdm_max_candidates: 5
+pdm_periodogram_max_points: 1000
+# Family-wise target for independent, equal-variance Gaussian epoch errors.
+# Synthetic white-noise calibration. Correlated noise can trigger candidates.
+pdm_false_alarm_alpha: 0.05
+
+# Sampling-window settings. Heights are relative to the DC peak.
+n_peaks: 5
+window_cadence_harmonics: 3
+window_max_grid_points: 16385
+window_min_peak_height: 0.05

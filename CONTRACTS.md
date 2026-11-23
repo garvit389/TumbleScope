@@ -1,6 +1,6 @@
 # CONTRACTS.md
 
-**TumbleScope interface contracts. Architecture owner: P2. Status: FROZEN at the end of Phase 0 (tag `v0-skeleton`). `SCHEMA_VERSION = 1`.**
+**TumbleScope interface contracts. Architecture owner: P2. Status: FROZEN at the end of Phase 0 (tag `v0-skeleton`). `SCHEMA_VERSION = 3`.**
 
 This file is the single source of truth for how modules talk to each other. P1, P2 and every AI coding agent must follow it. If code and this file disagree, this file wins and the code is wrong. Do not change anything here except through Section 12.
 
@@ -45,7 +45,7 @@ This file is the single source of truth for how modules talk to each other. P1, 
 ## 2. Constants (defined once in `core/schemas.py`)
 
 ```python
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 3
 
 # Top-level verdict reason codes (nine, as in the README and the submitted Round 2 deck)
 REASON_CODES = (
@@ -231,11 +231,11 @@ class Verdict:
 class AnalysisResult:
     obs_id: str
     prepared: Optional[PreparedObservation]     # None only if ingestion-to-prepare failed
-    quality: Optional[QualityReport]            # None only if prepared is None
+    quality: Optional[QualityReport]            # None only for preparation/Stage 1 failure (§5.4)
     estimators: dict[str, EstimatorResult]      # ALWAYS exactly the three ESTIMATOR_METHODS keys
     reconciliation: Optional[ReconciliationResult]
     verification: Optional[VerificationResult]
-    verdict: Verdict                            # ALWAYS present
+    verdict: Optional[Verdict]                  # pending stub or execution error in §5.4
     stage_errors: dict[str, str]                # stage name -> short message
     timings_s: dict[str, float]
     mode: str                                   # "fast" only in this build
@@ -349,15 +349,32 @@ An empty candidate list is always valid input for `reconcile()`, and `reconcile(
 | Period bounds are not set (`status: TBD`) | Estimators skipped with `period_bounds_not_set`; verdict follows the "no usable estimators" row. |
 | `mode="thorough"` | Returns a clear not-implemented message. Fast mode is the only mode in this build. |
 
+**Pending Stage 2 stub exception (schema version 2, approved contract amendment).** A pending analysis has reconciliation present with both `is_stub=True` and the explicit `stage2_not_evaluated` note, nonempty clusters, an empty shortlist, and `stage2_passed_any=False`; at least one `status="ok"` estimator has candidates; verification is `None`. Exactly in this state, `AnalysisResult.verdict` must be `None` and the controller bypasses final verdict decision. Outside this pending state, a valid final `Verdict` is required except for the four execution-error states below. This is a pending pipeline state, not an additional verdict label. The app displays pending Stage 2 assessment and the source-labelled candidates. It must not report Stage 2 rejection. All existing verdict labels and reason-code meanings remain unchanged. Serialization represents the absent verdict as JSON `null`; version-1 AnalysisResult payloads remain subject to the version-mismatch rejection rule.
+
+**Execution-error amendment (schema version 3).** These are pipeline execution states, not scientific verdicts. No verdict label, reason code, inconclusive cause, public field or function signature is added. `verdict=None` is required exactly for the unchanged pending-stub predicate above or one of the four mutually exclusive predicates below. Every error predicate requires the named nonempty (after whitespace stripping) `stage_errors` entry. All retained objects must validate.
+
+| State | Exact structural predicate |
+|---|---|
+| Preparation failure | `stage_errors["prepare"]` present; preparation and quality absent; reconciliation and verification absent; all three estimators skipped with `not_run`. |
+| Stage 1 failure | `stage_errors["stage1"]` present; valid preparation retained, quality absent; reconciliation and verification absent; all three estimators skipped with `not_run`. |
+| Reconciliation failure | `stage_errors["reconciliation"]` present; valid preparation and suitable/limited quality retained; at least one successful estimator has candidates; reconciliation and verification absent. |
+| Verdict-generation failure | `stage_errors["verdict"]` present; valid preparation and suitable/limited quality retained; successful estimator candidates exist; valid reconciliation has a nonempty shortlist; valid verification is complete and at least one required candidate passed; no valid final verdict was produced. |
+
+The last predicate excludes every existing independently decidable structural outcome: insufficient quality, no available estimator, no candidates, all clusters rejected, incomplete verification, or complete verification with no passing candidate. If the primary verdict operation fails in one of these situations, the controller must produce an independently implemented, validated fallback for that existing outcome. It must not retry the same failing function. Completed verification must never be discarded to manufacture incompleteness.
+
+State precedence follows the earliest missing required result: preparation, Stage 1, reconciliation, then verdict. These predicates do not overlap; retain all diagnostics from attempted stages, including unrelated errors, without changing the selected state. An unrelated error or a nonempty error dictionary alone never permits an absent verdict. Do not synthesize a quality assessment or reconciliation result after failure. Preserve all valid upstream evidence. A reconciliation error with no candidates or no available estimators does not prevent the corresponding existing scientific outcome. Pending Stage 2 remains separate from execution failure and is recognized by its unchanged predicate.
+
+The dashboard distinguishes completed verdicts, pending Stage 2, and technical execution failure; it displays available quality, source-labelled candidates and diagnostics. Technical failure is never evidence that a candidate is wrong.
+
 ### 5.5 Shortlist and harmonic partners
 
-The shortlist is the top K clusters (K from `reconcile.yaml`, default 5; 3 in Fast mode) that passed Stage 2, ordered by score. The **required verification set** is the union of (a) every `cluster_id` in `recon.shortlist` and (b) every distinct cluster directly linked from a shortlisted cluster by `harmonic_links` with ratio `2` or `1/2` that also passed Stage 2. Deduplicate IDs; partners do not count toward K. Only direct links to a shortlisted cluster are included, not transitive harmonic links. Every ID in this set must have exactly one `CandidateVerification` record, including when its protocol fails or is skipped. A partner that failed Stage 2 is not in the required set; verification records `harmonic_comparison = {"partner_id": ..., "prefers": "undecided", "reason": "partner_failed_stage2", ...}` for the eligible counterpart as applicable.
+A non-stub reconciliation result with passed clusters must have a nonempty shortlist. The controller checks its complete top-K count against the injected limit; AnalysisResult checks the Fast-mode limit of three. Stub fixtures retain their existing rules, including the explicit pending exception. The shortlist is the top K clusters (K from `reconcile.yaml`, default 5; 3 in Fast mode) that passed Stage 2, ordered by score. The **required verification set** is the union of (a) every `cluster_id` in `recon.shortlist` and (b) every distinct cluster directly linked from a shortlisted cluster by `harmonic_links` with ratio `2` or `1/2` that also passed Stage 2. Deduplicate IDs; partners do not count toward K. Only direct links to a shortlisted cluster are included, not transitive harmonic links. Every ID in this set must have exactly one `CandidateVerification` record, including when its protocol fails or is skipped. A partner that failed Stage 2 is not in the required set; verification records `harmonic_comparison = {"partner_id": ..., "prefers": "undecided", "reason": "partner_failed_stage2", ...}` for the eligible counterpart as applicable.
 
 ---
 
 ## 6. Reason-code mapping (what each code means operationally)
 
-Section 5.3 gives the Inconclusive paths. Each code has exactly one definition:
+Apply this scientific decision table only when its required evidence exists. Technical failures use §5.4 and do not satisfy a scientific reason-code trigger. Section 5.3 gives the Inconclusive paths. Each code has exactly one definition:
 
 | Code | Trigger (all thresholds are config keys, Section 21) |
 |---|---|
@@ -725,7 +742,7 @@ All other combinations are invalid. For `failed` and `skipped`, `fit_error` and 
 | `CandidateVerification` | Allowed `(status, passed)` pairs from Section 18.1. If `status != "ok"`: `fit_error`, `heldout_error`, `best_params` are `None`. `len(decoy_delta_e) == len(decoy_periods_s)`. All floats finite. |
 | `VerificationResult` | Local `validate()` checks unique `cluster_id`s and all `CandidateVerification` records. It cannot check required-set membership in isolation because the required set is derived from `ReconciliationResult`. `pipeline.controller.analyze()` derives the Section 5.5 required set, requires exactly one record per required ID and no extra IDs, and checks `complete == (IDs match exactly and every required record has status="ok")` before calling `decide()`. A mismatch is handled as a verification contract violation under Section 5.4. `AnalysisResult.validate()` repeats this cross-object check using its own `reconciliation` and `verification` fields. |
 | `Verdict` | `label` valid. `Supported` implies `reason_codes == []`, `best_period_s` and `best_cluster_id` not `None`. Not `Supported` implies non-empty `reason_codes` (all in `REASON_CODES`) and both best fields `None`. `evidence_summary` has the required keys. Every `alternatives` entry has `cluster_id`, `period_s`, `why`. |
-| `AnalysisResult` | `estimators` has exactly the three `ESTIMATOR_METHODS` keys. `verdict` is not `None`. When both `reconciliation` and `verification` are present, cross-check the exact Section 5.5 required ID set and the `complete` predicate as described above. If `verdict.label == "Supported"` then `verification` is not `None`, `verification.complete` is True and the best cluster's `CandidateVerification` has `status="ok"`, `passed=True`. |
+| `AnalysisResult` | `estimators` has exactly the three `ESTIMATOR_METHODS` keys. `quality` may be absent only in the preparation/Stage 1 error states in Section 5.4. Preparation absence requires quality absence. `verdict` is `None` exactly for the unchanged pending Stage 2 stub or one of the four execution-error predicates in Section 5.4; otherwise a valid Verdict is required. A real shortlist with incomplete verification requires Ambiguous / `verification_incomplete`. Non-stub reconciliation in Fast mode must contain exactly min(3, number of passed clusters) shortlisted entries. When both `reconciliation` and `verification` are present, cross-check the exact Section 5.5 required ID set and the `complete` predicate as described above. If `verdict.label == "Supported"` then `verification` is not `None`, `verification.complete` is True and the best cluster's `CandidateVerification` has `status="ok"`, `passed=True`. |
 
 NaN and infinity: NaN is allowed only in `Observation.y`, `Observation.y_err`, and in `PreparedObservation.y_norm` and `flux_rel` at invalid positions. Infinity is allowed nowhere. Scalar metrics use `None`, never NaN.
 
@@ -742,6 +759,8 @@ NaN and infinity: NaN is allowed only in `Observation.y`, `Observation.y_err`, a
 | Nested dataclasses and lists | Recursed. Dict keys are strings. |
 | Unknown extra keys on load | Ignored in `meta`/`evidence_summary`-style dicts; rejected in top-level dataclass fields. |
 | `schema_version` | Stored in `AnalysisResult`; `from_dict` rejects a different version. |
+
+Version-3 execution-error results preserve diagnostics and encode absent fields as JSON `null`. Loading validates the execution-state predicates; versions 1 and 2 remain rejected. No historical result is implicitly migrated or reinterpreted.
 
 **Equality in tests.** Ordinary `==` is never used on objects containing arrays. Tests use `core.schemas.assert_contract_equal(a, b, rtol=1e-12, atol=0.0)`: arrays must have identical shape and dtype, identical NaN positions, and `np.allclose(..., equal_nan=True)`; floats are compared with `rtol`; bools, ints, strings and `None` exactly; lists, dicts and dataclasses recursively. `test_serialization.py` checks value preservation, shape preservation, dtype preservation and optional-field behaviour.
 

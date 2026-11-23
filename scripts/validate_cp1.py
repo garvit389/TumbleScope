@@ -15,7 +15,7 @@ from unittest.mock import patch
 import numpy as np
 
 from core.config import config_hash, load_config, resolve_period_bounds
-from core.schemas import AnalysisResult, assert_contract_equal
+from core.schemas import AnalysisResult, assert_contract_equal, stage2_pending
 from ingestion import load_observation
 from ingestion.reference import load_reference_table
 from ml.dataset.generate import _source_identity, _verify_publication
@@ -27,6 +27,16 @@ from preprocessing.sampling_profile import sampling_profile
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _verdict_category(result):
+    """Count execution states separately from scientific verdicts in the local audit."""
+    result.validate()
+    if result.verdict is not None:
+        return result.verdict.label
+    if stage2_pending(result.reconciliation, result.estimators, result.verification):
+        return "stage2_pending"
+    return "execution_error"
 
 
 def validate(pilot):
@@ -63,9 +73,9 @@ def validate(pilot):
             assert len(result.prepared.t_s) == len(measured)
             assert_contract_equal(result, AnalysisResult.from_dict(result.to_dict()))
             assert sampling_profile(result.prepared, cfg.preprocess) == by_id[obs.obs_id]
-            assert result.verdict.label != "Supported"  # Later stages remain explicit stubs.
+            assert result.verdict is None or result.verdict.label != "Supported"  # Later stages remain explicit stubs.
             qualities[result.quality.status] += 1
-            verdicts[result.verdict.label] += 1
+            verdicts[_verdict_category(result)] += 1
             point_count += len(measured)
             real_details.append({"obs_id": obs.obs_id, "points": len(measured),
                                  "stage1": result.quality.status,

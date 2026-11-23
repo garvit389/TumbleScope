@@ -1,1 +1,10 @@
-{}
+seed: 17
+# Development search budgets for one candidate. Scientific gates are due later.
+fit:
+  shapes: [box, cylinder]
+  aspect_range: [1.2, 2.5]
+  cylinder_sides: 16
+  coarse_samples: 24
+  restarts: 2
+  popsize: 5
+  maxiter: 12
