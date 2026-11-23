@@ -1,0 +1,7487 @@
+{
+  "split": "calibration",
+  "seeds": [
+    31000,
+    31001,
+    31002,
+    31003,
+    31004,
+    31005,
+    31006,
+    31007,
+    31008,
+    31009,
+    31010,
+    31011,
+    31012,
+    31013,
+    31014,
+    31015,
+    31016,
+    31017,
+    31018,
+    31019,
+    31020,
+    31021,
+    31022,
+    31023,
+    31024,
+    31025,
+    31026,
+    31027,
+    31028,
+    31029
+  ],
+  "policies": {
+    "existing": {},
+    "cycles_3": {
+      "min_cycles": 3.0
+    },
+    "width_025": {
+      "max_rel_period_uncertainty": 0.25
+    },
+    "bins_20": {
+      "n_phase_bins": 20
+    },
+    "occupancy_3": {
+      "min_points_per_bin": 3
+    },
+    "coverage_07": {
+      "min_phase_coverage": 0.7
+    },
+    "separation_1": {
+      "min_separation_resolutions": 1.0
+    },
+    "cluster_05": {
+      "cluster_tol_resolutions": 0.5
+    }
+  },
+  "configuration": {
+    "cluster_tol_resolutions": 1.0,
+    "harmonic_ratio_tolerance": 0.03,
+    "alias_tol_resolutions": 1.0,
+    "alias_min_source_support": 0.5,
+    "w_C": 0.3333333333333333,
+    "w_L": 0.3333333333333333,
+    "w_D": 0.3333333333333333,
+    "lambda_A": 0.2,
+    "min_cycles": 2.0,
+    "max_rel_period_uncertainty": 0.5,
+    "n_phase_bins": 10,
+    "min_points_per_bin": 2,
+    "min_phase_coverage": 0.5,
+    "min_separation_resolutions": 1.5,
+    "top_k": 5
+  },
+  "rows": [
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31000,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31001,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31002,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31003,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31004,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31005,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31006,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31007,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31008,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31009,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31010,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31011,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31012,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31013,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31014,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31015,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31016,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31017,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31018,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31019,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31020,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31021,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31022,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31023,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31024,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31025,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31026,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31027,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31028,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "sine",
+      "seed": 31029,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "unresolved_frequency": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31000,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31001,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31002,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31003,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31004,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31005,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31006,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31007,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31008,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31009,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31010,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31011,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31012,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31013,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31014,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31015,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31016,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31017,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31018,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31019,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31020,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31021,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31022,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31023,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31024,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31025,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 2
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31026,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1,
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31027,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "merged_into_neighbour": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31028,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "existing",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "cycles_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {
+        "insufficient_cycles": 1
+      }
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "width_025",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "bins_20",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "occupancy_3",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "coverage_07",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "separation_1",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "double_hump",
+      "seed": 31029,
+      "policy": "cluster_05",
+      "candidate_match": true,
+      "retained": true,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31000,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31001,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31002,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31003,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31004,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31005,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31006,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31007,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31008,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31009,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31010,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31011,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31012,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31013,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31014,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31015,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31016,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31017,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31018,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31019,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31020,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31021,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31022,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31023,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": true,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31024,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31025,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31026,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31027,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31028,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "existing",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "cycles_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "width_025",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "bins_20",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "occupancy_3",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "coverage_07",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "separation_1",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    },
+    {
+      "scenario": "noise",
+      "seed": 31029,
+      "policy": "cluster_05",
+      "candidate_match": false,
+      "retained": false,
+      "any_shortlist": false,
+      "rejections": {}
+    }
+  ],
+  "summary": {
+    "existing/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "existing/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "existing/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "cycles_3/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "cycles_3/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "cycles_3/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "width_025/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "width_025/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "width_025/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "bins_20/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "bins_20/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "bins_20/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "occupancy_3/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "occupancy_3/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "occupancy_3/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "coverage_07/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "coverage_07/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "coverage_07/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "separation_1/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "separation_1/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "separation_1/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    },
+    "cluster_05/sine": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "cluster_05/double_hump": {
+      "n": 30,
+      "count": 30,
+      "rate": 1.0,
+      "wilson_95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    },
+    "cluster_05/noise": {
+      "n": 30,
+      "count": 1,
+      "rate": 0.03333333333333333,
+      "wilson_95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ]
+    }
+  },
+  "limitations": [
+    "Single cadence regime, baseline, period and noise level.",
+    "No nearby true candidate, missingness, aliases or interactions assessed.",
+    "No CNN calibration, no reference labels, and no configuration selection."
+  ]
+}

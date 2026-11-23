@@ -1,0 +1,46 @@
+{
+  "selection": "baseline",
+  "override": {},
+  "base_config": {
+    "cluster_tol_resolutions": 1.0,
+    "harmonic_ratio_tolerance": 0.03,
+    "alias_tol_resolutions": 1.0,
+    "alias_min_source_support": 0.5,
+    "w_C": 0.3333333333333333,
+    "w_L": 0.3333333333333333,
+    "w_D": 0.3333333333333333,
+    "lambda_A": 0.2,
+    "min_cycles": 2.0,
+    "max_rel_period_uncertainty": 0.5,
+    "n_phase_bins": 10,
+    "min_points_per_bin": 2,
+    "min_phase_coverage": 0.5,
+    "min_separation_resolutions": 1.5,
+    "top_k": 5
+  },
+  "provenance": {
+    "sha256": {
+      "evaluation\\cp3a_calibration_study.py": "6a22501ea952a5cd7883dd8decce997be2f1977dfc47761d519cc34a23b805d0",
+      "configs\\reconcile.yaml": "9ef3479446f8e396fe18660c38b1b6882ea90b16a00ef14c2815f1244e639ef3",
+      "configs\\classical.yaml": "c74d7db1d2607be3240c0984c2bab7480905576c7d695708c3e20f6f5c468582",
+      "configs\\period_bounds.yaml": "b8346fd59156270dcec2f9f0fbb63e6e95f1a3498875df9fa4191562ec39b605",
+      "reconciliation\\__init__.py": "1292d250a6adbd4d103de5c39e6fd9ec20df05fd1db722d0adc0d2b9e77209db",
+      "reconciliation\\aliases.py": "3ee44ba2802d5a41c0e1d53387ce5a0e5d752dfb24d0c98b3cc04af7aacce833",
+      "reconciliation\\cluster.py": "fca61091b703027704cbe2447fd6b3cc251465f4de6a5dc7621ab403469a7af9",
+      "reconciliation\\harmonics.py": "bf6a578d3db67223611f2a268284630ec6be70ca6961c335e348f65f158e9fda",
+      "reconciliation\\reconcile.py": "d790a8e57d65984db3a011006640d07087a9a1a632bcf06dbfab8fcac7bb9b31",
+      "reconciliation\\score.py": "6cac0d0ab010ec6f4ec0cfd7feda9472458d0ab23ba72aea3c369ff53e3df400",
+      "reconciliation\\stage2.py": "fa120cbf3fb8e15a476c88e35835316b261de3ac4836501570814f6d58e8a0e8",
+      "classical_analysis\\lomb_scargle.py": "b8d09accd76f272d43ccba0e4808848d3090d838cbd71f7e08f7ddc8c936ccb3",
+      "classical_analysis\\pdm.py": "6ee4b07e05975097d0ea39c8f437bf95cc737186632cfbb495d91e2e2081ed28",
+      "classical_analysis\\window.py": "c713bbd42d455e1cd199f06d2b422e40dbee9c7f2ee2db7a81adb912a4efab53",
+      "preprocessing\\prepare.py": "d4a8c8a6f6e460f0ab817716c6e9a9d50e3029b488ce27ac44f9c922be50b24c"
+    },
+    "versions": {
+      "numpy": "2.2.6",
+      "scipy": "1.15.3",
+      "astropy": "7.1.0"
+    }
+  },
+  "calibration_sha256": "60965be2a32d09b81a883607595711fca7476f99863a5d04adf3fc2201a0fc04"
+}
