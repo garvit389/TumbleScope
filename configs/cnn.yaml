@@ -13,3 +13,6 @@ seed: 17
 epochs: 12
 batch_size: 64
 learning_rate: 0.001
+# Experimental operating point selected on synthetic development data.
+abstain_threshold: 0.025554776892828677
+n_candidates: 5

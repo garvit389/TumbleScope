@@ -1,6 +1,6 @@
 # CONTRACTS.md
 
-**TumbleScope interface contracts. Architecture owner: P2. Status: FROZEN at the end of Phase 0 (tag `v0-skeleton`). `SCHEMA_VERSION = 3`.**
+**TumbleScope interface contracts. Architecture owner: P2. Status: FROZEN at the end of Phase 0 (tag `v0-skeleton`). `SCHEMA_VERSION = 4`.**
 
 This file is the single source of truth for how modules talk to each other. P1, P2 and every AI coding agent must follow it. If code and this file disagree, this file wins and the code is wrong. Do not change anything here except through Section 12.
 
@@ -45,7 +45,7 @@ This file is the single source of truth for how modules talk to each other. P1, 
 ## 2. Constants (defined once in `core/schemas.py`)
 
 ```python
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 # Top-level verdict reason codes (nine, as in the README and the submitted Round 2 deck)
 REASON_CODES = (
@@ -298,6 +298,8 @@ def fig_calibration(eval_df): ...
 ```
 
 `cfg: dict` is always that module's own YAML section, plus the injected keys `period_min_s` and `period_max_s`. Each module supplies defaults in code, so a missing optional key never crashes it. `SimParams` is internal to P2 and never appears in a shared contract. **Change from the previous draft:** `build_cnn_windows` now takes `cfg` so that window length, stride, clip and time-scaling constants come from `configs/cnn.yaml`, not from code.
+
+**Schema version 4 shared-window amendment.** When estimators have candidates, the controller calls `compute_window(prep, cfg)` exactly once with the effective classical section and injected period bounds. It injects that same read-only §7.4 result as `window_result` in the reconciliation and verification call dictionaries. Reconciliation uses it for alias assessment and verification uses its peaks for decoy exclusion. Verification requires a valid `window_result` whenever its required verification set is nonempty; missing or invalid input produces failed candidate records and incomplete verification. A window computation failure is recorded as a reconciliation-stage execution error, preserving upstream evidence. Empty-candidate outcomes do not require window computation. Public signatures and YAML ownership remain unchanged.
 
 ---
 
@@ -760,7 +762,7 @@ NaN and infinity: NaN is allowed only in `Observation.y`, `Observation.y_err`, a
 | Unknown extra keys on load | Ignored in `meta`/`evidence_summary`-style dicts; rejected in top-level dataclass fields. |
 | `schema_version` | Stored in `AnalysisResult`; `from_dict` rejects a different version. |
 
-Version-3 execution-error results preserve diagnostics and encode absent fields as JSON `null`. Loading validates the execution-state predicates; versions 1 and 2 remain rejected. No historical result is implicitly migrated or reinterpreted.
+Version-4 execution-error results preserve diagnostics and encode absent fields as JSON `null`. Loading validates the execution-state predicates; versions 1, 2 and 3 remain rejected. No historical result is implicitly migrated or reinterpreted.
 
 **Equality in tests.** Ordinary `==` is never used on objects containing arrays. Tests use `core.schemas.assert_contract_equal(a, b, rtol=1e-12, atol=0.0)`: arrays must have identical shape and dtype, identical NaN positions, and `np.allclose(..., equal_nan=True)`; floats are compared with `rtol`; bools, ints, strings and `None` exactly; lists, dicts and dataclasses recursively. `test_serialization.py` checks value preservation, shape preservation, dtype preservation and optional-field behaviour.
 

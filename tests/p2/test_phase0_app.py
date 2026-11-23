@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
+from tests.p2.test_controller import pending_reconciliation, unavailable_cnn
 
 
 def test_local_upload_uses_actual_bytes():
@@ -40,6 +41,8 @@ def test_bundled_demo_renders_stub_result(
 def test_demo_with_real_cp1_stages(tmp_path, monkeypatch):
     from pipeline import controller
     monkeypatch.setattr(controller, "_OUTPUTS", tmp_path)
+    monkeypatch.setattr(controller, "reconcile", pending_reconciliation)
+    monkeypatch.setattr(controller, "run_cnn", unavailable_cnn)
     entry_point = Path(__file__).resolve().parents[2] / "app" / "main.py"
     demo = AppTest.from_file(str(entry_point)).run(timeout=20)
     assert not demo.exception and not demo.error
@@ -65,6 +68,8 @@ def test_real_upload_ui_with_classical_fixtures(monkeypatch, isolated_runs):
     root = Path(__file__).resolve().parents[2]
     monkeypatch.setattr(controller, "run_lomb_scargle", runner(LOMB_SCARGLE))
     monkeypatch.setattr(controller, "run_pdm", runner(PDM))
+    monkeypatch.setattr(controller, "reconcile", pending_reconciliation)
+    monkeypatch.setattr(controller, "run_cnn", unavailable_cnn)
     for name, quality in (("00029A_2_3_R_20190322_DATA.txt", "suitable"),
                           ("00041B_2_3_R_20191118_DATA.txt", "limited")):
         upload = BytesIO((root / "data/sdlcd_raw" / name).read_bytes())

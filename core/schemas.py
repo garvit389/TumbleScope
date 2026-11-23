@@ -39,7 +39,7 @@ def _model_from_dict(cls, payload):
     return value
 
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 REASON_CODES = (
     "low_quality",

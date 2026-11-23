@@ -11,6 +11,7 @@ from core.schemas import (
     assert_contract_equal,
 )
 from pipeline import controller
+from tests.p2.test_controller import pending_reconciliation, unavailable_cnn
 
 
 def failure(*args, **kwargs):
@@ -42,7 +43,7 @@ def test_execution_failures(monkeypatch, observation, injected_config, mock_cnn,
     for errors in ({}, {stage: " "}, {"unrelated": "failure"}):
         with pytest.raises(ValueError):
             replace(result, stage_errors=errors).validate()
-    for version in (1, 2):
+    for version in (1, 2, 3):
         with pytest.raises(ValueError, match="schema version"):
             AnalysisResult.from_dict({**result.to_dict(), "schema_version": version})
 
@@ -86,11 +87,14 @@ def test_verdict_failure_keeps_completed_evidence(monkeypatch, observation, inje
 
 
 @pytest.mark.parametrize("outcome", ["incomplete", "empty", "unavailable", "rejected", "quality", "mismatch"])
-def test_independent_fallback(monkeypatch, observation, injected_config, mock_cnn, mock_recon, outcome):
+def test_independent_fallback(monkeypatch, observation, prepared, injected_config, mock_cnn, mock_recon, outcome):
     from core.schemas import QualityReport, LOW_QUALITY, STAGE2_FAIL_REASONS
     monkeypatch.setattr(controller, "run_cnn", lambda *a: mock_cnn)
     monkeypatch.setattr(controller, "reconcile", lambda *a: mock_recon)
-    if outcome in ("empty", "unavailable"):
+    if outcome == "incomplete":
+        verification = controller.verify_candidates(prepared, mock_recon, {})
+        monkeypatch.setattr(controller, "verify_candidates", Mock(return_value=verification))
+    elif outcome in ("empty", "unavailable"):
         results = {"run_cnn": mock_cnn}
         for method, function in (("lomb_scargle", "run_lomb_scargle"), ("pdm", "run_pdm")):
             results[function] = EstimatorResult(method, "ok", [], meta={
@@ -112,10 +116,11 @@ def test_independent_fallback(monkeypatch, observation, injected_config, mock_cn
         monkeypatch.setattr(controller, "assess_stage1", lambda *a: QualityReport("insufficient", {}, [], [LOW_QUALITY]))
     elif outcome == "mismatch":
         monkeypatch.setattr(controller, "verify_candidates_original", controller.verify_candidates, raising=False)
-        def mismatch(*a, **kw):
-            v = completed(*a, **kw)
-            return replace(v, per_candidate=[replace(r, passed=False) for r in v.per_candidate])
-        monkeypatch.setattr(controller, "verify_candidates", mismatch)
+        finished = completed(prepared, mock_recon, {})
+        verification = replace(finished, per_candidate=[
+            replace(record, passed=False) for record in finished.per_candidate
+        ])
+        monkeypatch.setattr(controller, "verify_candidates", Mock(return_value=verification))
     expected = controller.analyze(observation, injected_config)
     monkeypatch.setattr(controller, "decide", failure)
     result = controller.analyze(observation, injected_config)
@@ -128,6 +133,7 @@ def test_independent_fallback(monkeypatch, observation, injected_config, mock_cn
 
 def test_multiple_errors_and_invalid_combinations(monkeypatch, observation, injected_config, mock_cnn):
     monkeypatch.setattr(controller, "run_cnn", lambda *a: mock_cnn)
+    monkeypatch.setattr(controller, "reconcile", pending_reconciliation)
     good = controller.analyze(observation, injected_config)
     monkeypatch.setattr(controller, "_write_run_config", failure)
     monkeypatch.setattr(controller, "reconcile", failure)
@@ -162,6 +168,7 @@ def test_incomplete_real_shortlist_is_discarded(monkeypatch, observation, inject
 @pytest.mark.parametrize("stage,function", [("prepare", "prepare"), ("stage1", "assess_stage1"),
                                             ("reconciliation", "reconcile")])
 def test_error_dashboard(monkeypatch, isolated_runs, stage, function):
+    monkeypatch.setattr(controller, "run_cnn", unavailable_cnn)
     monkeypatch.setattr(controller, function, failure)
     app = AppTest.from_file(str(Path(__file__).resolve().parents[2] / "app/main.py")).run(timeout=60)
     assert not app.exception
@@ -176,6 +183,7 @@ def test_error_dashboard(monkeypatch, isolated_runs, stage, function):
 def test_nullable_consumer(monkeypatch, observation, injected_config, mock_cnn):
     from scripts.validate_cp1 import _verdict_category
     monkeypatch.setattr(controller, "run_cnn", lambda *a: mock_cnn)
+    monkeypatch.setattr(controller, "reconcile", pending_reconciliation)
     pending = controller.analyze(observation, injected_config)
     assert _verdict_category(pending) == "stage2_pending"
     monkeypatch.setattr(controller, "reconcile", failure)
@@ -208,6 +216,7 @@ def test_earliest_error_precedence(monkeypatch, observation, injected_config, mo
 def test_real_upload_execution_error(monkeypatch, isolated_runs, name):
     from io import BytesIO
     import streamlit as st
+    monkeypatch.setattr(controller, "run_cnn", unavailable_cnn)
     root = Path(__file__).resolve().parents[2]
     upload = BytesIO((root / "data/sdlcd_raw" / name).read_bytes())
     upload.name = name

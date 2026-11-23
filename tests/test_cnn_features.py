@@ -93,3 +93,20 @@ def test_generator_calls_shared_builder(monkeypatch):
                                              "noise_or_constant", 0, "constant"))
     spy.assert_called_once()
     np.testing.assert_array_equal(windows, original(prepare(obs, config.preprocess), config.cnn))
+
+
+def test_cp3b_real_inference_calls_shared_builder(prepared, monkeypatch):
+    from unittest.mock import Mock
+    from core.config import load_config, resolve_period_bounds
+    from ml import features, infer
+
+    config = load_config()
+    low, high = resolve_period_bounds(config.period_bounds)
+    cfg = dict(config.cnn, period_min_s=low, period_max_s=high)
+    builder = Mock(wraps=features.build_cnn_windows)
+    monkeypatch.setattr(features, "build_cnn_windows", builder)
+    result = infer.run_cnn(prepared, cfg)
+    result.validate()
+    builder.assert_called_once_with(prepared, cfg)
+    assert result.status == "ok", result.error
+    assert not result.is_stub and result.meta["n_windows"] == 1

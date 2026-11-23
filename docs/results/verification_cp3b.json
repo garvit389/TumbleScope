@@ -1,0 +1,1717 @@
+{
+  "environment": {
+    "numpy": "2.2.6",
+    "platform": "Windows-10-10.0.26300-SP0",
+    "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+    "python": "3.11.9",
+    "scipy": "1.15.3",
+    "torch": "2.8.0+cpu",
+    "torch_threads": 8
+  },
+  "initial_timing": {
+    "attempted": 10,
+    "beat_all_decoys": 9,
+    "completed": 9,
+    "completed_max_runtime_s": 5.527874200022779,
+    "completed_median_runtime_s": 4.061285899952054,
+    "failure_counts": {
+      "zero observed MAD": 1
+    },
+    "passed_both_provisional_gates": 9,
+    "wins_per_attempted": 0.9,
+    "wins_per_completed": 1.0
+  },
+  "planned": 50,
+  "population": "First 50 reliable synthetic development groups, without degradation",
+  "provisional": true,
+  "revision": "9c859f2199b123d5582da4a7b7fadfa319a1e71a",
+  "rows": [
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.27764610682869795,
+          "cylinder": 0.3295195113608211
+        },
+        "offset_b": -8.123454652042673,
+        "scale_a": 9.10689744263418,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.4766428680780575
+      ],
+      "decoy_periods_s": [
+        207.57832381718907
+      ],
+      "fit_error": 0.41883112553867013,
+      "group": 1000000,
+      "harmonic_comparison": null,
+      "heldout_error": 0.2857975583967683,
+      "notes": [
+        "Excluded decoy 466.200497753 s (outside period bounds)",
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 340.29233412653946,
+      "runtime_s": 3.0083700999384746,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.06241956144366389,
+          "cylinder": 0.13585541082238292
+        },
+        "offset_b": -27.2004344896047,
+        "scale_a": 25.47803942574297,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7548177446259453
+      ],
+      "decoy_periods_s": [
+        207.4325358648029
+      ],
+      "fit_error": 0.0855357798239907,
+      "group": 1000001,
+      "harmonic_comparison": null,
+      "heldout_error": 0.06241956144366389,
+      "notes": [
+        "Excluded decoy 465.873072352 s (outside period bounds)",
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 340.0533374832834,
+      "runtime_s": 3.2065124000655487,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": null,
+      "cluster_id": 1,
+      "decoy_delta_e": [],
+      "decoy_periods_s": [],
+      "fit_error": null,
+      "group": 1000002,
+      "harmonic_comparison": null,
+      "heldout_error": null,
+      "notes": [
+        "zero observed MAD"
+      ],
+      "passed": false,
+      "period_s": 46.59537408712671,
+      "runtime_s": 0.052737100049853325,
+      "samples": 236,
+      "status": "failed"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.14159528293812654,
+          "cylinder": 0.1580106608736319
+        },
+        "offset_b": 4.36215856534996,
+        "scale_a": -3.122396949499113,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.2731110469673124,
+        0.7427462149894304
+      ],
+      "decoy_periods_s": [
+        322.8717576211968,
+        143.76041762695624
+      ],
+      "fit_error": 0.18513901634055585,
+      "group": 1000003,
+      "harmonic_comparison": null,
+      "heldout_error": 0.13790647528350983,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 235.67281578189548,
+      "runtime_s": 5.527874200022779,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.3259097914250901,
+          "cylinder": 0.36813824841912274
+        },
+        "offset_b": 8.173179074647797,
+        "scale_a": -5.246883227033533,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.111643073229541,
+        0.9693019696178797
+      ],
+      "decoy_periods_s": [
+        134.67704565143572,
+        59.96569185939838
+      ],
+      "fit_error": 0.47009094136057755,
+      "group": 1000004,
+      "harmonic_comparison": null,
+      "heldout_error": 0.33044602049477606,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 98.30441288425965,
+      "runtime_s": 4.607909900019877,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.7316877881167073,
+          "cylinder": 0.7038641486494867
+        },
+        "offset_b": 40.70474169636042,
+        "scale_a": -43.34851061563854,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.9200293847472807,
+        1.519981900724547
+      ],
+      "decoy_periods_s": [
+        237.4123481997264,
+        105.7091477385643
+      ],
+      "fit_error": 0.9960038411751989,
+      "group": 1000005,
+      "harmonic_comparison": null,
+      "heldout_error": 0.6661366039597847,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 173.29368481731854,
+      "runtime_s": 4.790113899973221,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.0634904440864371,
+          "cylinder": 0.15492962553846726
+        },
+        "offset_b": -3.626518037930589,
+        "scale_a": 2.359559698805308,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7095380481335936,
+        0.7302454086905048
+      ],
+      "decoy_periods_s": [
+        29.268965465587023,
+        13.032167105115388
+      ],
+      "fit_error": 0.08586039423467316,
+      "group": 1000006,
+      "harmonic_comparison": null,
+      "heldout_error": 0.0634904440864371,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 21.36420836904162,
+      "runtime_s": 3.0566038999240845,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.14410947932609386,
+          "cylinder": 0.13398166426586272
+        },
+        "offset_b": -16.541347392067962,
+        "scale_a": 10.51183345709531,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7855752770948314,
+        0.9501254580376908
+      ],
+      "decoy_periods_s": [
+        9.487792506223899,
+        4.224491553866115
+      ],
+      "fit_error": 0.1816850288145643,
+      "group": 1000007,
+      "harmonic_comparison": null,
+      "heldout_error": 0.13398166426586272,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 6.925395989944451,
+      "runtime_s": 4.398079799953848,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.3699067347090867,
+          "cylinder": 0.3686205608509067
+        },
+        "offset_b": 13.180240308151145,
+        "scale_a": -10.603370851516804,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.4375446582751753,
+        0.49034396547891856
+      ],
+      "decoy_periods_s": [
+        67.25718477077014,
+        29.946629715452396
+      ],
+      "fit_error": 0.544159905618666,
+      "group": 1000008,
+      "harmonic_comparison": null,
+      "heldout_error": 0.3697541308906691,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 49.09283559910229,
+      "runtime_s": 4.061285899952054,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.11499395677038433,
+          "cylinder": 0.15133532116858708
+        },
+        "offset_b": -25.255421460068042,
+        "scale_a": 53.24995685852843,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.5413411333792091,
+        0.5305869906026971
+      ],
+      "decoy_periods_s": [
+        77.88487197120948,
+        34.67866562221736
+      ],
+      "fit_error": 0.1721667299680002,
+      "group": 1000009,
+      "harmonic_comparison": null,
+      "heldout_error": 0.11499395677038433,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 56.850271511831735,
+      "runtime_s": 3.270483799977228,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 1.1247712478485896,
+          "cylinder": 1.0997107933936208
+        },
+        "offset_b": 29.141037488185166,
+        "scale_a": -18.380360819545757,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.3670797931180994,
+        1.4281484183536144
+      ],
+      "decoy_periods_s": [
+        25.492218922526344,
+        11.35055003119786
+      ],
+      "fit_error": 1.4597367523639269,
+      "group": 1000010,
+      "harmonic_comparison": null,
+      "heldout_error": 1.0997107933936208,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": false,
+      "period_s": 18.607459067537476,
+      "runtime_s": 3.9009354999288917,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.14100546017865664,
+          "cylinder": 0.12636067398560158
+        },
+        "offset_b": -1.5312126666564085,
+        "scale_a": 16.4108812284526,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7567941545508307
+      ],
+      "decoy_periods_s": [
+        246.25351990476113
+      ],
+      "fit_error": 0.19293984590125582,
+      "group": 1000011,
+      "harmonic_comparison": null,
+      "heldout_error": 0.12286112983279625,
+      "notes": [
+        "Excluded decoy 553.061184048 s (outside period bounds)",
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 403.69429492583794,
+      "runtime_s": 3.5494293000083417,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.7248334450962384,
+          "cylinder": 0.7167923555716592
+        },
+        "offset_b": 101.53335843179339,
+        "scale_a": -67.1255642099656,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        2.615790917729288,
+        1.3886801090052225
+      ],
+      "decoy_periods_s": [
+        20.503594995312454,
+        9.129337917620873
+      ],
+      "fit_error": 1.0620560055274322,
+      "group": 1000012,
+      "harmonic_comparison": null,
+      "heldout_error": 0.7155081308825424,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 14.96612773380471,
+      "runtime_s": 4.143615199951455,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.29839649576296706,
+          "cylinder": 0.2680810398780156
+        },
+        "offset_b": 6.118698694089703,
+        "scale_a": -8.753204019685302,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.6916792462803368,
+        0.6611121584315462
+      ],
+      "decoy_periods_s": [
+        61.902653827678705,
+        27.562495499915332
+      ],
+      "fit_error": 0.393084445830727,
+      "group": 1000013,
+      "harmonic_comparison": null,
+      "heldout_error": 0.2614761324816115,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 45.18441885232022,
+      "runtime_s": 2.8055037999292836,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.5371613908225252,
+          "cylinder": 0.32494110732388143
+        },
+        "offset_b": -7.590178667195532,
+        "scale_a": 9.535838201522209,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.9478981365667811,
+        0.9257801667129635
+      ],
+      "decoy_periods_s": [
+        137.61627135486748,
+        61.274398194503036
+      ],
+      "fit_error": 0.4847040492882657,
+      "group": 1000014,
+      "harmonic_comparison": null,
+      "heldout_error": 0.32494110732388143,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 100.44983310574268,
+      "runtime_s": 3.2216173000633717,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.4220566143791036,
+          "cylinder": 0.41454043365651616
+        },
+        "offset_b": 9.589316555155582,
+        "scale_a": -12.936996009574289,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7205414156137486,
+        0.7235863451259654
+      ],
+      "decoy_periods_s": [
+        165.9081552859805,
+        73.87151439740737
+      ],
+      "fit_error": 0.5975142172006983,
+      "group": 1000015,
+      "harmonic_comparison": null,
+      "heldout_error": 0.40369877559925066,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 121.10084327443832,
+      "runtime_s": 3.2361994999228045,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.5130177310515497,
+          "cylinder": 0.4606751615441313
+        },
+        "offset_b": -6.523829809761105,
+        "scale_a": 12.463017038556988,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.3567554209639086,
+        1.1282201195527166
+      ],
+      "decoy_periods_s": [
+        121.1300697428755,
+        53.93382667383507
+      ],
+      "fit_error": 0.6782395340140722,
+      "group": 1000016,
+      "harmonic_comparison": null,
+      "heldout_error": 0.4606751615441313,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 88.41610930136898,
+      "runtime_s": 4.482763799955137,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.6560271592627881,
+          "cylinder": 0.7265346930882575
+        },
+        "offset_b": 8.981492538012285,
+        "scale_a": -9.562616819957087,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.1692167559159574,
+        1.1535495864275687
+      ],
+      "decoy_periods_s": [
+        80.69000651257183,
+        35.92766713333489
+      ],
+      "fit_error": 0.9482120455609468,
+      "group": 1000017,
+      "harmonic_comparison": null,
+      "heldout_error": 0.6560271592627881,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 58.89781497268016,
+      "runtime_s": 2.963351499987766,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 1.5147996830923374,
+          "cylinder": 1.433022462316767
+        },
+        "offset_b": 28.041431626927466,
+        "scale_a": -22.58154851773629,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        2.270672733952808,
+        1.549327637532288
+      ],
+      "decoy_periods_s": [
+        299.86582832723514,
+        133.5169016639514
+      ],
+      "fit_error": 1.3332911207907225,
+      "group": 1000018,
+      "harmonic_comparison": null,
+      "heldout_error": 1.5225266256563528,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": false,
+      "period_s": 218.8801666622154,
+      "runtime_s": 6.450637200032361,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.20157395906393893,
+          "cylinder": 0.1968085567337403
+        },
+        "offset_b": 9.207098152002008,
+        "scale_a": -7.223426350148689,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.0197902107127237,
+        0.9437843343454005
+      ],
+      "decoy_periods_s": [
+        305.25238904381916,
+        135.9152973114815
+      ],
+      "fit_error": 0.24203953933446018,
+      "group": 1000019,
+      "harmonic_comparison": null,
+      "heldout_error": 0.16583740090797094,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 222.8119628057074,
+      "runtime_s": 3.6730654999846593,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.40842666512668324,
+          "cylinder": 0.40182336319009454
+        },
+        "offset_b": 8.053961225574016,
+        "scale_a": -5.906748236132329,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7194066185557504,
+        0.7016544843850756
+      ],
+      "decoy_periods_s": [
+        72.83826668035609,
+        32.431636989063655
+      ],
+      "fit_error": 0.5962323594478289,
+      "group": 1000020,
+      "harmonic_comparison": null,
+      "heldout_error": 0.40182336319009454,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 53.16661801485846,
+      "runtime_s": 2.9609995000064373,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": null,
+      "cluster_id": 1,
+      "decoy_delta_e": [],
+      "decoy_periods_s": [],
+      "fit_error": null,
+      "group": 1000021,
+      "harmonic_comparison": null,
+      "heldout_error": null,
+      "notes": [
+        "zero observed MAD"
+      ],
+      "passed": false,
+      "period_s": 204.26503241295396,
+      "runtime_s": 0.14934020000509918,
+      "samples": 369,
+      "status": "failed"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.41025600244695976,
+          "cylinder": 0.3713328956078003
+        },
+        "offset_b": 5.389142472071479,
+        "scale_a": -13.011557206353862,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7227915847289323,
+        0.7407540881341026
+      ],
+      "decoy_periods_s": [
+        310.92470083048823,
+        138.44092518729767
+      ],
+      "fit_error": 0.5106019362107416,
+      "group": 1000022,
+      "harmonic_comparison": null,
+      "heldout_error": 0.3468675649063358,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 226.95233637261913,
+      "runtime_s": 3.4138215999118984,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.15416076746492155,
+          "cylinder": 0.14309233894694603
+        },
+        "offset_b": -16.907306133236965,
+        "scale_a": 15.83935216777309,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.6484597448221728
+      ],
+      "decoy_periods_s": [
+        5.017991096039442
+      ],
+      "fit_error": 0.20520321781854448,
+      "group": 1000023,
+      "harmonic_comparison": null,
+      "heldout_error": 0.13925112844502,
+      "notes": [
+        "Excluded decoy 2.23428800627 s (outside period bounds)",
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 3.6627672233864534,
+      "runtime_s": 2.575348800048232,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.5429696996394634,
+          "cylinder": 0.7065726852007984
+        },
+        "offset_b": -2.3012025156220264,
+        "scale_a": 6.052212873998106,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7104969970097111,
+        0.66655277890249
+      ],
+      "decoy_periods_s": [
+        124.06668465790275,
+        55.24137054110998
+      ],
+      "fit_error": 0.7814678823896296,
+      "group": 1000024,
+      "harmonic_comparison": null,
+      "heldout_error": 0.5429696996394634,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 90.55962383788521,
+      "runtime_s": 3.9964325999608263,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.23302516300117052,
+          "cylinder": 0.20538703621908153
+        },
+        "offset_b": -8.238542403717203,
+        "scale_a": 9.089437581515277,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.920102601894635,
+        0.9477358393045339
+      ],
+      "decoy_periods_s": [
+        12.960884102048237,
+        5.77090460018206
+      ],
+      "fit_error": 0.2962848262634082,
+      "group": 1000025,
+      "harmonic_comparison": null,
+      "heldout_error": 0.20538703621908153,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 9.460499344560755,
+      "runtime_s": 3.747886099969037,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.41956343165376486,
+          "cylinder": 0.4790344284643784
+        },
+        "offset_b": 1.79986818161465,
+        "scale_a": -3.951707506231601,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.35465297833404996,
+        0.33297948208301476
+      ],
+      "decoy_periods_s": [
+        79.22793834611487,
+        35.27667327819712
+      ],
+      "fit_error": 0.5976971936149816,
+      "group": 1000026,
+      "harmonic_comparison": null,
+      "heldout_error": 0.41956343165376486,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 57.8306119314707,
+      "runtime_s": 2.844831000082195,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.15394789520118113,
+          "cylinder": 0.11669876377263376
+        },
+        "offset_b": -10.651895770236226,
+        "scale_a": 16.7866458536181,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.8305499236321287,
+        0.6522042970125852
+      ],
+      "decoy_periods_s": [
+        137.45380420911516,
+        61.20205880843814
+      ],
+      "fit_error": 0.17273018164025541,
+      "group": 1000027,
+      "harmonic_comparison": null,
+      "heldout_error": 0.11669876377263376,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 100.33124394825924,
+      "runtime_s": 4.5546862001065165,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.3074043255759576,
+          "cylinder": 0.20647584116716455
+        },
+        "offset_b": 10.805531672137016,
+        "scale_a": -13.286908814249673,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7605811482189427,
+        0.7993977435495208
+      ],
+      "decoy_periods_s": [
+        15.281881655952986,
+        6.80434146724914
+      ],
+      "fit_error": 0.30088255315139273,
+      "group": 1000028,
+      "harmonic_comparison": null,
+      "heldout_error": 0.20647584116716455,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 11.154658143031376,
+      "runtime_s": 4.202072200016119,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.09648623776780325,
+          "cylinder": 0.11938662866529932
+        },
+        "offset_b": 2.339332402831721,
+        "scale_a": -4.484815296834815,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7852959125393727,
+        0.7725748756638866
+      ],
+      "decoy_periods_s": [
+        18.376276340442082,
+        8.182137640634794
+      ],
+      "fit_error": 0.14393694596879625,
+      "group": 1000029,
+      "harmonic_comparison": null,
+      "heldout_error": 0.08912233696546716,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 13.41334039448327,
+      "runtime_s": 3.3697079999838024,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.46709985884242444,
+          "cylinder": 0.4650876966808917
+        },
+        "offset_b": 5.56606246921374,
+        "scale_a": -11.359257876974697,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.4027373337448575,
+        0.381870813726698
+      ],
+      "decoy_periods_s": [
+        45.73475102396118,
+        20.363648266143297
+      ],
+      "fit_error": 0.641056456340706,
+      "group": 1000030,
+      "harmonic_comparison": null,
+      "heldout_error": 0.4624846977857337,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 33.38302994449721,
+      "runtime_s": 2.8045422000577673,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.24311775148980364,
+          "cylinder": 0.2472207775500189
+        },
+        "offset_b": 2.2558935836206726,
+        "scale_a": -2.7927486358404963,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.5963536899056546,
+        0.4525345458662311
+      ],
+      "decoy_periods_s": [
+        158.22998767038106,
+        70.45276823279741
+      ],
+      "fit_error": 0.3173282994464371,
+      "group": 1000031,
+      "harmonic_comparison": null,
+      "heldout_error": 0.22667991471662438,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 115.49634136524165,
+      "runtime_s": 4.3636925999308005,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.08755080958627372,
+          "cylinder": 0.12119546401611649
+        },
+        "offset_b": -10.554114141874116,
+        "scale_a": 9.127358145545402,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.6323771705751932,
+        0.6564759865719201
+      ],
+      "decoy_periods_s": [
+        41.86666110560782,
+        18.641360054321726
+      ],
+      "fit_error": 0.12411664315966202,
+      "group": 1000032,
+      "harmonic_comparison": null,
+      "heldout_error": 0.08755080958627372,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 30.55960664642906,
+      "runtime_s": 2.9281098999781534,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.6033019178799033,
+          "cylinder": 0.602272210980387
+        },
+        "offset_b": 1.4731946284316495,
+        "scale_a": -45.56764231030652,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.46733442428181793,
+        0.4675722849925067
+      ],
+      "decoy_periods_s": [
+        13.940703516307435,
+        6.207174558355865
+      ],
+      "fit_error": 0.48981252726331176,
+      "group": 1000033,
+      "harmonic_comparison": null,
+      "heldout_error": 0.5794105974334195,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 10.175695997304697,
+      "runtime_s": 3.252872999990359,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.13114252783823746,
+          "cylinder": 0.14432575040960208
+        },
+        "offset_b": 5.221760934800087,
+        "scale_a": -3.3943650269522174,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.6431351568675068,
+        0.6546584494056569
+      ],
+      "decoy_periods_s": [
+        9.148026116003027,
+        4.073208708585289
+      ],
+      "fit_error": 0.19048338335608186,
+      "group": 1000034,
+      "harmonic_comparison": null,
+      "heldout_error": 0.12894564564496128,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 6.677391325549654,
+      "runtime_s": 2.9669552000705153,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.18866422543914516,
+          "cylinder": 0.20589642362701163
+        },
+        "offset_b": -34.60628043511595,
+        "scale_a": 34.37124209729296,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.6865644626994247,
+        0.7104522507867955
+      ],
+      "decoy_periods_s": [
+        273.9354754731205,
+        121.97127010117043
+      ],
+      "fit_error": 0.21039507807546906,
+      "group": 1000035,
+      "harmonic_comparison": null,
+      "heldout_error": 0.18866422543914516,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 199.95290180519743,
+      "runtime_s": 5.4683085000142455,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.46073809579115327,
+          "cylinder": 0.5070392973157675
+        },
+        "offset_b": 19.984842297591683,
+        "scale_a": -10.45836420957404,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        2.367697623955782,
+        2.415058189195001
+      ],
+      "decoy_periods_s": [
+        31.993607711797193,
+        14.245328981165171
+      ],
+      "fit_error": 0.68657911840653,
+      "group": 1000036,
+      "harmonic_comparison": null,
+      "heldout_error": 0.45787847324506764,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 23.35299832977897,
+      "runtime_s": 3.098158000037074,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.44009335229562946,
+          "cylinder": 0.5232617317271796
+        },
+        "offset_b": 1.1566515728054452,
+        "scale_a": -3.8708244906635847,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.3151352732606682,
+        0.3387874983696351
+      ],
+      "decoy_periods_s": [
+        93.62264183910992,
+        41.685993811574484
+      ],
+      "fit_error": 0.6253648669342553,
+      "group": 1000037,
+      "harmonic_comparison": null,
+      "heldout_error": 0.44009335229562946,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 68.33769477307293,
+      "runtime_s": 3.6078396999510005,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.1365141540032225,
+          "cylinder": 0.19903094707575827
+        },
+        "offset_b": 5.65970382872422,
+        "scale_a": -3.107962690279346,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.7970969702075023,
+        0.7597651879247802
+      ],
+      "decoy_periods_s": [
+        23.80501107448936,
+        10.599311500320079
+      ],
+      "fit_error": 0.2012979422341161,
+      "group": 1000038,
+      "harmonic_comparison": null,
+      "heldout_error": 0.1365141540032225,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 17.375920492328,
+      "runtime_s": 3.7584824999794364,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.5735558172252332,
+          "cylinder": 0.6410387699836807
+        },
+        "offset_b": -1.6155305639931692,
+        "scale_a": 28.313949690449785,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.1436203010407668
+      ],
+      "decoy_periods_s": [
+        124.82293904821952
+      ],
+      "fit_error": 0.7206060904985526,
+      "group": 1000039,
+      "harmonic_comparison": null,
+      "heldout_error": 0.5908100370525072,
+      "notes": [
+        "Excluded decoy 280.340043436 s (alias offset)",
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 204.62776893150743,
+      "runtime_s": 4.43413009995129,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.5575710324182582,
+          "cylinder": 0.5649257886675515
+        },
+        "offset_b": 11.989352143233122,
+        "scale_a": -6.7303141963067885,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        2.023814832396451,
+        1.3414055175120052
+      ],
+      "decoy_periods_s": [
+        165.26203728855018,
+        73.5838268219092
+      ],
+      "fit_error": 0.8041875729875397,
+      "group": 1000040,
+      "harmonic_comparison": null,
+      "heldout_error": 0.5440714711533238,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 120.6292242982118,
+      "runtime_s": 4.616615099948831,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.09746951284557039,
+          "cylinder": 0.10141134132768143
+        },
+        "offset_b": 165.0446891725681,
+        "scale_a": -164.18317886584256,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.5590149677414777,
+        0.5717532049636493
+      ],
+      "decoy_periods_s": [
+        24.57002601763766,
+        10.939938591794869
+      ],
+      "fit_error": 0.1266638512346305,
+      "group": 1000041,
+      "harmonic_comparison": null,
+      "heldout_error": 0.0856760033360196,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 17.934325560319458,
+      "runtime_s": 3.2314754999242723,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.5697863234333606,
+          "cylinder": 0.5806776556008214
+        },
+        "offset_b": -19.859150985727045,
+        "scale_a": 13.198438524438542,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.5417650739299384,
+        1.521731393766124
+      ],
+      "decoy_periods_s": [
+        8.013336978730555,
+        3.567982158412874
+      ],
+      "fit_error": 0.8334778284390624,
+      "group": 1000042,
+      "harmonic_comparison": null,
+      "heldout_error": 0.5585258740257438,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 5.849151079365368,
+      "runtime_s": 3.321898099966347,
+      "samples": 369,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.15341623310374883,
+          "cylinder": 0.16593506446153924
+        },
+        "offset_b": -7.111176811832513,
+        "scale_a": 4.1964715323184265,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.0058495432953143
+      ],
+      "decoy_periods_s": [
+        207.48426524181448
+      ],
+      "fit_error": 0.2053065691579635,
+      "group": 1000043,
+      "harmonic_comparison": null,
+      "heldout_error": 0.15129675576251064,
+      "notes": [
+        "Excluded decoy 465.989251445 s (outside period bounds)",
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 340.1381397406795,
+      "runtime_s": 4.332500800024718,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.46176758615200786,
+          "cylinder": 0.46335732411413316
+        },
+        "offset_b": 19.334772811492893,
+        "scale_a": -13.972832266554017,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        1.6090702522942977,
+        1.341277869122253
+      ],
+      "decoy_periods_s": [
+        133.81573810265468,
+        59.58218995811631
+      ],
+      "fit_error": 0.6004070766867445,
+      "group": 1000044,
+      "harmonic_comparison": null,
+      "heldout_error": 0.46359733674141895,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 97.67572124281362,
+      "runtime_s": 5.460084100021049,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.0802151346928551,
+          "cylinder": 0.09830320331478143
+        },
+        "offset_b": 5.2391344190944835,
+        "scale_a": -4.5056391106471105,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.5487515084712904,
+        0.5294218877024617
+      ],
+      "decoy_periods_s": [
+        120.78243162054972,
+        53.77903889674111
+      ],
+      "fit_error": 0.11187611403610759,
+      "group": 1000045,
+      "harmonic_comparison": null,
+      "heldout_error": 0.07501778817484556,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 88.16235884711658,
+      "runtime_s": 3.7156440999824554,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.14064871707803145,
+          "cylinder": 0.1321291498745397
+        },
+        "offset_b": -9.59939476594401,
+        "scale_a": 11.754989115322182,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.47069152210786847,
+        0.6050348659638793
+      ],
+      "decoy_periods_s": [
+        9.806225170915297,
+        4.366275441064475
+      ],
+      "fit_error": 0.1797770075485319,
+      "group": 1000046,
+      "harmonic_comparison": null,
+      "heldout_error": 0.11951771459115292,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 7.1578285919089755,
+      "runtime_s": 4.123894399963319,
+      "samples": 114,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.1197119870649614,
+          "cylinder": 0.11224387525997188
+        },
+        "offset_b": 7.568721154768309,
+        "scale_a": -7.260501391908278,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.626609014220279,
+        0.654752660223062
+      ],
+      "decoy_periods_s": [
+        32.59086292403078,
+        14.5112601340575
+      ],
+      "fit_error": 0.1556563247006398,
+      "group": 1000047,
+      "harmonic_comparison": null,
+      "heldout_error": 0.1085310185355145,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": true,
+      "period_s": 23.788951039438523,
+      "runtime_s": 2.786188199999742,
+      "samples": 141,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 4.020574749606986,
+          "cylinder": 3.9205370081318804
+        },
+        "offset_b": 135.24353042332865,
+        "scale_a": -116.11527793716728,
+        "shape": "cylinder"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        9.428328043389099,
+        8.438485185940392
+      ],
+      "decoy_periods_s": [
+        189.2754661899112,
+        84.27593750061739
+      ],
+      "fit_error": 5.772343426012597,
+      "group": 1000048,
+      "harmonic_comparison": null,
+      "heldout_error": 3.9329556303074256,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": false,
+      "period_s": 138.15727459117605,
+      "runtime_s": 3.617978800088167,
+      "samples": 236,
+      "status": "ok"
+    },
+    {
+      "best_params": {
+        "fit_space": "y_norm",
+        "geometry_errors": {
+          "box": 0.926397477189162,
+          "cylinder": 1.2980260068529774
+        },
+        "offset_b": -0.8435268245182429,
+        "scale_a": 13.457162216253595,
+        "shape": "box"
+      },
+      "cluster_id": 1,
+      "decoy_delta_e": [
+        0.9350108095255433,
+        0.9543032372387147
+      ],
+      "decoy_periods_s": [
+        60.46736734711581,
+        26.923426337036965
+      ],
+      "fit_error": 1.3079221778999723,
+      "group": 1000049,
+      "harmonic_comparison": null,
+      "heldout_error": 0.926397477189162,
+      "notes": [
+        "Representative coefficients from first chronological fold"
+      ],
+      "passed": false,
+      "period_s": 44.13676448694584,
+      "runtime_s": 2.7685289999935776,
+      "samples": 141,
+      "status": "ok"
+    }
+  ],
+  "schema_version": 3,
+  "scope": "Single truth candidate per curve under the schema-v3 verifier",
+  "summary": {
+    "attempted": 50,
+    "beat_all_decoys": 48,
+    "completed": 48,
+    "completed_max_runtime_s": 6.450637200032361,
+    "completed_median_runtime_s": 3.612909250019584,
+    "failure_counts": {
+      "zero observed MAD": 2
+    },
+    "passed_both_provisional_gates": 44,
+    "wins_per_attempted": 0.96,
+    "wins_per_completed": 1.0
+  },
+  "timing": {
+    "attempted": 10,
+    "beat_all_decoys": 9,
+    "completed": 9,
+    "completed_max_runtime_s": 5.527874200022779,
+    "completed_median_runtime_s": 4.061285899952054,
+    "failure_counts": {
+      "zero observed MAD": 1
+    },
+    "passed_both_provisional_gates": 9,
+    "wins_per_attempted": 0.9,
+    "wins_per_completed": 1.0
+  },
+  "timing_groups": [
+    1000000,
+    1000001,
+    1000002,
+    1000003,
+    1000004,
+    1000005,
+    1000006,
+    1000007,
+    1000008,
+    1000009
+  ],
+  "timing_profile": "existing",
+  "verification_policy": {
+    "decoy_exclusion_resolutions": 1.0,
+    "decoy_ratios": [
+      1.37,
+      0.61
+    ],
+    "decoy_separation_min": 0.1,
+    "fit": {
+      "aspect_range": [
+        1.2,
+        2.5
+      ],
+      "coarse_samples": 24,
+      "cylinder_sides": 16,
+      "maxiter": 12,
+      "popsize": 5,
+      "restarts": 2,
+      "shapes": [
+        "box",
+        "cylinder"
+      ]
+    },
+    "geometry_margin": 0.05,
+    "harmonic_margin": 0.05,
+    "heldout_error_max": 0.85,
+    "min_decoys": 1,
+    "n_blocks": 3,
+    "period_max_s": 445.881,
+    "period_min_s": 2.912,
+    "seed": 17,
+    "timeout_s_per_candidate": 30.0
+  }
+}

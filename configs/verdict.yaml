@@ -1,1 +1,4 @@
-{}
+# Provisional Day 3 policy. Alias equality remains gated by the contract.
+alias_risk_max: 0.35
+min_agreeing_estimators: 2
+limited_max_label: Supported

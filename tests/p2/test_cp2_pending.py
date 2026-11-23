@@ -16,10 +16,12 @@ from core.schemas import (
 from ingestion import load_observation
 from pipeline import controller
 from verdict.decide import decide
+from tests.p2.test_controller import pending_reconciliation, unavailable_cnn
 
 
 def test_pending_validation_and_serialization(observation, injected_config, mock_cnn, monkeypatch):
     monkeypatch.setattr(controller, "run_cnn", lambda *args: mock_cnn)
+    monkeypatch.setattr(controller, "reconcile", pending_reconciliation)
     result = controller.analyze(observation, injected_config)
     assert result.verdict is None and result.verification is None
     result.validate()
@@ -78,6 +80,8 @@ def test_existing_verdict_outcomes(mock_recon, mock_cnn):
 @pytest.mark.parametrize("name", ["00029A_2_3_R_20190322_DATA.txt",
                                 "00080B_1_2_R_20190724_DATA.txt"])
 def test_real_upload_pending(name, isolated_runs, monkeypatch):
+    monkeypatch.setattr(controller, "reconcile", pending_reconciliation)
+    monkeypatch.setattr(controller, "run_cnn", unavailable_cnn)
     root = Path(__file__).resolve().parents[2]
     path = root / "data/sdlcd_raw" / name
     upload = BytesIO(path.read_bytes())

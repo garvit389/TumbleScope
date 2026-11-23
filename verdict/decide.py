@@ -1,13 +1,84 @@
-"""Phase 0 verdict placeholder, including the structural outcomes in §5."""
+"""Scientific verdicts for the schema-v3 decision table."""
 
+from itertools import combinations
+from math import isfinite
 from typing import Optional
 
 from core.schemas import (
-    ALL_CANDIDATES_FAILED_STAGE2, ALL_ESTIMATORS_UNAVAILABLE, CANDIDATE_INADEQUATE,
-    LOW_QUALITY, MODEL_MISMATCH, NO_PERIODIC_SIGNAL, VERIFICATION_INCOMPLETE,
-    EstimatorResult, QualityReport, ReconciliationResult, VerificationResult, Verdict,
+    ALIAS_AMBIGUITY, ALL_CANDIDATES_FAILED_STAGE2, ALL_ESTIMATORS_UNAVAILABLE,
+    CANDIDATE_INADEQUATE, CONFLICTING_METHODS, HARMONIC_AMBIGUITY, LOW_QUALITY,
+    MODEL_MISMATCH, NO_PERIODIC_SIGNAL, REASON_CODES, VERIFICATION_INCOMPLETE,
+    CandidateVerification, EstimatorResult, QualityReport, ReconciliationResult, VerificationResult, Verdict,
     stage2_pending,
 )
+from verdict.reasons import _alternatives
+
+
+def _select_record(recon: ReconciliationResult,
+                   verification: VerificationResult | None) -> CandidateVerification | None:
+    scores = {cluster.cluster_id: cluster.score for cluster in recon.clusters}
+    finished = (record for record in verification.per_candidate if record.status == "ok") if verification else ()
+    return min(finished, default=None, key=lambda record: (
+        not record.passed, -scores[record.cluster_id], record.cluster_id,
+    ))
+
+
+def _passing_decision(estimators, clusters, lead, record, cfg, summary):
+    minimum = cfg.get("min_agreeing_estimators", 2)
+    maximum = cfg.get("alias_risk_max")
+    if type(minimum) is not int or not 2 <= minimum <= 3:
+        raise ValueError("invalid min_agreeing_estimators")
+    if type(maximum) not in (int, float) or not isfinite(maximum) or not 0 <= maximum <= 1:
+        raise ValueError("missing or invalid alias_risk_max")
+    if not lead.stage2["passed"]:
+        raise ValueError("contract: passing verification record failed Stage 2")
+
+    methods = {method: item for method, item in estimators.items() if item.status == "ok" and item.candidates}
+    top_clusters = []
+    for method, item in methods.items():
+        top = item.candidates[0].period_s
+        matches = [cluster for cluster in clusters if cluster.members.get(method) == top]
+        if len(matches) == 1:
+            top_clusters.extend(matches)
+    n_votes = sum(cluster.cluster_id == lead.cluster_id for cluster in top_clusters)
+    summary.update(estimators_agree=n_votes >= minimum, alias_risk=lead.alias_risk)
+    reasons, blocked = [], []
+    if len(methods.keys() & lead.members.keys()) < minimum:
+        reasons.append(CANDIDATE_INADEQUATE)
+    elif n_votes < minimum:
+        blocked.append("top-vote reason mapping")
+    for left, right in combinations(top_clusters, 2):
+        if left.cluster_id == right.cluster_id:
+            continue
+        linked = any(link["other_id"] == right.cluster_id for link in left.harmonic_links)
+        linked |= any(link["other_id"] == left.cluster_id for link in right.harmonic_links)
+        if not linked:
+            reasons.append(CONFLICTING_METHODS)
+            break
+
+    if lead.alias_risk > maximum:
+        reasons.append(ALIAS_AMBIGUITY)
+    elif lead.alias_risk == maximum:
+        blocked.append("alias equality")
+
+    comparison = record.harmonic_comparison
+    if lead.harmonic_links:
+        linked_ids = {link["other_id"] for link in lead.harmonic_links}
+        if len(linked_ids) > 1 or comparison is None or comparison["partner_id"] not in linked_ids:
+            blocked.append("harmonic comparison scope")
+        elif comparison["prefers"] == "undecided":
+            reasons.append(HARMONIC_AMBIGUITY)
+        else:
+            partner = next(cluster for cluster in clusters if cluster.cluster_id == comparison["partner_id"])
+            preferred = "P" if lead.period_s < partner.period_s else "2P"
+            if comparison["prefers"] != preferred:
+                blocked.append("adverse harmonic comparison")
+
+    if len(record.best_params["geometry_errors"]) >= 2:
+        blocked.append("geometry margin transport")
+    if blocked:
+        raise ValueError("schema-v3 verdict requires the contract amendment for " + ", ".join(blocked))
+    return reasons
 
 
 def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
@@ -33,6 +104,7 @@ def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
         "selective_accuracy_validation": None,
     }
     label = "Inconclusive"
+    best = None
     if quality.status == "insufficient":
         reasons = [LOW_QUALITY]
     elif not available:
@@ -49,23 +121,33 @@ def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
         summary["inconclusive_cause"] = ALL_CANDIDATES_FAILED_STAGE2
     else:
         label = "Ambiguous"
+        record = _select_record(recon, verification)
+        if record is not None:
+            summary["heldout_error"] = record.heldout_error
+            summary["decoy_separation"] = min(record.decoy_delta_e, default=None)
         if verification is None or not verification.complete:
             reasons = [VERIFICATION_INCOMPLETE]
-        elif not any(record.passed for record in verification.per_candidate):
+        elif record is None or not record.passed:
             reasons = [MODEL_MISMATCH]
         else:
-            raise NotImplementedError("Calibrated verdicts are outside the Phase 0 placeholder.")
-
-        if verification is not None:
-            scores = {cluster.cluster_id: cluster.score for cluster in clusters}
-            finished = [record for record in verification.per_candidate if record.status == "ok"]
-            if finished:
-                record = min(finished, key=lambda item: (
-                    not item.passed, -scores[item.cluster_id], item.cluster_id
-                ))
-                summary["heldout_error"] = record.heldout_error
-                summary["decoy_separation"] = min(record.decoy_delta_e, default=None)
-    if quality.status == "limited":
+            lead = next(cluster for cluster in clusters if cluster.cluster_id == record.cluster_id)
+            reasons = _passing_decision(estimators, clusters, lead, record, cfg, summary)
+            cap = cfg.get("limited_max_label", "Supported")
+            if cap not in ("Supported", "Ambiguous"):
+                raise ValueError("invalid limited_max_label")
+            if not reasons:
+                if quality.status == "limited" and cap == "Ambiguous":
+                    summary["limited_cap_applied"] = True
+                else:
+                    label, best = "Supported", lead
+    if quality.status == "limited" and label != "Supported":
         reasons.append(LOW_QUALITY)
-    return Verdict(label, None, None, [], reasons, summary,
-                   f"{label}. Phase 0 placeholder; no scientific estimate was made.", is_stub=True)
+    text = f"{label}."
+    if label != "Inconclusive":
+        text += " Physics checks use provisional Day 3 criteria for compatibility with a simplified model."
+    if quality.warnings:
+        text += " " + " ".join(quality.warnings)
+    return Verdict(label, best.period_s if best is not None else None,
+                   best.cluster_id if best is not None else None,
+                   _alternatives(recon, verification) if label == "Ambiguous" else [],
+                   [reason for reason in REASON_CODES if reason in reasons], summary, text)
