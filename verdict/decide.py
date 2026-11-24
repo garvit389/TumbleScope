@@ -42,11 +42,9 @@ def _passing_decision(estimators, clusters, lead, record, verification, cfg, sum
             top_clusters.extend(matches)
     n_votes = sum(cluster.cluster_id == lead.cluster_id for cluster in top_clusters)
     summary.update(estimators_agree=n_votes >= minimum, alias_risk=lead.alias_risk)
-    reasons, blocked = [], []
-    if len(methods.keys() & lead.members.keys()) < minimum:
+    reasons = []
+    if n_votes < minimum:
         reasons.append(CANDIDATE_INADEQUATE)
-    elif n_votes < minimum:
-        blocked.append("top-vote reason mapping")
     for left, right in combinations(top_clusters, 2):
         if left.cluster_id == right.cluster_id:
             continue
@@ -56,10 +54,8 @@ def _passing_decision(estimators, clusters, lead, record, verification, cfg, sum
             reasons.append(CONFLICTING_METHODS)
             break
 
-    if lead.alias_risk > maximum:
+    if lead.alias_risk >= maximum:
         reasons.append(ALIAS_AMBIGUITY)
-    elif lead.alias_risk == maximum:
-        blocked.append("alias equality")
 
     if not harmonic_resolved_for(verification, lead):
         reasons.append(HARMONIC_AMBIGUITY)
@@ -72,8 +68,6 @@ def _passing_decision(estimators, clusters, lead, record, verification, cfg, sum
                 reasons.append(GEOMETRY_UNCERTAINTY)
         elif HARMONIC_AMBIGUITY not in reasons:
             raise ValueError("verdict requires the contract amendment for missing or invalid geometry margin")
-    if blocked and not reasons:
-        raise ValueError("verdict requires the contract amendment for " + ", ".join(blocked))
     return reasons
 
 

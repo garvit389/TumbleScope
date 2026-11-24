@@ -270,7 +270,8 @@ def test_cp3b_real_sdlcd(name, isolated_runs):
     assert result.reconciliation is None or not result.reconciliation.is_stub
     expected = {
         "00029A": {"4:2", "7:4", "8:7"},
-        "00080B": {"5:3", "9:5", "10:9"},
+        # Tuned shortlist [5, 3, 4] includes 4:1; 10 is only linked via partner 9.
+        "00080B": {"4:1", "5:3", "9:5"},
         "00041B": set(),
     }[name.split("_")[0]]
     if expected:

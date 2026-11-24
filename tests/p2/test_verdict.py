@@ -110,8 +110,7 @@ def test_selected_record_and_alternatives(case):
         assert [opt["cluster_id"] for opt in result.alternatives] == [1, 2]
 
 
-@pytest.mark.parametrize("boundary", ["missing policy", "alias equality",
-                                      "top-vote mapping", "geometry margin"])
+@pytest.mark.parametrize("boundary", ["missing policy", "geometry margin"])
 def test_missing_policy_execution_boundary(case, boundary):
     recon, estimators, verification = case
     lead, other = recon.clusters
@@ -119,10 +118,6 @@ def test_missing_policy_execution_boundary(case, boundary):
     cfg = {"alias_risk_max": .35}
     if boundary == "missing policy":
         cfg = {}
-    if boundary == "alias equality":
-        lead = replace(lead, alias_risk=.35)
-    if boundary == "top-vote mapping":
-        lead = replace(lead, members={CNN: 8., LOMB_SCARGLE: 7., PDM: 7.})
     if boundary == "geometry margin":
         record = replace(record, best_params={**record.best_params,
                          "geometry_errors": {"box": .5, "cylinder": .51}})
@@ -136,7 +131,7 @@ def test_missing_policy_execution_boundary(case, boundary):
     (.5625, .2, [GEOMETRY_UNCERTAINTY]),
     (.625, .2, []),
     (.75, .2, []),
-    (.5625, .35, [GEOMETRY_UNCERTAINTY]),
+    (.5625, .35, [ALIAS_AMBIGUITY, GEOMETRY_UNCERTAINTY]),
     (.5625, .4, [ALIAS_AMBIGUITY, GEOMETRY_UNCERTAINTY]),
 ])
 def test_geometry_margin_and_independent_disqualifiers(case, error, alias, reasons):
@@ -155,11 +150,30 @@ def test_geometry_margin_and_independent_disqualifiers(case, error, alias, reaso
                   replace(verification, per_candidate=[second, record]), cfg) == result
 
 
-def test_top_vote_shortfall_with_independent_alias_reason(case):
+@pytest.mark.parametrize(("risk", "reasons"), [
+    (.2, [CANDIDATE_INADEQUATE]),
+    (.35, [ALIAS_AMBIGUITY, CANDIDATE_INADEQUATE]),
+])
+def test_top_vote_shortfall(case, risk, reasons):
     recon, estimators, verification = case
     lead, other = recon.clusters
-    lead = replace(lead, alias_risk=.4, members={CNN: 8., LOMB_SCARGLE: 7., PDM: 7.})
+    lead = replace(lead, alias_risk=risk, members={CNN: 8., LOMB_SCARGLE: 7., PDM: 7.})
     result = decide(QualityReport("suitable", {}, [], []), estimators,
                     replace(recon, clusters=[lead, other]), verification, {"alias_risk_max": .35})
-    assert result.reason_codes == [ALIAS_AMBIGUITY]
+    assert result.label == "Ambiguous"
+    assert result.reason_codes == reasons
     assert result.evidence_summary["estimators_agree"] is False
+
+
+@pytest.mark.parametrize(("risk", "label", "reasons"), [
+    (.349999, "Supported", []),
+    (.35, "Ambiguous", [ALIAS_AMBIGUITY]),
+    (.350001, "Ambiguous", [ALIAS_AMBIGUITY]),
+])
+def test_configured_alias_boundary(case, risk, label, reasons):
+    recon, estimators, verification = case
+    lead, other = recon.clusters
+    result = decide(QualityReport("suitable", {}, [], []), estimators,
+                    replace(recon, clusters=[replace(lead, alias_risk=risk), other]),
+                    verification, {"alias_risk_max": .35})
+    assert (result.label, result.reason_codes) == (label, reasons)
