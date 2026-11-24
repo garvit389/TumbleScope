@@ -88,12 +88,13 @@ def test_real_upload_pending(name, isolated_runs, monkeypatch):
     upload.name = name
     monkeypatch.setattr(st, "file_uploader", lambda *a, **k: upload)
     app = AppTest.from_file(str(root / "app/main.py")).run(timeout=60)
+    app.button[0].click().run(timeout=60)
     assert not app.exception and not app.error
     assert any(x.value == "Stage 2 assessment pending" for x in app.subheader)
     assert any("Observation quality:" in x.value for x in app.markdown)
     assert any("have not yet been evaluated" in x.value for x in app.markdown)
     assert not any("no scientific estimate" in x.value for x in app.markdown)
-    tables = [x.value for x in app.table if "Apparent period (s)" in x.value]
+    tables = [x.value for x in app.table if {"Estimator", "Apparent (synodic) period (s)"} <= set(x.value.columns)]
     assert {t["Estimator"].iloc[0] for t in tables} == {"lomb_scargle", "pdm"}
     result = controller.analyze(load_observation(str(path)), load_config())
     assert result.verdict is None

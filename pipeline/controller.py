@@ -47,9 +47,9 @@ def _repository_revision():
     return result.stdout.strip() or None
 
 
-def _write_run_config(cfg, digest):
+def _run_snapshot(cfg, digest):
     sections = asdict(cfg)
-    snapshot = {
+    return {
         "config": sections,
         "config_hash": digest,
         "schema_version": SCHEMA_VERSION,
@@ -57,6 +57,10 @@ def _write_run_config(cfg, digest):
         "package_versions": {item.metadata["Name"]: item.version for item in distributions()},
         "commit": _repository_revision(),
     }
+
+
+def _write_run_config(cfg, digest):
+    snapshot = _run_snapshot(cfg, digest)
     _OUTPUTS.mkdir(parents=True, exist_ok=True)
     tmp = None
     try:
@@ -76,6 +80,14 @@ def _unavailable(method, error, status="skipped", runtime=0.0):
 
 def _validation_message(error):
     return str(error) or type(error).__name__
+
+
+def _decision_config(cfg):
+    policy = dict(cfg.verdict)
+    policy.pop("geometry_margin", None)
+    if "geometry_margin" in cfg.verification:
+        policy["geometry_margin"] = cfg.verification["geometry_margin"]
+    return policy
 
 
 def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
@@ -246,7 +258,7 @@ def analyze(obs: Observation, cfg: "PipelineConfig", mode: str = "fast",
     verdict = None
     if (not stage2_pending(recon, estimators, verification)
             and _execution_error(prepared, quality, estimators, recon, verification, stage_errors) is None):
-        verdict = stage("verdict", lambda: decide(quality, estimators, recon, verification, cfg.verdict),
+        verdict = stage("verdict", lambda: decide(quality, estimators, recon, verification, _decision_config(cfg)),
                         expected=Verdict, check=verdict_checks)
         verdict = accept("verdict", verdict, verdict_checks)
         if verdict is None:

@@ -1,22 +1,17 @@
-# CP3a provisional operating values. These are not empirically calibrated.
-# CP3a remains BLOCKED pending P1's threshold selection under CONTRACTS.md
-# Sections 17 and 21. The reproducible diagnostic sensitivity pilot is in
-# tests/p1/test_reconcile_recovery.py; it does not establish a selection target.
+# CP4 reconciliation policy. Validation evidence is recorded in docs/results/p1_cp4_tuning_provenance.md.
 # Treat one resolution element as the initial clustering and alias-match scale.
 cluster_tol_resolutions: 1.0
 harmonic_ratio_tolerance: 0.03
 alias_tol_resolutions: 1.0
 alias_min_source_support: 0.5
 
-# Start with equal estimator weights and a smaller penalty for window evidence.
-# Tune on validation data at CP4.
-w_C: 0.3333333333333333
-w_L: 0.3333333333333333
-w_D: 0.3333333333333333
-lambda_A: 0.2
+# Selected on the Day 4 development cohorts using cached pre-verification replay.
+w_C: 0.05
+w_L: 0.15
+w_D: 0.80
+lambda_A: 0.30
 
-# Start with two observed repeats and require half of ten phase bins to be
-# populated by at least two valid samples. Calibrate on synthetic recovery.
+# Stage 2 settings retained after the Day 4 separation search.
 min_cycles: 2.0
 max_rel_period_uncertainty: 0.5
 n_phase_bins: 10

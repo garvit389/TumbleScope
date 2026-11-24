@@ -6,7 +6,7 @@ from typing import Optional
 
 from core.schemas import (
     ALIAS_AMBIGUITY, ALL_CANDIDATES_FAILED_STAGE2, ALL_ESTIMATORS_UNAVAILABLE,
-    CANDIDATE_INADEQUATE, CONFLICTING_METHODS, HARMONIC_AMBIGUITY, LOW_QUALITY,
+    CANDIDATE_INADEQUATE, CONFLICTING_METHODS, GEOMETRY_UNCERTAINTY, HARMONIC_AMBIGUITY, LOW_QUALITY,
     MODEL_MISMATCH, NO_PERIODIC_SIGNAL, REASON_CODES, VERIFICATION_INCOMPLETE,
     CandidateVerification, EstimatorResult, QualityReport, ReconciliationResult, VerificationResult, Verdict,
     check_verification_scope, harmonic_resolved_for, stage2_pending,
@@ -42,11 +42,9 @@ def _passing_decision(estimators, clusters, lead, record, verification, cfg, sum
             top_clusters.extend(matches)
     n_votes = sum(cluster.cluster_id == lead.cluster_id for cluster in top_clusters)
     summary.update(estimators_agree=n_votes >= minimum, alias_risk=lead.alias_risk)
-    reasons, blocked = [], []
-    if len(methods.keys() & lead.members.keys()) < minimum:
+    reasons = []
+    if n_votes < minimum:
         reasons.append(CANDIDATE_INADEQUATE)
-    elif n_votes < minimum:
-        blocked.append("top-vote reason mapping")
     for left, right in combinations(top_clusters, 2):
         if left.cluster_id == right.cluster_id:
             continue
@@ -56,19 +54,20 @@ def _passing_decision(estimators, clusters, lead, record, verification, cfg, sum
             reasons.append(CONFLICTING_METHODS)
             break
 
-    if lead.alias_risk > maximum:
+    if lead.alias_risk >= maximum:
         reasons.append(ALIAS_AMBIGUITY)
-    elif lead.alias_risk == maximum:
-        blocked.append("alias equality")
 
     if not harmonic_resolved_for(verification, lead):
         reasons.append(HARMONIC_AMBIGUITY)
 
-    # A conclusive harmonic disqualifier already rules out Supported.
-    if len(record.best_params["geometry_errors"]) >= 2 and HARMONIC_AMBIGUITY not in reasons:
-        blocked.append("geometry margin transport")
-    if blocked:
-        raise ValueError("verdict requires the contract amendment for " + ", ".join(blocked))
+    errors = sorted(record.best_params["geometry_errors"].values())
+    if len(errors) >= 2:
+        margin = cfg.get("geometry_margin")
+        if type(margin) in (int, float) and isfinite(margin) and margin >= 0:
+            if errors[1] - errors[0] < margin:
+                reasons.append(GEOMETRY_UNCERTAINTY)
+        elif HARMONIC_AMBIGUITY not in reasons:
+            raise ValueError("verdict requires the contract amendment for missing or invalid geometry margin")
     return reasons
 
 
@@ -141,7 +140,7 @@ def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
         reasons.append(LOW_QUALITY)
     text = f"{label}."
     if label != "Inconclusive":
-        text += " Physics checks use provisional Day 3 criteria for compatibility with a simplified model."
+        text += " Physics checks use provisional criteria for compatibility with a simplified model."
     if quality.warnings:
         text += " " + " ".join(quality.warnings)
     return Verdict(label, best.period_s if best is not None else None,

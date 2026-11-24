@@ -1,0 +1,73 @@
+obs_id,variant,quality,input_status,verdict,verification_complete,stage_errors,error,outcome,owner
+00080B_1_2_R_20190724_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_1_2_R_20190724_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_1_2_R_20190724_DATA,crop,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for geometry margin transport""}",,verdict_execution_error,P2 verdict
+00080B_1_2_R_20190724_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190806_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190806_DATA,noise,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+00080B_2_3_R_20190806_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190806_DATA,gap,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+00080B_2_3_R_20190818_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190818_DATA,noise,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+00080B_2_3_R_20190818_DATA,crop,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+00080B_2_3_R_20190818_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190827_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190827_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+00080B_2_3_R_20190827_DATA,crop,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+00080B_2_3_R_20190827_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+01019D_2_3_4_R_20190910_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+01019D_2_3_4_R_20190910_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+01019D_2_3_4_R_20190910_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+01019D_2_3_4_R_20190910_DATA,gap,,skipped,,,{},a larger internal gap requires valid epochs inside and on both sides,skipped_transform,P1 stress
+02003C_2_3_R_20190808_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+02003C_2_3_R_20190808_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+02003C_2_3_R_20190808_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+02003C_2_3_R_20190808_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+03007B_3_4_R_20190716_DATA,clean,suitable,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+03007B_3_4_R_20190716_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+03007B_3_4_R_20190716_DATA,crop,suitable,ok,Ambiguous,False,"{""verification"": ""Incomplete candidates: 1: failed (no_valid_decoy). Incomplete harmonic pairs: 2:1: failed (harmonic_fit_unfinished)""}",,incomplete_verification,P2 verification
+03007B_3_4_R_20190716_DATA,gap,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+04043D_2_3_R_20190321_DATA,clean,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for geometry margin transport""}",,verdict_execution_error,P2 verdict
+04043D_2_3_R_20190321_DATA,noise,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for geometry margin transport""}",,verdict_execution_error,P2 verdict
+04043D_2_3_R_20190321_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+04043D_2_3_R_20190321_DATA,gap,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for geometry margin transport""}",,verdict_execution_error,P2 verdict
+09054C_2_R_20190809_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+09054C_2_R_20190809_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+09054C_2_R_20190809_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+09054C_2_R_20190809_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+12003B_1_2_3_4_5_R_20190910_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+12003B_1_2_3_4_5_R_20190910_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+12003B_1_2_3_4_5_R_20190910_DATA,crop,suitable,ok,Ambiguous,True,{},,completed_abstention,
+12003B_1_2_3_4_5_R_20190910_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+12003B_4_6_R_20190809_DATA,clean,suitable,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+12003B_4_6_R_20190809_DATA,noise,suitable,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+12003B_4_6_R_20190809_DATA,crop,suitable,ok,Ambiguous,False,"{""verification"": ""Incomplete candidates: 1: failed (no_valid_decoy). Incomplete harmonic pairs: 2:1: failed (harmonic_fit_unfinished)""}",,incomplete_verification,P2 verification
+12003B_4_6_R_20190809_DATA,gap,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+13036B_2_4_R_20190709_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+13036B_2_4_R_20190709_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+13036B_2_4_R_20190709_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+13036B_2_4_R_20190709_DATA,gap,,skipped,,,{},a larger internal gap requires valid epochs inside and on both sides,skipped_transform,P1 stress
+17025B_1_2_R_20190322_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+17025B_1_2_R_20190322_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+17025B_1_2_R_20190322_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+17025B_1_2_R_20190322_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+18022B_2_3_R_20190809_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+18022B_2_3_R_20190809_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+18022B_2_3_R_20190809_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+18022B_2_3_R_20190809_DATA,gap,,skipped,,,{},a larger internal gap requires valid epochs inside and on both sides,skipped_transform,P1 stress
+19009C_1_R_2_I_20190809_DATA,clean,suitable,ok,Ambiguous,True,{},,completed_abstention,
+19009C_1_R_2_I_20190809_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+19009C_1_R_2_I_20190809_DATA,crop,suitable,ok,Ambiguous,True,{},,completed_abstention,
+19009C_1_R_2_I_20190809_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+66053J_2_3_R_20190322_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+66053J_2_3_R_20190322_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+66053J_2_3_R_20190322_DATA,crop,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for geometry margin transport""}",,verdict_execution_error,P2 verdict
+66053J_2_3_R_20190322_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+67040F_1_2_R_20190723_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+67040F_1_2_R_20190723_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+67040F_1_2_R_20190723_DATA,crop,limited,ok,Ambiguous,True,{},,completed_abstention,
+67040F_1_2_R_20190723_DATA,gap,limited,ok,Ambiguous,True,{},,completed_abstention,
+67066G_2_3_R_20190904_DATA,clean,limited,ok,Ambiguous,True,{},,completed_abstention,
+67066G_2_3_R_20190904_DATA,noise,limited,ok,Ambiguous,True,{},,completed_abstention,
+67066G_2_3_R_20190904_DATA,crop,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
+67066G_2_3_R_20190904_DATA,gap,limited,ok,,True,"{""verdict"": ""verdict requires the contract amendment for top-vote reason mapping""}",,verdict_execution_error,P2 verdict
