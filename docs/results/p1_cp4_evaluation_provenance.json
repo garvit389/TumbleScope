@@ -1,0 +1,2000 @@
+{
+  "source_manifests": {
+    "original_real_end_to_end": {
+      "cnn_artifacts_sha256": {
+        "docs/results/cnn_calibration.json": "bbca25c15edc5bd03d82ac468fd8cd8d61e33e316ba0146594668ba44223a5af",
+        "models/cnn_v1.pt": "bd5978f2b76d14d07bb7c97122ed05a1845abf37f0f5bceb1c81695628521dfe",
+        "models/cnn_v1.sha256": "1d40aed3f8f3d642bb7e6a9ea6a2feae6581a2effef5bb2f167e6b7e12d24a7e"
+      },
+      "commit": "ef3cd02537b6832588e82789ea2d16ad753985d6",
+      "config": {
+        "classical": {
+          "cadence_frequency_factor": 0.5,
+          "frequency_oversampling": 5,
+          "ls_false_alarm_alpha": 0.025,
+          "ls_max_candidates": 5,
+          "ls_nterms": 1,
+          "ls_periodogram_max_points": 1000,
+          "n_peaks": 5,
+          "pdm_false_alarm_alpha": 0.05,
+          "pdm_max_candidates": 5,
+          "pdm_min_bin_occupancy": 3,
+          "pdm_periodogram_max_points": 1000,
+          "pdm_phase_bins": 10,
+          "window_cadence_harmonics": 3,
+          "window_max_grid_points": 16385,
+          "window_min_peak_height": 0.05
+        },
+        "cnn": {
+          "L_max": 4.0,
+          "L_min": -1.0,
+          "abstain_threshold": 0.025554776892828677,
+          "batch_size": 64,
+          "channels": [
+            32,
+            32,
+            64,
+            64,
+            128,
+            128
+          ],
+          "dilations": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "dt_floor_s": 0.1,
+          "epochs": 12,
+          "kernel_size": 7,
+          "learning_rate": 0.001,
+          "max_windows": 9,
+          "min_valid_per_window": 21,
+          "n_candidates": 5,
+          "seed": 17,
+          "window_length": 1024,
+          "window_stride": 512,
+          "y_clip": 6.0
+        },
+        "period_bounds": {
+          "max_period_s": 445.881,
+          "min_period_s": 2.912,
+          "status": "SET"
+        },
+        "pipeline": {
+          "validate_outputs": true
+        },
+        "preprocess": {
+          "bright_outlier_mad": 6.0,
+          "gap_cadence_multiple": 3.0,
+          "max_gap_fraction": 0.25,
+          "max_missing_fraction": 0.2,
+          "min_amplitude_to_noise": 3.0,
+          "min_valid_points": 21
+        },
+        "reconcile": {
+          "alias_min_source_support": 0.5,
+          "alias_tol_resolutions": 1.0,
+          "cluster_tol_resolutions": 1.0,
+          "harmonic_ratio_tolerance": 0.03,
+          "lambda_A": 0.2,
+          "max_rel_period_uncertainty": 0.5,
+          "min_cycles": 2.0,
+          "min_phase_coverage": 0.5,
+          "min_points_per_bin": 2,
+          "min_separation_resolutions": 1.5,
+          "n_phase_bins": 10,
+          "top_k": 5,
+          "w_C": 0.3333333333333333,
+          "w_D": 0.3333333333333333,
+          "w_L": 0.3333333333333333
+        },
+        "simulation": {
+          "baseline_range_s": [
+            220.838,
+            1851.1739999999995
+          ],
+          "cadence_s": 0.364,
+          "condition_baseline_on_coverage": true,
+          "cylinder_sides": 16,
+          "day2_quota_multiplier": 5,
+          "flat_rtol": 1e-10,
+          "max_attempts": 500,
+          "min_cycles": 3.0,
+          "mixture_cycle_fraction_range": [
+            0.5,
+            1.0
+          ],
+          "nrp_min_residual": 0.02,
+          "quotas": {
+            "test": {
+              "multi_frequency": 15,
+              "noise_or_constant": 15,
+              "reliable": 105,
+              "under_covered": 15
+            },
+            "train": {
+              "multi_frequency": 70,
+              "noise_or_constant": 70,
+              "reliable": 490,
+              "under_covered": 70
+            },
+            "val": {
+              "multi_frequency": 15,
+              "noise_or_constant": 15,
+              "reliable": 105,
+              "under_covered": 15
+            }
+          },
+          "repeat_tolerance": 2e-05,
+          "samples_per_cycle": 128,
+          "sampling_tolerance": 0.08,
+          "seed": 17,
+          "variants": {
+            "test": [
+              {
+                "aspect": [
+                  3.0,
+                  3.5
+                ],
+                "polar_rad": [
+                  0.8,
+                  1.0
+                ],
+                "shape": "cylinder",
+                "surface": "cap_contrast"
+              }
+            ],
+            "train": [
+              {
+                "aspect": [
+                  1.2,
+                  1.5
+                ],
+                "observer": [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                "polar_rad": [
+                  0.0,
+                  0.0
+                ],
+                "shape": "box",
+                "sun": [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                "surface": "uniform"
+              }
+            ],
+            "val": [
+              {
+                "aspect": [
+                  2.0,
+                  2.5
+                ],
+                "polar_rad": [
+                  0.3,
+                  0.4
+                ],
+                "shape": "box",
+                "surface": "unequal"
+              }
+            ]
+          },
+          "workers": 6
+        },
+        "verdict": {
+          "alias_risk_max": 0.35,
+          "limited_max_label": "Supported",
+          "min_agreeing_estimators": 2
+        },
+        "verification": {
+          "decoy_exclusion_resolutions": 1.0,
+          "decoy_ratios": [
+            1.37,
+            0.61
+          ],
+          "decoy_separation_min": 0.1,
+          "fit": {
+            "aspect_range": [
+              1.2,
+              2.5
+            ],
+            "coarse_samples": 24,
+            "cylinder_sides": 16,
+            "maxiter": 12,
+            "popsize": 5,
+            "restarts": 2,
+            "shapes": [
+              "box",
+              "cylinder"
+            ]
+          },
+          "geometry_margin": 0.05,
+          "harmonic_margin": 0.05,
+          "heldout_error_max": 0.85,
+          "min_decoys": 1,
+          "n_blocks": 3,
+          "seed": 17,
+          "timeout_s_per_candidate": 30.0
+        }
+      },
+      "config_hash": "e30fe1647bc4018e2fd214a24ad90d97899a5e1299ae80298cb52804f28f1f3d",
+      "dataset": "real-val",
+      "date_utc": "2026-11-24T15:26:31.031973+00:00",
+      "inputs": [
+        {
+          "obs_id": "00080B_1_2_R_20190724_DATA",
+          "sha256": "592d73f3f08b8da59fbd9f3724e164f427e4c157c9bba615ef8c71dfa1a60d12",
+          "status": "ok"
+        },
+        {
+          "obs_id": "00080B_2_3_R_20190806_DATA",
+          "sha256": "1e7e68b7af7192e31dc492e0c38fa542de954ebf228f387c117bb3814e061239",
+          "status": "ok"
+        },
+        {
+          "obs_id": "00080B_2_3_R_20190818_DATA",
+          "sha256": "30d12383a9a34976cc5b5102a1881eef899c487132611a88ab073bd95d3f7894",
+          "status": "ok"
+        },
+        {
+          "obs_id": "00080B_2_3_R_20190827_DATA",
+          "sha256": "f404efe58be7a8643a67a60e952540c47cf69522e750d835df5b72499d9713f6",
+          "status": "ok"
+        },
+        {
+          "obs_id": "01019D_2_3_4_R_20190910_DATA",
+          "sha256": "c7bd219464a992428d5e97c4bd5ee9838287710bc79347b2e2ba867afa31c910",
+          "status": "ok"
+        },
+        {
+          "obs_id": "02003C_2_3_R_20190808_DATA",
+          "sha256": "63469eda85dc3e5111a4caf6ea7d2347c24f9aa45cf6be77249b5089a794e09c",
+          "status": "ok"
+        },
+        {
+          "obs_id": "03007B_3_4_R_20190716_DATA",
+          "sha256": "811b5a2dd279880494bb44e757c2658d4b6c1e7fbaa08477380b26a489ff1038",
+          "status": "ok"
+        },
+        {
+          "obs_id": "04043D_2_3_R_20190321_DATA",
+          "sha256": "3b7ce134f189dc66e2a71a732257c15198a1791169ac28b8293fb1de2eb885ef",
+          "status": "ok"
+        },
+        {
+          "obs_id": "09054C_2_R_20190809_DATA",
+          "sha256": "7e28b9b0d1c625ad81d4b0cf207bda4b854c22f4a5d5474d6989f181b6b4838d",
+          "status": "ok"
+        },
+        {
+          "obs_id": "12003B_1_2_3_4_5_R_20190910_DATA",
+          "sha256": "4ba0683ac82b8e9d4d0922d85dfc7ddd19586f36ccf55deb2c2eef931b935ac5",
+          "status": "ok"
+        },
+        {
+          "obs_id": "12003B_4_6_R_20190809_DATA",
+          "sha256": "26319530f883845b122f9fed5213164541bccd94a980bac79390013879a187d3",
+          "status": "ok"
+        },
+        {
+          "obs_id": "13036B_2_4_R_20190709_DATA",
+          "sha256": "26be632e74256c032620b0b087cd7accd35e4c8150acb1924725af9a93f65d0f",
+          "status": "ok"
+        },
+        {
+          "obs_id": "17025B_1_2_R_20190322_DATA",
+          "sha256": "8aaeacda9890db62d62c6a8a86359152505dd568148122bbd54dc704719aa773",
+          "status": "ok"
+        },
+        {
+          "obs_id": "18022B_2_3_R_20190809_DATA",
+          "sha256": "32bbabd1f6d41cf1fc7786e82fb1f65782e9309f1640fdec8994bca8a3ac9154",
+          "status": "ok"
+        },
+        {
+          "obs_id": "19009C_1_R_2_I_20190809_DATA",
+          "sha256": "cc4e77da4c90fc68a3456cd75675ae85ca9e063a4a53061886b7e9bb2c70fc95",
+          "status": "ok"
+        },
+        {
+          "obs_id": "66053J_2_3_R_20190322_DATA",
+          "sha256": "f7ea74f2931c186565c9bb2465a77df85dc4d15cb7a462ef0c97cf6dda8306db",
+          "status": "ok"
+        },
+        {
+          "obs_id": "67040F_1_2_R_20190723_DATA",
+          "sha256": "4b9f1afe1e651a0da58bb7d4cf500ca642154efaa3fb45d9f63caa2582db081f",
+          "status": "ok"
+        },
+        {
+          "obs_id": "67066G_2_3_R_20190904_DATA",
+          "sha256": "9ba8f6a44e72b9e4972d2d58fb7f01c0be7767c8d9b7776e68bf8cbcf5c3abb5",
+          "status": "ok"
+        }
+      ],
+      "mode": "fast",
+      "n_observations": 18,
+      "options": {
+        "bins": 10,
+        "catastrophic_factor": 2.0,
+        "harmonic_tolerance": 0.05,
+        "limit": null,
+        "recall_k": 3,
+        "seed": 17,
+        "stress": [],
+        "tolerance": 0.05
+      },
+      "package_versions": {
+        "astropy": "7.1.0",
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "torch": "2.8.0+cpu"
+      },
+      "runner_sha256": "bd184b95c8fbd6757ed14b6274814f8fa974c7f9309d3178c8a96064c3dbee02",
+      "schema_version": 5,
+      "source": "data/reference/reference_table.csv",
+      "source_sha256": "b258d7ce1321b8e4baa266d1abf351ae16bf64868c2067c29c9b469c0f1aaf14",
+      "split": "val",
+      "stress_truth": "Original labels describe recoverability under degradation."
+    },
+    "original_synthetic_end_to_end": {
+      "cnn_artifacts_sha256": {
+        "docs/results/cnn_calibration.json": "bbca25c15edc5bd03d82ac468fd8cd8d61e33e316ba0146594668ba44223a5af",
+        "models/cnn_v1.pt": "bd5978f2b76d14d07bb7c97122ed05a1845abf37f0f5bceb1c81695628521dfe",
+        "models/cnn_v1.sha256": "1d40aed3f8f3d642bb7e6a9ea6a2feae6581a2effef5bb2f167e6b7e12d24a7e"
+      },
+      "commit": "ef3cd02537b6832588e82789ea2d16ad753985d6",
+      "config": {
+        "classical": {
+          "cadence_frequency_factor": 0.5,
+          "frequency_oversampling": 5,
+          "ls_false_alarm_alpha": 0.025,
+          "ls_max_candidates": 5,
+          "ls_nterms": 1,
+          "ls_periodogram_max_points": 1000,
+          "n_peaks": 5,
+          "pdm_false_alarm_alpha": 0.05,
+          "pdm_max_candidates": 5,
+          "pdm_min_bin_occupancy": 3,
+          "pdm_periodogram_max_points": 1000,
+          "pdm_phase_bins": 10,
+          "window_cadence_harmonics": 3,
+          "window_max_grid_points": 16385,
+          "window_min_peak_height": 0.05
+        },
+        "cnn": {
+          "L_max": 4.0,
+          "L_min": -1.0,
+          "abstain_threshold": 0.025554776892828677,
+          "batch_size": 64,
+          "channels": [
+            32,
+            32,
+            64,
+            64,
+            128,
+            128
+          ],
+          "dilations": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "dt_floor_s": 0.1,
+          "epochs": 12,
+          "kernel_size": 7,
+          "learning_rate": 0.001,
+          "max_windows": 9,
+          "min_valid_per_window": 21,
+          "n_candidates": 5,
+          "seed": 17,
+          "window_length": 1024,
+          "window_stride": 512,
+          "y_clip": 6.0
+        },
+        "period_bounds": {
+          "max_period_s": 445.881,
+          "min_period_s": 2.912,
+          "status": "SET"
+        },
+        "pipeline": {
+          "validate_outputs": true
+        },
+        "preprocess": {
+          "bright_outlier_mad": 6.0,
+          "gap_cadence_multiple": 3.0,
+          "max_gap_fraction": 0.25,
+          "max_missing_fraction": 0.2,
+          "min_amplitude_to_noise": 3.0,
+          "min_valid_points": 21
+        },
+        "reconcile": {
+          "alias_min_source_support": 0.5,
+          "alias_tol_resolutions": 1.0,
+          "cluster_tol_resolutions": 1.0,
+          "harmonic_ratio_tolerance": 0.03,
+          "lambda_A": 0.2,
+          "max_rel_period_uncertainty": 0.5,
+          "min_cycles": 2.0,
+          "min_phase_coverage": 0.5,
+          "min_points_per_bin": 2,
+          "min_separation_resolutions": 1.5,
+          "n_phase_bins": 10,
+          "top_k": 5,
+          "w_C": 0.3333333333333333,
+          "w_D": 0.3333333333333333,
+          "w_L": 0.3333333333333333
+        },
+        "simulation": {
+          "baseline_range_s": [
+            220.838,
+            1851.1739999999995
+          ],
+          "cadence_s": 0.364,
+          "condition_baseline_on_coverage": true,
+          "cylinder_sides": 16,
+          "day2_quota_multiplier": 5,
+          "flat_rtol": 1e-10,
+          "max_attempts": 500,
+          "min_cycles": 3.0,
+          "mixture_cycle_fraction_range": [
+            0.5,
+            1.0
+          ],
+          "nrp_min_residual": 0.02,
+          "quotas": {
+            "test": {
+              "multi_frequency": 15,
+              "noise_or_constant": 15,
+              "reliable": 105,
+              "under_covered": 15
+            },
+            "train": {
+              "multi_frequency": 70,
+              "noise_or_constant": 70,
+              "reliable": 490,
+              "under_covered": 70
+            },
+            "val": {
+              "multi_frequency": 15,
+              "noise_or_constant": 15,
+              "reliable": 105,
+              "under_covered": 15
+            }
+          },
+          "repeat_tolerance": 2e-05,
+          "samples_per_cycle": 128,
+          "sampling_tolerance": 0.08,
+          "seed": 17,
+          "variants": {
+            "test": [
+              {
+                "aspect": [
+                  3.0,
+                  3.5
+                ],
+                "polar_rad": [
+                  0.8,
+                  1.0
+                ],
+                "shape": "cylinder",
+                "surface": "cap_contrast"
+              }
+            ],
+            "train": [
+              {
+                "aspect": [
+                  1.2,
+                  1.5
+                ],
+                "observer": [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                "polar_rad": [
+                  0.0,
+                  0.0
+                ],
+                "shape": "box",
+                "sun": [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                "surface": "uniform"
+              }
+            ],
+            "val": [
+              {
+                "aspect": [
+                  2.0,
+                  2.5
+                ],
+                "polar_rad": [
+                  0.3,
+                  0.4
+                ],
+                "shape": "box",
+                "surface": "unequal"
+              }
+            ]
+          },
+          "workers": 6
+        },
+        "verdict": {
+          "alias_risk_max": 0.35,
+          "limited_max_label": "Supported",
+          "min_agreeing_estimators": 2
+        },
+        "verification": {
+          "decoy_exclusion_resolutions": 1.0,
+          "decoy_ratios": [
+            1.37,
+            0.61
+          ],
+          "decoy_separation_min": 0.1,
+          "fit": {
+            "aspect_range": [
+              1.2,
+              2.5
+            ],
+            "coarse_samples": 24,
+            "cylinder_sides": 16,
+            "maxiter": 12,
+            "popsize": 5,
+            "restarts": 2,
+            "shapes": [
+              "box",
+              "cylinder"
+            ]
+          },
+          "geometry_margin": 0.05,
+          "harmonic_margin": 0.05,
+          "heldout_error_max": 0.85,
+          "min_decoys": 1,
+          "n_blocks": 3,
+          "seed": 17,
+          "timeout_s_per_candidate": 30.0
+        }
+      },
+      "config_hash": "e30fe1647bc4018e2fd214a24ad90d97899a5e1299ae80298cb52804f28f1f3d",
+      "dataset": "synthetic-dev",
+      "date_utc": "2026-11-24T15:30:11.555421+00:00",
+      "inputs": [
+        {
+          "obs_id": "1000525",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000526",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000527",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000528",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000529",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000530",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000531",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000532",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000533",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000534",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000535",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000536",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000537",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000538",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000539",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000540",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000541",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000542",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000543",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000544",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000545",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000546",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000547",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000548",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000549",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000550",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000551",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000552",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000553",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000554",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000555",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000556",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000557",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000558",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000559",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000560",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000561",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000562",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000563",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000564",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000565",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000566",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000567",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000568",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000569",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000570",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000571",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000572",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000573",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000574",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000575",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000576",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000577",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000578",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000579",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000580",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000581",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000582",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000583",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000584",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000585",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000586",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000587",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000588",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000589",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000590",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000591",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000592",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000593",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000594",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000595",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000596",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000597",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000598",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000599",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000600",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000601",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000602",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000603",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000604",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000605",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000606",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000607",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000608",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000609",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000610",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000611",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000612",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000613",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000614",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000615",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000616",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000617",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000618",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000619",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000620",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000621",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000622",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000623",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000624",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000625",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000626",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000627",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000628",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000629",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000630",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000631",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000632",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000633",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000634",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000635",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000636",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000637",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000638",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000639",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000640",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000641",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000642",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000643",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000644",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000645",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000646",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000647",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000648",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000649",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000650",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000651",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000652",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000653",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000654",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000655",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000656",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000657",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000658",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000659",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000660",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000661",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000662",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000663",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1000664",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100075",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100076",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100077",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100078",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100079",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100080",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100081",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100082",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100083",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100084",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100085",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100086",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100087",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100088",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100089",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100090",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100091",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100092",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100093",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1100094",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200075",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200076",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200077",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200078",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200079",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200080",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200081",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200082",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200083",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200084",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200085",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200086",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200087",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200088",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200089",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200090",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200091",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200092",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200093",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1200094",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300075",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300076",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300077",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300078",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300079",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300080",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300081",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300082",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300083",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300084",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300085",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300086",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300087",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300088",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300089",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300090",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300091",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300092",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300093",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        },
+        {
+          "obs_id": "1300094",
+          "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+          "status": "ok"
+        }
+      ],
+      "mode": "fast",
+      "n_observations": 200,
+      "options": {
+        "bins": 10,
+        "catastrophic_factor": 2.0,
+        "harmonic_tolerance": 0.05,
+        "limit": null,
+        "recall_k": 3,
+        "seed": 17,
+        "stress": [],
+        "tolerance": 0.05
+      },
+      "package_versions": {
+        "astropy": "7.1.0",
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "torch": "2.8.0+cpu"
+      },
+      "runner_sha256": "bd184b95c8fbd6757ed14b6274814f8fa974c7f9309d3178c8a96064c3dbee02",
+      "schema_version": 5,
+      "source": "data/synthetic_holdout/holdout_small.npz",
+      "source_sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "split": "development",
+      "stress_truth": "Original labels describe recoverability under degradation."
+    },
+    "tuned_real_end_to_end": {
+      "cnn_artifacts_sha256": {
+        "docs/results/cnn_calibration.json": "bbca25c15edc5bd03d82ac468fd8cd8d61e33e316ba0146594668ba44223a5af",
+        "models/cnn_v1.pt": "bd5978f2b76d14d07bb7c97122ed05a1845abf37f0f5bceb1c81695628521dfe",
+        "models/cnn_v1.sha256": "1d40aed3f8f3d642bb7e6a9ea6a2feae6581a2effef5bb2f167e6b7e12d24a7e"
+      },
+      "commit": "ef3cd02537b6832588e82789ea2d16ad753985d6",
+      "config": {
+        "classical": {
+          "cadence_frequency_factor": 0.5,
+          "frequency_oversampling": 5,
+          "ls_false_alarm_alpha": 0.025,
+          "ls_max_candidates": 5,
+          "ls_nterms": 1,
+          "ls_periodogram_max_points": 1000,
+          "n_peaks": 5,
+          "pdm_false_alarm_alpha": 0.05,
+          "pdm_max_candidates": 5,
+          "pdm_min_bin_occupancy": 3,
+          "pdm_periodogram_max_points": 1000,
+          "pdm_phase_bins": 10,
+          "window_cadence_harmonics": 3,
+          "window_max_grid_points": 16385,
+          "window_min_peak_height": 0.05
+        },
+        "cnn": {
+          "L_max": 4.0,
+          "L_min": -1.0,
+          "abstain_threshold": 0.025554776892828677,
+          "batch_size": 64,
+          "channels": [
+            32,
+            32,
+            64,
+            64,
+            128,
+            128
+          ],
+          "dilations": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32
+          ],
+          "dt_floor_s": 0.1,
+          "epochs": 12,
+          "kernel_size": 7,
+          "learning_rate": 0.001,
+          "max_windows": 9,
+          "min_valid_per_window": 21,
+          "n_candidates": 5,
+          "seed": 17,
+          "window_length": 1024,
+          "window_stride": 512,
+          "y_clip": 6.0
+        },
+        "period_bounds": {
+          "max_period_s": 445.881,
+          "min_period_s": 2.912,
+          "status": "SET"
+        },
+        "pipeline": {
+          "validate_outputs": true
+        },
+        "preprocess": {
+          "bright_outlier_mad": 6.0,
+          "gap_cadence_multiple": 3.0,
+          "max_gap_fraction": 0.25,
+          "max_missing_fraction": 0.2,
+          "min_amplitude_to_noise": 3.0,
+          "min_valid_points": 21
+        },
+        "reconcile": {
+          "alias_min_source_support": 0.5,
+          "alias_tol_resolutions": 1.0,
+          "cluster_tol_resolutions": 1.0,
+          "harmonic_ratio_tolerance": 0.03,
+          "lambda_A": 0.3,
+          "max_rel_period_uncertainty": 0.5,
+          "min_cycles": 2.0,
+          "min_phase_coverage": 0.5,
+          "min_points_per_bin": 2,
+          "min_separation_resolutions": 1.5,
+          "n_phase_bins": 10,
+          "top_k": 5,
+          "w_C": 0.05,
+          "w_D": 0.8,
+          "w_L": 0.15
+        },
+        "simulation": {
+          "baseline_range_s": [
+            220.838,
+            1851.1739999999995
+          ],
+          "cadence_s": 0.364,
+          "condition_baseline_on_coverage": true,
+          "cylinder_sides": 16,
+          "day2_quota_multiplier": 5,
+          "flat_rtol": 1e-10,
+          "max_attempts": 500,
+          "min_cycles": 3.0,
+          "mixture_cycle_fraction_range": [
+            0.5,
+            1.0
+          ],
+          "nrp_min_residual": 0.02,
+          "quotas": {
+            "test": {
+              "multi_frequency": 15,
+              "noise_or_constant": 15,
+              "reliable": 105,
+              "under_covered": 15
+            },
+            "train": {
+              "multi_frequency": 70,
+              "noise_or_constant": 70,
+              "reliable": 490,
+              "under_covered": 70
+            },
+            "val": {
+              "multi_frequency": 15,
+              "noise_or_constant": 15,
+              "reliable": 105,
+              "under_covered": 15
+            }
+          },
+          "repeat_tolerance": 2e-05,
+          "samples_per_cycle": 128,
+          "sampling_tolerance": 0.08,
+          "seed": 17,
+          "variants": {
+            "test": [
+              {
+                "aspect": [
+                  3.0,
+                  3.5
+                ],
+                "polar_rad": [
+                  0.8,
+                  1.0
+                ],
+                "shape": "cylinder",
+                "surface": "cap_contrast"
+              }
+            ],
+            "train": [
+              {
+                "aspect": [
+                  1.2,
+                  1.5
+                ],
+                "observer": [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                "polar_rad": [
+                  0.0,
+                  0.0
+                ],
+                "shape": "box",
+                "sun": [
+                  1.0,
+                  0.0,
+                  0.0
+                ],
+                "surface": "uniform"
+              }
+            ],
+            "val": [
+              {
+                "aspect": [
+                  2.0,
+                  2.5
+                ],
+                "polar_rad": [
+                  0.3,
+                  0.4
+                ],
+                "shape": "box",
+                "surface": "unequal"
+              }
+            ]
+          },
+          "workers": 6
+        },
+        "verdict": {
+          "alias_risk_max": 0.35,
+          "limited_max_label": "Supported",
+          "min_agreeing_estimators": 2
+        },
+        "verification": {
+          "decoy_exclusion_resolutions": 1.0,
+          "decoy_ratios": [
+            1.37,
+            0.61
+          ],
+          "decoy_separation_min": 0.1,
+          "fit": {
+            "aspect_range": [
+              1.2,
+              2.5
+            ],
+            "coarse_samples": 24,
+            "cylinder_sides": 16,
+            "maxiter": 12,
+            "popsize": 5,
+            "restarts": 2,
+            "shapes": [
+              "box",
+              "cylinder"
+            ]
+          },
+          "geometry_margin": 0.05,
+          "harmonic_margin": 0.05,
+          "heldout_error_max": 0.85,
+          "min_decoys": 1,
+          "n_blocks": 3,
+          "seed": 17,
+          "timeout_s_per_candidate": 30.0
+        }
+      },
+      "config_hash": "de1ae4a3a8f63619814f073ad0f254048e4bd2bb801c765961d82467343f1dfa",
+      "dataset": "real-val",
+      "date_utc": "2026-11-24T17:12:56.493979+00:00",
+      "inputs": [
+        {
+          "obs_id": "00080B_1_2_R_20190724_DATA",
+          "sha256": "592d73f3f08b8da59fbd9f3724e164f427e4c157c9bba615ef8c71dfa1a60d12",
+          "status": "ok"
+        },
+        {
+          "obs_id": "00080B_2_3_R_20190806_DATA",
+          "sha256": "1e7e68b7af7192e31dc492e0c38fa542de954ebf228f387c117bb3814e061239",
+          "status": "ok"
+        },
+        {
+          "obs_id": "00080B_2_3_R_20190818_DATA",
+          "sha256": "30d12383a9a34976cc5b5102a1881eef899c487132611a88ab073bd95d3f7894",
+          "status": "ok"
+        },
+        {
+          "obs_id": "00080B_2_3_R_20190827_DATA",
+          "sha256": "f404efe58be7a8643a67a60e952540c47cf69522e750d835df5b72499d9713f6",
+          "status": "ok"
+        },
+        {
+          "obs_id": "01019D_2_3_4_R_20190910_DATA",
+          "sha256": "c7bd219464a992428d5e97c4bd5ee9838287710bc79347b2e2ba867afa31c910",
+          "status": "ok"
+        },
+        {
+          "obs_id": "02003C_2_3_R_20190808_DATA",
+          "sha256": "63469eda85dc3e5111a4caf6ea7d2347c24f9aa45cf6be77249b5089a794e09c",
+          "status": "ok"
+        },
+        {
+          "obs_id": "03007B_3_4_R_20190716_DATA",
+          "sha256": "811b5a2dd279880494bb44e757c2658d4b6c1e7fbaa08477380b26a489ff1038",
+          "status": "ok"
+        },
+        {
+          "obs_id": "04043D_2_3_R_20190321_DATA",
+          "sha256": "3b7ce134f189dc66e2a71a732257c15198a1791169ac28b8293fb1de2eb885ef",
+          "status": "ok"
+        },
+        {
+          "obs_id": "09054C_2_R_20190809_DATA",
+          "sha256": "7e28b9b0d1c625ad81d4b0cf207bda4b854c22f4a5d5474d6989f181b6b4838d",
+          "status": "ok"
+        },
+        {
+          "obs_id": "12003B_1_2_3_4_5_R_20190910_DATA",
+          "sha256": "4ba0683ac82b8e9d4d0922d85dfc7ddd19586f36ccf55deb2c2eef931b935ac5",
+          "status": "ok"
+        },
+        {
+          "obs_id": "12003B_4_6_R_20190809_DATA",
+          "sha256": "26319530f883845b122f9fed5213164541bccd94a980bac79390013879a187d3",
+          "status": "ok"
+        },
+        {
+          "obs_id": "13036B_2_4_R_20190709_DATA",
+          "sha256": "26be632e74256c032620b0b087cd7accd35e4c8150acb1924725af9a93f65d0f",
+          "status": "ok"
+        },
+        {
+          "obs_id": "17025B_1_2_R_20190322_DATA",
+          "sha256": "8aaeacda9890db62d62c6a8a86359152505dd568148122bbd54dc704719aa773",
+          "status": "ok"
+        },
+        {
+          "obs_id": "18022B_2_3_R_20190809_DATA",
+          "sha256": "32bbabd1f6d41cf1fc7786e82fb1f65782e9309f1640fdec8994bca8a3ac9154",
+          "status": "ok"
+        },
+        {
+          "obs_id": "19009C_1_R_2_I_20190809_DATA",
+          "sha256": "cc4e77da4c90fc68a3456cd75675ae85ca9e063a4a53061886b7e9bb2c70fc95",
+          "status": "ok"
+        },
+        {
+          "obs_id": "66053J_2_3_R_20190322_DATA",
+          "sha256": "f7ea74f2931c186565c9bb2465a77df85dc4d15cb7a462ef0c97cf6dda8306db",
+          "status": "ok"
+        },
+        {
+          "obs_id": "67040F_1_2_R_20190723_DATA",
+          "sha256": "4b9f1afe1e651a0da58bb7d4cf500ca642154efaa3fb45d9f63caa2582db081f",
+          "status": "ok"
+        },
+        {
+          "obs_id": "67066G_2_3_R_20190904_DATA",
+          "sha256": "9ba8f6a44e72b9e4972d2d58fb7f01c0be7767c8d9b7776e68bf8cbcf5c3abb5",
+          "status": "ok"
+        }
+      ],
+      "mode": "fast",
+      "n_observations": 18,
+      "options": {
+        "bins": 10,
+        "catastrophic_factor": 2.0,
+        "harmonic_tolerance": 0.05,
+        "limit": null,
+        "recall_k": 3,
+        "seed": 17,
+        "stress": [
+          "noise",
+          "crop",
+          "gap"
+        ],
+        "tolerance": 0.05
+      },
+      "package_versions": {
+        "astropy": "7.1.0",
+        "numpy": "2.2.6",
+        "scipy": "1.15.3",
+        "torch": "2.8.0+cpu"
+      },
+      "runner_sha256": "bd184b95c8fbd6757ed14b6274814f8fa974c7f9309d3178c8a96064c3dbee02",
+      "schema_version": 5,
+      "source": "data/reference/reference_table.csv",
+      "source_sha256": "b258d7ce1321b8e4baa266d1abf351ae16bf64868c2067c29c9b469c0f1aaf14",
+      "split": "val",
+      "stress_truth": "Original labels describe recoverability under degradation."
+    }
+  },
+  "source_report_sha256": {
+    "original_real_end_to_end": {
+      "manifest.json": "25d61b4d7572ef73e01b1fc5de4b49bc1c79cf83fe9087413fdf3c68c7e8f9c5",
+      "runs.csv": "ba2af8a7b636ef2c78cd0b746c6520bf6131353f70087028e3c974ae84a93fff",
+      "summary.csv": "82e99f23d5acdd1829e24a9067600b6db4a5d1ecd8d8d0785bee0bc186a51217",
+      "summary.json": "c446e6bea5a10156e39b09e3a8a933699f37f7758a293494233a7ea5ae9d76ac",
+      "risk_coverage.html": "35d1a8bc60b5a0e67789db86907d6baa09982f6acead337160a5351b308c4e9a",
+      "calibration.html": "8936e96469a9a895c3cc573db04415c8b66a632e91658658aa7273e3defeab90"
+    },
+    "original_synthetic_end_to_end": {
+      "manifest.json": "b6f5941696c1e3a7c664901d48c60c154ef5a85eadce360e7fa1ff11315ac0bb",
+      "runs.csv": "327a6660f2ee9e87c5e8dbc9e77db7dcbf454136565a02ad8db47ad7ada89fc2",
+      "summary.csv": "3493728cebc4fc5e029c167f172e7360c3c450b12b7eee431aa1e0db546d704d",
+      "summary.json": "6c17b62c0f362f24a9507fc2015c8e7de06786a1fda87f1600414ddda311991f",
+      "risk_coverage.html": "472b01259a7b707d025ca8e85632dc0b499a0b79c00bf7a8fcee973b3131f0eb",
+      "calibration.html": "b6f4edacc85c13c97dbc00c5b8c8c8d49ab861e5f9ebb94e44dc6a019fa476fb"
+    },
+    "tuned_real_end_to_end": {
+      "manifest.json": "d0359180b398a874efb97574956624a9c798ee5801586864455e675bc9300adc",
+      "runs.csv": "a1c21e511a6744c4d4ac3fbdd248f4b02ff5adc5ef9f54bae3613fdc46db22fa",
+      "summary.csv": "7a312d28eb09b0b181e3509f611b1991258633d598432310e98ffdee042de95d",
+      "summary.json": "e978d448d292bdebedf950697734c0ac63630c3d69a86e77037673467992e3b5",
+      "risk_coverage.html": "60df16c87ed830d86387c40935ca81e512396079956530a411fccc868805d2ef",
+      "calibration.html": "a128d65d1bf02dab65bdd00f39a4cbf4987bde9cdcb9bc226db7bab39c274528"
+    }
+  },
+  "archived_tuning_sha256": {
+    "p1_cp4_weight_search.json": "622eee48cfac6c393db32097041c312908260f5926c7d7a3206388ea79f774dd",
+    "p1_cp4_stage2_search.json": "3243183d342912fd70ae64299f0d7dabb24cc6661346854c21d47a22ee947972",
+    "p1_cp4_tuning_provenance.md": "13f384dbf282cdbd0c8614a3943ea3a6c74f4fb00c1f3d81dec374616c102683"
+  },
+  "saved_config_smoke_replay": {
+    "scope": "original-config synthetic smoke, one observation clean plus noise",
+    "rows": 10,
+    "config_hash": "e30fe1647bc4018e2fd214a24ad90d97899a5e1299ae80298cb52804f28f1f3d",
+    "summary_sha256": "656187034d4c52c7ef30a48296b93d8f4512632afb280786deeecd574e3234f6",
+    "manifests_sha256": [
+      "93e346c1202fb136b383abfc5bea777341d604e70c78bd772cc9ed7ff25633e6",
+      "e8af1704892a608a41a491b336be0b6109888f3c1fec790d2502abe52082833e"
+    ]
+  },
+  "tuned_full_controller_replay": "not performed",
+  "original_aggregate_rows_reproduced": {
+    "original_real_end_to_end": 15,
+    "original_synthetic_end_to_end": 15,
+    "tuned_real_end_to_end": 60
+  },
+  "scored_real_test_observations": 0,
+  "tuned_real_variant_count": 72,
+  "tuned_real_diagnostics_count": 22
+}

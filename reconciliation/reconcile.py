@@ -32,6 +32,10 @@ def _validate_settings(cfg):
 
 def reconcile(prep: PreparedObservation, estimators: list[EstimatorResult],
               cfg: dict) -> ReconciliationResult:
+    return _reconcile(prep, estimators, cfg)
+
+
+def _reconcile(prep, estimators, cfg, *, trace=None):
     prep.validate()
     methods = [result.method for result in estimators]
     if len(set(methods)) != len(methods) or not set(methods) <= set(ESTIMATOR_METHODS):
@@ -67,7 +71,8 @@ def reconcile(prep: PreparedObservation, estimators: list[EstimatorResult],
     notes = []
     if "window_result" not in cfg:
         notes.append("Standalone spectral window computed from supplied cfg; pipeline calls use window_result.")
-    clusters, widths = cluster_candidates(entries, prep.meta["freq_resolution"], cfg)
+    args = (entries, prep.meta["freq_resolution"], cfg)
+    clusters, widths = cluster_candidates(*args) if trace is None else cluster_candidates(*args, trace=trace)
     link_harmonics(clusters, cfg)
     score_clusters(clusters, available, alias_risks(prep, clusters, cfg), cfg, notes)
     clusters.sort(key=lambda cluster: (-cluster.score, cluster.period_s, cluster.cluster_id))

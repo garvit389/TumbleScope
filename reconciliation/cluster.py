@@ -15,7 +15,7 @@ def frequencies_within(first, second, tolerance):
     return separation <= tolerance or abs(separation - tolerance) <= roundoff
 
 
-def cluster_candidates(entries, resolution, cfg):
+def cluster_candidates(entries, resolution, cfg, *, trace=None):
     """Build bounded-span groups with one strongest representative per method."""
     tolerance = cfg["cluster_tol_resolutions"] * (resolution or 0.0)
     ordered = sorted(entries, key=lambda entry: (
@@ -50,6 +50,13 @@ def cluster_candidates(entries, resolution, cfg):
             selected.setdefault(method, candidate)
         # Keep the strongest observed period instead of interpolating a new peak.
         period = ranked[0][1].period_s
+        if trace is not None:
+            trace[cluster_id] = [
+                {"method": method, "period_s": candidate.period_s,
+                 "selected_for_method": candidate is selected[method],
+                 "representative": candidate is ranked[0][1] and method == ranked[0][0]}
+                for method, candidate in ranked
+            ]
         widths[cluster_id] = max(
             (candidate.meta.get("freq_width_hz", 0.0) for candidate in selected.values()),
             default=0.0,
