@@ -18,6 +18,16 @@ def failure(*args, **kwargs):
     raise RuntimeError("injected technical failure")
 
 
+def _fixture_upload(monkeypatch):
+    from io import BytesIO
+    import streamlit as st
+
+    path = Path(__file__).resolve().parents[1] / "fixtures/synthetic_sine.csv"
+    upload = BytesIO(path.read_bytes())
+    upload.name = path.name
+    monkeypatch.setattr(st, "file_uploader", lambda *args, **kwargs: upload)
+
+
 @pytest.mark.parametrize("eager", [True, False])
 @pytest.mark.parametrize("kind", ["exception", "invalid", "missing"])
 @pytest.mark.parametrize("stage,function", [("prepare", "prepare"), ("stage1", "assess_stage1"),
@@ -172,13 +182,17 @@ def test_incomplete_real_shortlist_is_discarded(monkeypatch, observation, inject
 def test_error_dashboard(monkeypatch, isolated_runs, stage, function):
     monkeypatch.setattr(controller, "run_cnn", unavailable_cnn)
     monkeypatch.setattr(controller, function, failure)
+    _fixture_upload(monkeypatch)
     app = AppTest.from_file(str(Path(__file__).resolve().parents[2] / "app/main.py")).run(timeout=60)
+    app.button[0].click().run(timeout=60)
     assert not app.exception
     assert any(h.value == "Technical execution failure" for h in app.subheader)
+    assert all("injected technical failure" not in c.value for c in app.caption)
     assert not any(h.value in ("Inconclusive", "Ambiguous", "Supported", "Stage 2 assessment pending") for h in app.subheader)
-    assert any(stage + ": injected technical failure" in c.value for c in app.caption)
+    assert any({"prepare": "Preparation", "stage1": "Stage 1 quality",
+                "reconciliation": "Reconciliation"}[stage] + ": the stage could not finish." in c.value for c in app.caption)
     if stage == "reconciliation":
-        tables = [t.value for t in app.table if "Apparent period (s)" in t.value]
+        tables = [t.value for t in app.table if {"Estimator", "Apparent (synodic) period (s)"} <= set(t.value.columns)]
         assert {t["Estimator"].iloc[0] for t in tables} == {"lomb_scargle", "pdm"}
 
 
@@ -225,11 +239,13 @@ def test_real_upload_execution_error(monkeypatch, isolated_runs, name):
     monkeypatch.setattr(st, "file_uploader", lambda *a, **kw: upload)
     monkeypatch.setattr(controller, "reconcile", failure)
     app = AppTest.from_file(str(root / "app/main.py")).run(timeout=60)
+    app.button[0].click().run(timeout=60)
     assert not app.exception and not app.error
     assert any(h.value == "Technical execution failure" for h in app.subheader)
+    assert all("injected technical failure" not in c.value for c in app.caption)
     assert any("Observation quality:" in m.value for m in app.markdown)
-    assert any("reconciliation: injected technical failure" in c.value for c in app.caption)
-    tables = [t.value for t in app.table if "Apparent period (s)" in t.value]
+    assert any("Reconciliation: the stage could not finish." in c.value for c in app.caption)
+    tables = [t.value for t in app.table if {"Estimator", "Apparent (synodic) period (s)"} <= set(t.value.columns)]
     assert {t["Estimator"].iloc[0] for t in tables} == {"lomb_scargle", "pdm"}
 
 
@@ -241,7 +257,10 @@ def test_verdict_error_dashboard(monkeypatch, injected_config, mock_cnn, mock_re
     monkeypatch.setattr(controller, "verify_candidates_original", controller.verify_candidates, raising=False)
     monkeypatch.setattr(controller, "verify_candidates", completed)
     monkeypatch.setattr(controller, "decide", failure)
+    _fixture_upload(monkeypatch)
     app = AppTest.from_file(str(Path(__file__).resolve().parents[2] / "app/main.py")).run(timeout=60)
+    app.button[0].click().run(timeout=60)
     assert not app.exception and not app.error
     assert any(h.value == "Technical execution failure" for h in app.subheader)
-    assert any("verdict: injected technical failure" in c.value for c in app.caption)
+    assert all("injected technical failure" not in c.value for c in app.caption)
+    assert any("Verdict: the stage could not finish." in c.value for c in app.caption)

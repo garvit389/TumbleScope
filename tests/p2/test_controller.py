@@ -293,6 +293,7 @@ def test_cp3b_real_upload(monkeypatch, isolated_runs):
     file.name = name
     monkeypatch.setattr(st, "file_uploader", lambda *args, **kwargs: file)
     app = AppTest.from_file(str(root / "app/main.py")).run(timeout=180)
+    app.button[0].click().run(timeout=180)
     assert not app.exception and not app.error
     headings = {item.value for item in app.subheader}
     if "Stage 2 assessment pending" in headings:
@@ -318,3 +319,21 @@ def test_cp3b_runtime():
     assert report["verification_folds"] == 3 and report["verification_families"] == ["box", "cylinder"]
     assert len(report["verification_decoys_per_curve"]) == 50
     assert len(report["real_file_diagnostics"]) == 3 and report["environment"]["torch_threads"] > 0
+
+
+def test_verdict_receives_geometry_margin_from_verification(monkeypatch, stub_config, observation,
+                                                            isolated_runs, stub_observation_stages):
+    from dataclasses import replace
+    from unittest.mock import Mock
+    from core.config import config_hash
+
+    cfg = replace(stub_config, verification={"geometry_margin": .125},
+                  verdict={"geometry_margin": .75})
+    wrapped = Mock(wraps=controller.decide)
+    monkeypatch.setattr(controller, "decide", wrapped)
+    result = controller.analyze(observation, cfg)
+    result.validate()
+    wrapped.assert_called_once()
+    assert wrapped.call_args.args[-1]["geometry_margin"] == .125
+    assert cfg.verdict["geometry_margin"] == .75
+    assert result.config_hash == config_hash(cfg)

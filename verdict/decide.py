@@ -6,7 +6,7 @@ from typing import Optional
 
 from core.schemas import (
     ALIAS_AMBIGUITY, ALL_CANDIDATES_FAILED_STAGE2, ALL_ESTIMATORS_UNAVAILABLE,
-    CANDIDATE_INADEQUATE, CONFLICTING_METHODS, HARMONIC_AMBIGUITY, LOW_QUALITY,
+    CANDIDATE_INADEQUATE, CONFLICTING_METHODS, GEOMETRY_UNCERTAINTY, HARMONIC_AMBIGUITY, LOW_QUALITY,
     MODEL_MISMATCH, NO_PERIODIC_SIGNAL, REASON_CODES, VERIFICATION_INCOMPLETE,
     CandidateVerification, EstimatorResult, QualityReport, ReconciliationResult, VerificationResult, Verdict,
     check_verification_scope, harmonic_resolved_for, stage2_pending,
@@ -64,10 +64,15 @@ def _passing_decision(estimators, clusters, lead, record, verification, cfg, sum
     if not harmonic_resolved_for(verification, lead):
         reasons.append(HARMONIC_AMBIGUITY)
 
-    # A conclusive harmonic disqualifier already rules out Supported.
-    if len(record.best_params["geometry_errors"]) >= 2 and HARMONIC_AMBIGUITY not in reasons:
-        blocked.append("geometry margin transport")
-    if blocked:
+    errors = sorted(record.best_params["geometry_errors"].values())
+    if len(errors) >= 2:
+        margin = cfg.get("geometry_margin")
+        if type(margin) in (int, float) and isfinite(margin) and margin >= 0:
+            if errors[1] - errors[0] < margin:
+                reasons.append(GEOMETRY_UNCERTAINTY)
+        elif HARMONIC_AMBIGUITY not in reasons:
+            raise ValueError("verdict requires the contract amendment for missing or invalid geometry margin")
+    if blocked and not reasons:
         raise ValueError("verdict requires the contract amendment for " + ", ".join(blocked))
     return reasons
 
@@ -141,7 +146,7 @@ def decide(quality: QualityReport, estimators: dict[str, EstimatorResult],
         reasons.append(LOW_QUALITY)
     text = f"{label}."
     if label != "Inconclusive":
-        text += " Physics checks use provisional Day 3 criteria for compatibility with a simplified model."
+        text += " Physics checks use provisional criteria for compatibility with a simplified model."
     if quality.warnings:
         text += " " + " ".join(quality.warnings)
     return Verdict(label, best.period_s if best is not None else None,

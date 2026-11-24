@@ -3,7 +3,7 @@ from dataclasses import replace
 import pytest
 
 from core.schemas import (
-    ALIAS_AMBIGUITY, CANDIDATE_INADEQUATE, CNN, CONFLICTING_METHODS, HARMONIC_AMBIGUITY,
+    ALIAS_AMBIGUITY, CANDIDATE_INADEQUATE, CNN, CONFLICTING_METHODS, GEOMETRY_UNCERTAINTY, HARMONIC_AMBIGUITY,
     LOMB_SCARGLE, LOW_QUALITY, MODEL_MISMATCH, NO_CHECKPOINT, NO_PERIODIC_SIGNAL,
     PDM, VERIFICATION_INCOMPLETE, Candidate, CandidateVerification, EstimatorResult, HarmonicComparison,
     QualityReport, VerificationResult,
@@ -130,3 +130,36 @@ def test_missing_policy_execution_boundary(case, boundary):
         decide(QualityReport("suitable", {}, [], []), estimators,
                replace(recon, clusters=[lead, other]),
                replace(verification, per_candidate=[record, second]), cfg)
+
+
+@pytest.mark.parametrize(("error", "alias", "reasons"), [
+    (.5625, .2, [GEOMETRY_UNCERTAINTY]),
+    (.625, .2, []),
+    (.75, .2, []),
+    (.5625, .35, [GEOMETRY_UNCERTAINTY]),
+    (.5625, .4, [ALIAS_AMBIGUITY, GEOMETRY_UNCERTAINTY]),
+])
+def test_geometry_margin_and_independent_disqualifiers(case, error, alias, reasons):
+    recon, estimators, verification = case
+    lead, other = recon.clusters
+    record, second = verification.per_candidate
+    recon = replace(recon, clusters=[replace(lead, alias_risk=alias), other])
+    record = replace(record, best_params={**record.best_params,
+                     "geometry_errors": {"box": .5, "cylinder": error}})
+    verification = replace(verification, per_candidate=[record, second])
+    cfg = {"alias_risk_max": .35, "geometry_margin": .125}
+    result = decide(QualityReport("suitable", {}, [], []), estimators, recon, verification, cfg)
+    assert result.reason_codes == reasons
+    assert result.label == ("Ambiguous" if reasons else "Supported")
+    assert decide(QualityReport("suitable", {}, [], []), estimators, recon,
+                  replace(verification, per_candidate=[second, record]), cfg) == result
+
+
+def test_top_vote_shortfall_with_independent_alias_reason(case):
+    recon, estimators, verification = case
+    lead, other = recon.clusters
+    lead = replace(lead, alias_risk=.4, members={CNN: 8., LOMB_SCARGLE: 7., PDM: 7.})
+    result = decide(QualityReport("suitable", {}, [], []), estimators,
+                    replace(recon, clusters=[lead, other]), verification, {"alias_risk_max": .35})
+    assert result.reason_codes == [ALIAS_AMBIGUITY]
+    assert result.evidence_summary["estimators_agree"] is False

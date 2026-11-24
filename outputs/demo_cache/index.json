@@ -1,0 +1,1 @@
+{"entries": [{"analysis_sha256": "418fa2d2a1975492b2c690cb80c647bfb65492d4ed1c1100961dcac9b580b9d7", "basename": "synthetic_sine.csv", "input_sha256": "37332dd292c89406ac4d3634518a64b4b3ede44dc1100ae55b00bf47da056311", "path": "418fa2d2a1975492b2c690cb80c647bfb65492d4ed1c1100961dcac9b580b9d7.json", "source_kind": "synthetic"}], "schema_version": 5}
