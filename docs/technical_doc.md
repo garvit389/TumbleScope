@@ -92,3 +92,40 @@ python -m pytest tests/p1/test_ls.py tests/p1/test_pdm.py tests/p1/test_window.p
 python -m pytest tests/p1 -q
 python -m pytest -q
 ```
+
+## CP4 evaluation and reconciliation
+
+The prior sections describe the CP2 implementation and its historical acceptance evidence. The Day 4 evaluation uses the schema-v5 Fast controller. It runs preparation and Stage 1, three estimators, reconciliation and Stage 2, and then verification and verdict where applicable. The evaluator derives five configurations from one controller analysis per applicable observation variant. A fit measures compatibility with a simplified model for an apparent period. [Controller contract](../CONTRACTS.md) · [CP4 evaluation report](results/p1_cp4_evaluation_report.md)
+
+The Day 4 settings weight CNN 0.05, Lomb–Scargle 0.15 and PDM 0.80, with alias penalty 0.30. Stage 2 stayed fixed after the separation search. The real tuned clean shortlist reached 10/18 top-1 and 13/18 Recall@3. The cached tuned synthetic shortlist reached 99/140 and 129/140. PDM alone reached 108/140 synthetic top-1. The tuned real clean run returned 15 Ambiguous verdicts and three verdict execution errors. [Tuning provenance](results/p1_cp4_tuning_provenance.md) · [Aggregate and quality-group metrics](results/p1_cp4_evaluation_metrics.csv) · [Real operations](results/p1_cp4_tuned_real_operations.csv)
+
+The combined real run uses 18 clean analyses as the paired control for noise, crop and gap. All 72 requested variants remain in the report. Three gap transformations were inapplicable and required no controller call. Complete-system accuracy and coverage are reported separately from shortlist results. Synthetic tuning metrics come from the cached candidate path before verification. [CP4 evaluation report](results/p1_cp4_evaluation_report.md)
+
+### Day 4 acceptance audit
+
+| Plan item | Status and evidence |
+|---|---|
+| P1-12 pure metrics, stress transforms, stub execution and one analysis per applicable variant | Implemented. Tests cover the metrics, deterministic transforms, stub execution, split isolation and call count. [Acceptance tests](../tests/p1/test_run_eval.py) · [Metric tests](../tests/p1/test_metrics.py) · [Stress tests](../tests/p1/test_stress.py) |
+| Real validation and synthetic development classical baselines, five configurations | Completed for the original controller baseline on both cohorts and the tuned controller on real validation. Finalist synthetic evidence covers the replayed shortlist. A tuned synthetic end-to-end run remains outstanding. [CP4 evaluation report](results/p1_cp4_evaluation_report.md) |
+| Day 4 stress experiments and outputs with sample sizes, split, date and commit | Completed on 18 matched real identities across three degradations and clean. All cohort and conditional denominators are explicit. [Metrics](results/p1_cp4_evaluation_metrics.csv) · [Provenance](results/p1_cp4_evaluation_provenance.json) |
+| Reconciliation weights and Stage 2 selection using development data only | Completed and applied to the P1 config. The Stage 2 search retained its existing settings. The final real test split remains sealed. [Tuning provenance](results/p1_cp4_tuning_provenance.md) |
+| Evaluation tables, per-quality results, risk–coverage and calibration figures | Completed. Calibration is scoped to the original synthetic CNN probability of No Reliable Period. [Tables](results/p1_cp4_evaluation_report.md) · [Risk–coverage](results/p1_cp4_risk_coverage.png) · [Calibration](results/p1_cp4_calibration.png) |
+| Full pipeline on all pilot validation observations | All 18 tuned clean observations ran and returned recorded results. Three returned verdict execution errors, so successful end-to-end verdict delivery across the pilot remains open. [Operations](results/p1_cp4_tuned_real_operations.csv) |
+| Same saved configuration produces the same result | Original-config smoke replay and full cached reconciliation equivalence verified. The tuned real config/hash and offline metric recomputation verified. A fresh full tuned-controller replay is outstanding. [Provenance](results/p1_cp4_evaluation_provenance.json) |
+| P1-13 technical draft, limitations, future work and screenshot list | Drafted here and in the companion notes. Actual app capture and demo rehearsal are pending joint integration. [Limitations](limitations.md) · [Future work](future_work.md) |
+| CP4 plot wiring, app acceptance, demo cache, verification AUC and frozen thresholds/tag | P2 integration and joint checkpoint acceptance remain pending. P1 has supplied the development evaluation and selected reconciliation settings. [Day 4 plan](<../TumbleScope - 5-Day Development Plan and Two-Person Work Division.md#day-4---evaluation-dashboard-calibration-freeze>) |
+
+### Screenshot and demo checklist
+
+- [ ] Capture SDLCD upload and preview for a validation file. Include apparent-period units and source context.
+- [ ] Capture Stage 1 quality with a reason or warning, plus side-by-side Lomb–Scargle and PDM periodograms.
+- [ ] Capture source-labeled candidates, fused shortlist, and P versus 2P harmonic links.
+- [ ] Capture verification details and the simplified-model limitation banner. Use actual held-out evidence and decoy diagnostics when available.
+- [ ] Capture an observed Ambiguous card and an execution-error view. Capture other verdict cards only when genuinely produced. The tuned real batch produced no Supported cards.
+- [ ] Capture the demo cache's precomputed label after P2 supplies the cache. Identify curated examples as such.
+- [ ] Include the five-configuration and per-quality stress tables, risk–coverage, and CNN reliability figure. Include verification AUC and CNN training curve only with measured evidence and sample sizes.
+- [ ] Record one example analysis JSON and its matching run configuration. Capture p50/p95 Fast runtime, CNN inference time, simulator speed, actual corpus size, and the real pilot's 14 validation objects where measured.
+
+[Candidate and verdict readouts](results/p1_cp4_tuned_real_readouts.csv) · [Evidence tables and figures](results/p1_cp4_evaluation_report.md)
+
+The full P1 suite passed all 266 tests against the tuned configuration in 376 seconds. The evaluation report was built from saved outputs without rerunning either cohort.
