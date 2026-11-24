@@ -1,0 +1,1254 @@
+{
+  "cnn_artifacts_sha256": {
+    "docs/results/cnn_calibration.json": "bbca25c15edc5bd03d82ac468fd8cd8d61e33e316ba0146594668ba44223a5af",
+    "models/cnn_v1.pt": "bd5978f2b76d14d07bb7c97122ed05a1845abf37f0f5bceb1c81695628521dfe",
+    "models/cnn_v1.sha256": "1d40aed3f8f3d642bb7e6a9ea6a2feae6581a2effef5bb2f167e6b7e12d24a7e"
+  },
+  "commit": "7d23fb57f3da24295074f67b4bc5b57485182aa0",
+  "config": {
+    "classical": {
+      "cadence_frequency_factor": 0.5,
+      "frequency_oversampling": 5,
+      "ls_false_alarm_alpha": 0.025,
+      "ls_max_candidates": 5,
+      "ls_nterms": 1,
+      "ls_periodogram_max_points": 1000,
+      "n_peaks": 5,
+      "pdm_false_alarm_alpha": 0.05,
+      "pdm_max_candidates": 5,
+      "pdm_min_bin_occupancy": 3,
+      "pdm_periodogram_max_points": 1000,
+      "pdm_phase_bins": 10,
+      "window_cadence_harmonics": 3,
+      "window_max_grid_points": 16385,
+      "window_min_peak_height": 0.05
+    },
+    "cnn": {
+      "L_max": 4.0,
+      "L_min": -1.0,
+      "abstain_threshold": 0.025554776892828677,
+      "batch_size": 64,
+      "channels": [
+        32,
+        32,
+        64,
+        64,
+        128,
+        128
+      ],
+      "dilations": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "dt_floor_s": 0.1,
+      "epochs": 12,
+      "kernel_size": 7,
+      "learning_rate": 0.001,
+      "max_windows": 9,
+      "min_valid_per_window": 21,
+      "n_candidates": 5,
+      "seed": 17,
+      "window_length": 1024,
+      "window_stride": 512,
+      "y_clip": 6.0
+    },
+    "period_bounds": {
+      "max_period_s": 445.881,
+      "min_period_s": 2.912,
+      "status": "SET"
+    },
+    "pipeline": {
+      "validate_outputs": true
+    },
+    "preprocess": {
+      "bright_outlier_mad": 6.0,
+      "gap_cadence_multiple": 3.0,
+      "max_gap_fraction": 0.25,
+      "max_missing_fraction": 0.2,
+      "min_amplitude_to_noise": 3.0,
+      "min_valid_points": 21
+    },
+    "reconcile": {
+      "alias_min_source_support": 0.5,
+      "alias_tol_resolutions": 1.0,
+      "cluster_tol_resolutions": 1.0,
+      "harmonic_ratio_tolerance": 0.03,
+      "lambda_A": 0.3,
+      "max_rel_period_uncertainty": 0.5,
+      "min_cycles": 2.0,
+      "min_phase_coverage": 0.5,
+      "min_points_per_bin": 2,
+      "min_separation_resolutions": 1.5,
+      "n_phase_bins": 10,
+      "top_k": 5,
+      "w_C": 0.05,
+      "w_D": 0.8,
+      "w_L": 0.15
+    },
+    "simulation": {
+      "baseline_range_s": [
+        220.838,
+        1851.1739999999995
+      ],
+      "cadence_s": 0.364,
+      "condition_baseline_on_coverage": true,
+      "cylinder_sides": 16,
+      "day2_quota_multiplier": 5,
+      "flat_rtol": 1e-10,
+      "max_attempts": 500,
+      "min_cycles": 3.0,
+      "mixture_cycle_fraction_range": [
+        0.5,
+        1.0
+      ],
+      "nrp_min_residual": 0.02,
+      "quotas": {
+        "test": {
+          "multi_frequency": 15,
+          "noise_or_constant": 15,
+          "reliable": 105,
+          "under_covered": 15
+        },
+        "train": {
+          "multi_frequency": 70,
+          "noise_or_constant": 70,
+          "reliable": 490,
+          "under_covered": 70
+        },
+        "val": {
+          "multi_frequency": 15,
+          "noise_or_constant": 15,
+          "reliable": 105,
+          "under_covered": 15
+        }
+      },
+      "repeat_tolerance": 2e-05,
+      "samples_per_cycle": 128,
+      "sampling_tolerance": 0.08,
+      "seed": 17,
+      "variants": {
+        "test": [
+          {
+            "aspect": [
+              3.0,
+              3.5
+            ],
+            "polar_rad": [
+              0.8,
+              1.0
+            ],
+            "shape": "cylinder",
+            "surface": "cap_contrast"
+          }
+        ],
+        "train": [
+          {
+            "aspect": [
+              1.2,
+              1.5
+            ],
+            "observer": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "polar_rad": [
+              0.0,
+              0.0
+            ],
+            "shape": "box",
+            "sun": [
+              1.0,
+              0.0,
+              0.0
+            ],
+            "surface": "uniform"
+          }
+        ],
+        "val": [
+          {
+            "aspect": [
+              2.0,
+              2.5
+            ],
+            "polar_rad": [
+              0.3,
+              0.4
+            ],
+            "shape": "box",
+            "surface": "unequal"
+          }
+        ]
+      },
+      "workers": 6
+    },
+    "verdict": {
+      "alias_risk_max": 0.35,
+      "limited_max_label": "Supported",
+      "min_agreeing_estimators": 2
+    },
+    "verification": {
+      "decoy_exclusion_resolutions": 1.0,
+      "decoy_ratios": [
+        1.37,
+        0.61
+      ],
+      "decoy_separation_min": 0.1,
+      "fit": {
+        "aspect_range": [
+          1.2,
+          2.5
+        ],
+        "coarse_samples": 24,
+        "cylinder_sides": 16,
+        "maxiter": 12,
+        "popsize": 5,
+        "restarts": 2,
+        "shapes": [
+          "box",
+          "cylinder"
+        ]
+      },
+      "geometry_margin": 0.05,
+      "harmonic_margin": 0.05,
+      "heldout_error_max": 0.85,
+      "min_decoys": 1,
+      "n_blocks": 3,
+      "seed": 17,
+      "timeout_s_per_candidate": 30.0
+    }
+  },
+  "config_hash": "de1ae4a3a8f63619814f073ad0f254048e4bd2bb801c765961d82467343f1dfa",
+  "dataset": "synthetic-dev",
+  "date_utc": "2026-11-24T21:10:25.980818+00:00",
+  "inputs": [
+    {
+      "obs_id": "1000525",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000526",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000527",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000528",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000529",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000530",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000531",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000532",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000533",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000534",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000535",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000536",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000537",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000538",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000539",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000540",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000541",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000542",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000543",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000544",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000545",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000546",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000547",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000548",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000549",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000550",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000551",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000552",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000553",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000554",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000555",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000556",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000557",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000558",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000559",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000560",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000561",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000562",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000563",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000564",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000565",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000566",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000567",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000568",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000569",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000570",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000571",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000572",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000573",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000574",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000575",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000576",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000577",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000578",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000579",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000580",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000581",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000582",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000583",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000584",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000585",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000586",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000587",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000588",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000589",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000590",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000591",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000592",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000593",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000594",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000595",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000596",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000597",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000598",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000599",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000600",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000601",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000602",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000603",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000604",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000605",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000606",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000607",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000608",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000609",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000610",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000611",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000612",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000613",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000614",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000615",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000616",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000617",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000618",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000619",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000620",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000621",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000622",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000623",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000624",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000625",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000626",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000627",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000628",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000629",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000630",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000631",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000632",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000633",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000634",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000635",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000636",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000637",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000638",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000639",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000640",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000641",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000642",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000643",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000644",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000645",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000646",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000647",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000648",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000649",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000650",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000651",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000652",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000653",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000654",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000655",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000656",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000657",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000658",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000659",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000660",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000661",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000662",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000663",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1000664",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100075",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100076",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100077",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100078",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100079",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100080",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100081",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100082",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100083",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100084",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100085",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100086",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100087",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100088",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100089",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100090",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100091",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100092",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100093",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1100094",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200075",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200076",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200077",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200078",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200079",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200080",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200081",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200082",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200083",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200084",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200085",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200086",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200087",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200088",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200089",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200090",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200091",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200092",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200093",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1200094",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300075",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300076",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300077",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300078",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300079",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300080",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300081",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300082",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300083",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300084",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300085",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300086",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300087",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300088",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300089",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300090",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300091",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300092",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300093",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    },
+    {
+      "obs_id": "1300094",
+      "sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+      "status": "ok"
+    }
+  ],
+  "mode": "fast",
+  "n_observations": 200,
+  "options": {
+    "bins": 10,
+    "catastrophic_factor": 2.0,
+    "harmonic_tolerance": 0.05,
+    "limit": null,
+    "recall_k": 3,
+    "seed": 17,
+    "stress": [],
+    "tolerance": 0.05
+  },
+  "package_versions": {
+    "astropy": "7.1.0",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "torch": "2.8.0+cpu"
+  },
+  "runner_sha256": "55d06ca437abc6db06c68add9e95a0f5acb43ab81193cf4ca3773dfc33c9b73e",
+  "schema_version": 5,
+  "source": "data/synthetic_holdout/holdout_small.npz",
+  "source_sha256": "c738e8ff9b7b4a82be5c29152f7625432d4fbb7b24febe1071ad27a32d7a7870",
+  "split": "development",
+  "stress_truth": "Original labels describe recoverability under degradation."
+}
