@@ -89,6 +89,11 @@ def _plot(name, *args, fallback):
     except (ImportError, AttributeError, KeyError, TypeError, ValueError):
         figure = fallback(go.Figure())
     if figure is not None and (figure.data or figure.layout.annotations):
+        figure.update_traces(
+            header=dict(fill_color="#1E293B", font_color="#F8FAFC", line_color="#334155"),
+            cells=dict(fill_color=[["#0F172A", "#162032"]], font_color="#E2E8F0", line_color="#334155"),
+            selector=dict(type="table"),
+        )
         st.plotly_chart(figure, key=name)
 
 
@@ -305,6 +310,17 @@ def _demo(cfg):
 
 def main():
     st.title("TumbleScope")
+    st.markdown(
+        """<style>
+        [data-testid="stTable"] th,
+        [data-testid="stTable"] td,
+        [data-testid="stTable"] th *,
+        [data-testid="stTable"] td * {
+            color: #FFFFFF !important;
+        }
+        </style>""",
+        unsafe_allow_html=True,
+    )
     st.info("Apparent (synodic) period analysis uses provisional decision criteria. A physics fit "
             "shows compatibility with a simplified model. The object's shape and rotation state remain unknown.")
     mode = st.radio("Analysis mode", ["Upload", "Demo"], horizontal=True)
